@@ -1,0 +1,77 @@
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="../../../../../layout/custom_preview.xml" value="0.25925925925925924" />
+        <entry key="..\:/GitHub/ShoppingMallApplication/app/src/main/res/drawable/bottom_button_text_selector.xml" value="0.1095" />
+        <entry key="..\:/GitHub/ShoppingMallApplication/app/src/main/res/drawable/cart_button_selector.xml" value="0.1" />
+        <entry key="..\:/GitHub/ShoppingMallApplication/app/src/main/res/drawable/home_button_selector.xml" value="0.1585" />
+        <entry key="..\:/GitHub/ShoppingMallApplication/app/src/main/res/drawable/search_home_shape.xml" value="0.1095" />
+        <entry key="..\:/GitHub/ShoppingMallApplication/app/src/main/res/drawable/type_button_selector.xml" value="0.1095" />
+        <entry key="..\:/GitHub/ShoppingMallApplication/app/src/main/res/drawable/user_button_selector.xml" value="0.1095" />
+        <entry key="..\:/GitHub/ShoppingMallApplication/app/src/main/res/drawable/user_image_shape.xml" value="0.1095" />
+        <entry key="..\:/GitHub/ShoppingMallApplication/app/src/main/res/layout/activity_login.xml" value="0.24456521739130435" />
+        <entry key="..\:/GitHub/ShoppingMallApplication/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/GitHub/ShoppingMallApplication/app/src/main/res/layout/activity_register.xml" value="0.24456521739130435" />
+        <entry key="..\:/GitHub/ShoppingMallApplication/app/src/main/res/layout/fragment_community.xml" value="0.24456521739130435" />
+        <entry key="..\:/GitHub/ShoppingMallApplication/app/src/main/res/layout/fragment_home.xml" value="0.2857142857142857" />
+        <entry key="..\:/GitHub/ShoppingMallApplication/app/src/main/res/layout/fragment_shopping_cart.xml" value="0.24456521739130435" />
+        <entry key="..\:/GitHub/ShoppingMallApplication/app/src/main/res/layout/fragment_type.xml" value="0.24456521739130435" />
+        <entry key="..\:/GitHub/ShoppingMallApplication/app/src/main/res/layout/fragment_user.xml" value="0.2857142857142857" />
+        <entry key="..\:/GitHub/ShoppingMallApplication/app/src/main/res/layout/home_recycler_item.xml" value="0.24456521739130435" />
+        <entry key="..\:/GitHub/ShoppingMallApplication/app/src/main/res/layout/item_shop_cart.xml" value="0.24456521739130435" />
+        <entry key="..\:/GitHub/ShoppingMallApplication/app/src/main/res/layout/page_community.xml" value="0.24456521739130435" />
+        <entry key="..\:/GitHub/ShoppingMallApplication/app/src/main/res/layout/recycler_item.xml" value="0.24456521739130435" />
+        <entry key="..\:/GitHub/ShoppingMallApplication/app/src/main/res/layout/titlebar.xml" value="0.2857142857142857" />
+        <entry key="app/src/main/res/drawable/addCart_type_item_shape.xml" value="0.14" />
+        <entry key="app/src/main/res/drawable/add_cart_bg_selector.xml" value="0.14" />
+        <entry key="app/src/main/res/drawable/add_type_item_shape.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/addcart_type_item_shape.xml" value="0.14" />
+        <entry key="app/src/main/res/drawable/bottom_button_text_selector.xml" value="0.2085" />
+        <entry key="app/src/main/res/drawable/cart_button_selector.xml" value="0.2085" />
+        <entry key="app/src/main/res/drawable/checkbox_selector.xml" value="0.14" />
+        <entry key="app/src/main/res/drawable/community_button_selector.xml" value="0.2085" />
+        <entry key="app/src/main/res/drawable/delete_button_shape.xml" value="0.14" />
+        <entry key="app/src/main/res/drawable/delete_cart_item_shape.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/home_button_selector.xml" value="0.2085" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2085" />
+        <entry key="app/src/main/res/drawable/main.xml" value="0.1645" />
+        <entry key="app/src/main/res/drawable/search_home_shape.xml" value="0.2085" />
+        <entry key="app/src/main/res/drawable/type_button_selector.xml" value="0.2085" />
+        <entry key="app/src/main/res/drawable/user_button_selector.xml" value="0.2085" />
+        <entry key="app/src/main/res/drawable/user_image_shape.xml" value="0.14" />
+        <entry key="app/src/main/res/layout/activity_goods_info.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_register.xml" value="0.286231884057971" />
+        <entry key="app/src/main/res/layout/fragment.xml" value="0.14537037037037037" />
+        <entry key="app/src/main/res/layout/fragment_community.xml" value="0.286231884057971" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/fragment_shopping_cart.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/fragment_type.xml" value="0.286231884057971" />
+        <entry key="app/src/main/res/layout/fragment_user.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/home_recycler_item.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/item_shop_cart.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/item_type.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/nav_header.xml" value="0.19610507246376813" />
+        <entry key="app/src/main/res/layout/page_community.xml" value="0.1453125" />
+        <entry key="app/src/main/res/layout/recycler_item.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/titlebar.xml" value="0.25" />
+        <entry key="app/src/main/res/menu/nav_menu.xml" value="0.3098958333333333" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="corretto-11" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.2857142857142857" />
+      </ProjectState>
+    </option>
+  </component>
+</project>
