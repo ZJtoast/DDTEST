@@ -31,9 +31,9 @@ public class UserFragment extends BaseFragment {
     private View user_bar;
 
 
-
     /**
      * 初始化视图
+     *
      * @return
      */
     @Override
@@ -43,7 +43,7 @@ public class UserFragment extends BaseFragment {
         user_name_tv = view.findViewById(R.id.user_name_tv);
         user_logout_btn = view.findViewById(R.id.user_logout_btn);
         user_bar = view.findViewById(R.id.user_bar);
-        user_desc_tv=view.findViewById(R.id.user_desc);
+        user_desc_tv = view.findViewById(R.id.user_desc);
 
         return view;
     }
@@ -92,7 +92,7 @@ public class UserFragment extends BaseFragment {
                                 dialogInterface.dismiss();
                                 //用户名恢复,简介不可见
                                 isLogin = false;
-                                user_name_tv.setText("请登录");
+                                user_name_tv.setText("点击登录");
                                 user_desc_tv.setText("用户信息");
                             }
                         })
@@ -117,6 +117,7 @@ public class UserFragment extends BaseFragment {
 
     /**
      * 数据回传
+     *
      * @param requestCode
      * @param resultCode
      * @param data
@@ -135,11 +136,11 @@ public class UserFragment extends BaseFragment {
                     String userName = data.getStringExtra("userName");
                     String userDesc = data.getStringExtra("userDesc");
                     Log.i(TAG, "用户登录数据回传: userName = " + userName
-                                                    + ",userDesc = " + userDesc);
+                            + ",userDesc = " + userDesc);
 
                     user_name_tv.setText(userName);
                     user_desc_tv.setVisibility(View.VISIBLE);
-                    user_desc_tv.setText("用户信息:"+userDesc);
+                    user_desc_tv.setText("用户信息:" + userDesc);
                 }
                 break;
             default:
