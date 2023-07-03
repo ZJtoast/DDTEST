@@ -38,7 +38,7 @@ public class LoginActivity extends Activity {
     private EditText login_name_et, login_password_et;
     private Button user_register_btn, login_btn;
 
-    private String userName, userPassword,userDesc;
+    private String userName, userPassword, userDesc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +93,7 @@ public class LoginActivity extends Activity {
     /**
      * 在子线程中发送登录请求
      */
-    private void login(){
+    private void login() {
 
         new Thread() {
             @Override
@@ -113,27 +113,25 @@ public class LoginActivity extends Activity {
                     String url = PropertiesUtils.getUrl(mContext);
                     responseJson = OkhttpUtils.doPost(url + "/users/login", userJson);
                     Log.i(TAG, "登录请求响应json:" + responseJson);
-                    UserResponse<Boolean> response = gson.fromJson(responseJson,UserResponse.class);
+                    UserResponse<Boolean> response = gson.fromJson(responseJson, UserResponse.class);
                     Log.i(TAG, "登录请求响应解析数据:" + responseJson);
-                    Boolean rd=response.getData();
-                    if (response!= null){
+                    Boolean rd = response.getData();
+                    if (response != null) {
                         //登录成功
-                        if (response.getCode()==200&&rd){
+                        if (response.getCode() == 200 && rd) {
                             //发送请求获取当前用户名对应的简介
                             responseJson = OkhttpUtils.doGet(url + "/users/getDescription/" + userName);
                             Log.i(TAG, "获取描述请求响应json:" + responseJson);
                             UserResponse<String> responseS = gson.fromJson(responseJson, UserResponse.class);
-                            userDesc=responseS.getData();
+                            userDesc = responseS.getData();
                             Log.i(TAG, "获取描述请求响应解析数据:" + userDesc);
                             //回传用户名和简介
-
-
-
 
 
                             Intent intent = new Intent();
                             intent.putExtra("userName", userName);
                             intent.putExtra("userDesc", userDesc);
+                            //intent.putExtra("userId", userId);
                             //设置数据状态
 
 
@@ -141,7 +139,7 @@ public class LoginActivity extends Activity {
                             //销毁当前方法
 
                             finish();
-                        }else {
+                        } else {
                             //登录失败
                             //子线程中准备Toast
                             Looper.prepare();
@@ -149,7 +147,7 @@ public class LoginActivity extends Activity {
                             Looper.loop();
                         }
                     }
-                //抛出异常
+                    //抛出异常
                 } catch (IOException e) {
                     e.printStackTrace();
                     Looper.prepare();

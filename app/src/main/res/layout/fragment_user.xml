@@ -25,35 +25,35 @@
             android:src="@drawable/delete_cart_item_shape" />
 
         <LinearLayout
-            android:layout_width="231dp"
-            android:layout_height="194dp"
+            android:layout_width="230dp"
+            android:layout_height="195dp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/user_name_tv"
-                android:layout_width="128dp"
-                android:layout_height="wrap_content"
+                android:layout_width="200dp"
+                android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="45dp"
-                android:layout_marginBottom="0dp"
-                android:background="#E8CD9B"
+                android:layout_marginTop="35dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/rounded_button"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:text="点击登录"
-                android:textSize="24sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/user_id_tv"
-                android:layout_width="128dp"
-                android:layout_height="wrap_content"
+                android:layout_width="200dp"
+                android:layout_height="30dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="0dp"
-                android:background="#ECE4B7"
+                android:background="@drawable/rounded_button"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:text=""
-                android:textSize="24sp"
+                android:textSize="15sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -63,7 +63,8 @@
         android:layout_width="match_parent"
         android:layout_height="20dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginBottom="3dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="0dp"
         android:text="我的订单"
         android:textStyle="bold" />
 
@@ -159,6 +160,16 @@
             android:textSize="16dp" />
 
         <TextView
+            android:id="@+id/user_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
+            android:paddingLeft="30dp"
+            android:text="地址管理"
+            android:textColor="#555"
+            android:textSize="16dp" />
+        
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingVertical="10dp"
@@ -178,8 +189,10 @@
         android:id="@+id/user_logout_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="70dp"
+        android:background="@drawable/loginin_btn"
         android:text="退出登录" />
 
 

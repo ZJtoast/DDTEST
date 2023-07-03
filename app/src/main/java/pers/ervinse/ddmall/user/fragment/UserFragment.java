@@ -15,7 +15,9 @@ import androidx.appcompat.app.AlertDialog;
 
 import pers.ervinse.ddmall.BaseFragment;
 import pers.ervinse.ddmall.LoginActivity;
+import pers.ervinse.ddmall.MedicineInfoActivity;
 import pers.ervinse.ddmall.R;
+import pers.ervinse.ddmall.domain.Medicine;
 
 public class UserFragment extends BaseFragment {
 
@@ -26,7 +28,8 @@ public class UserFragment extends BaseFragment {
     private boolean isLogin = false;
 
     private ImageView user_photo_image;
-    private TextView user_name_tv, user_desc_tv;
+    private TextView user_desc_tv;
+    private TextView user_id_tv, user_name_tv;
     private Button user_logout_btn;
     private View user_bar;
 
@@ -40,11 +43,11 @@ public class UserFragment extends BaseFragment {
     public View initView() {
         Log.i(TAG, "用户视图初始化");
         View view = View.inflate(mContext, R.layout.fragment_user, null);
-        user_name_tv = view.findViewById(R.id.user_name_tv);
         user_logout_btn = view.findViewById(R.id.user_logout_btn);
         user_bar = view.findViewById(R.id.user_bar);
         user_desc_tv = view.findViewById(R.id.user_desc);
-
+        user_id_tv = view.findViewById(R.id.user_id_tv);
+        user_name_tv = view.findViewById(R.id.user_name_tv);
         return view;
     }
 
@@ -61,6 +64,12 @@ public class UserFragment extends BaseFragment {
      * 初始化监听器
      */
     private void initListener() {
+        user_desc_tv.setOnClickListener((view) -> {
+            Intent intent = new Intent(mContext, MedicineInfoActivity.class);
+            Medicine medicine = new Medicine("999感冒灵", "这个药太棒了", "广东", "item_example", 1, 1, true);
+            intent.putExtra("Medicines", medicine);
+            startActivityForResult(intent, LOGIN_REQUEST_CODE);
+        });
         //登录
         user_name_tv.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -20,10 +20,30 @@
         android:orientation="horizontal">
 
         <RadioButton
+            android:id="@+id/home_bottom_btn"
+            style="@style/MainButtonStyle"
+            android:drawableTop="@drawable/home_button_selector"
+            android:text="首页" />
+
+        <RadioButton
+            android:id="@+id/type_bottom_btn"
+            style="@style/MainButtonStyle"
+            android:drawableTop="@drawable/type_button_selector"
+            android:text="分类" />
+
+
+        <RadioButton
+            android:id="@+id/cart_bottom_btn"
+            style="@style/MainButtonStyle"
+            android:drawableTop="@drawable/cart_button_selector"
+            android:text="购物车" />
+
+        <RadioButton
             android:id="@+id/user_bottom_btn"
             style="@style/MainButtonStyle"
             android:drawableTop="@drawable/user_button_selector"
             android:text="个人中心" />
+
     </RadioGroup>
 
 </LinearLayout>

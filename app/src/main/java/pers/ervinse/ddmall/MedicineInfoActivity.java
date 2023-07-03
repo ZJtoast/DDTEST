@@ -39,7 +39,6 @@ public class MedicineInfoActivity extends Activity {
     private static final String TAG = MedicineInfoActivity.class.getSimpleName();
     private Medicine medicine;
     private Context mContext;
-    private String url = PropertiesUtils.getUrl(mContext);
     //返回按钮,商品图片
     private ImageView medicine_info_back_btn, medicine_image;
     private TextView medicine_name_tv, medicine_price_tv, medicine_description_tv, medicine_location_tv;
