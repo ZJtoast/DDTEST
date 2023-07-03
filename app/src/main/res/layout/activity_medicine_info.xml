@@ -57,7 +57,9 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="30dp"
+        android:layout_marginRight="10dp"
         android:background="#EFEDED"
         android:orientation="vertical">
 
@@ -109,9 +111,9 @@
         android:id="@+id/medicine_description_tv"
         android:layout_width="match_parent"
         android:layout_height="142dp"
-        android:layout_marginLeft="25dp"
+        android:layout_marginLeft="15dp"
         android:layout_marginTop="30dp"
-        android:layout_marginRight="25dp"
+        android:layout_marginRight="15dp"
         android:background="#E8E8E8"
         android:maxLines="5"
         android:text="这是药品的描述（包括成分、功效、用法、适用人群、使用禁忌）" />
@@ -120,8 +122,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginRight="25dp">
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="10dp">
 
         <ImageView
             android:layout_width="34dp"
@@ -134,6 +137,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:maxLines="2"
             android:text="这里是商家地址：（省、市、县）" />
     </LinearLayout>
@@ -143,6 +147,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="250dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:background="#EFEFEF"
         android:orientation="vertical">
 
@@ -155,8 +161,8 @@
             android:textSize="24sp"
             android:textStyle="bold" />
 
-        <ScrollView
-            android:id="@+id/comment_sv"
+        <ListView
+            android:id="@+id/comment_lv"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginTop="5dp"

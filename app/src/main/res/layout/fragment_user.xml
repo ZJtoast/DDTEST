@@ -9,13 +9,13 @@
         android:id="@+id/user_bar"
         android:layout_width="match_parent"
         android:layout_height="139dp"
-        android:background="#ffcc00"
+        android:background="#FFF4C8"
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="30dp"
             android:layout_height="match_parent"
-            android:background="#ffcc00"
+            android:background="#fff4c8"
             android:orientation="horizontal" />
 
         <ImageView
@@ -25,7 +25,7 @@
             android:src="@drawable/delete_cart_item_shape" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="231dp"
             android:layout_height="194dp"
             android:orientation="vertical">
 
@@ -36,7 +36,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="45dp"
                 android:layout_marginBottom="0dp"
-                android:background="#ffaa11"
+                android:background="#E8CD9B"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:text="点击登录"
@@ -47,9 +47,9 @@
                 android:id="@+id/user_id_tv"
                 android:layout_width="128dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
                 android:layout_marginLeft="10dp"
-                android:background="#eecc00"
+                android:layout_marginTop="0dp"
+                android:background="#ECE4B7"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:text=""
@@ -58,6 +58,90 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginBottom="3dp"
+        android:text="我的订单"
+        android:textStyle="bold" />
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginBottom="0dp"
+        android:columnCount="4"
+        android:orientation="horizontal"
+        android:rowCount="1">
+
+        <ImageButton
+            android:layout_height="match_parent"
+            android:layout_columnWeight="3"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp" />
+
+        <ImageButton
+            android:layout_height="match_parent"
+            android:layout_columnWeight="3"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
+
+        <ImageButton
+            android:layout_height="match_parent"
+            android:layout_columnWeight="3"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
+
+        <ImageButton
+            android:layout_height="match_parent"
+            android:layout_columnWeight="3"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp" />
+
+    </GridLayout>
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginBottom="5dp"
+        android:columnCount="4"
+        android:orientation="horizontal"
+        android:rowCount="1">
+
+        <TextView
+            android:layout_height="match_parent"
+            android:layout_columnWeight="3"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:text="待付款" />
+
+        <TextView
+            android:layout_height="match_parent"
+            android:layout_columnWeight="3"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:text="待发货" />
+
+        <TextView
+            android:layout_height="match_parent"
+            android:layout_columnWeight="3"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:text="待收货" />
+
+        <TextView
+            android:layout_height="match_parent"
+            android:layout_columnWeight="3"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:gravity="center"
+            android:text="待评价" />
+
+    </GridLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -85,12 +169,17 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="350dp" />
+
     <Button
         android:id="@+id/user_logout_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
         android:text="退出登录" />
 
 

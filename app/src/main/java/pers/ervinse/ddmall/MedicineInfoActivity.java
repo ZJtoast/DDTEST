@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import pers.ervinse.ddmall.domain.Medicine;
+import pers.ervinse.ddmall.domain.UserResponse;
 import pers.ervinse.ddmall.utils.OkhttpUtils;
 import pers.ervinse.ddmall.utils.PropertiesUtils;
 
@@ -37,17 +39,30 @@ public class MedicineInfoActivity extends Activity {
     private static final String TAG = MedicineInfoActivity.class.getSimpleName();
     private Medicine medicine;
     private Context mContext;
-
+    private String url = PropertiesUtils.getUrl(mContext);
     //返回按钮,商品图片
     private ImageView medicine_info_back_btn, medicine_image;
     private TextView medicine_name_tv, medicine_price_tv, medicine_description_tv, medicine_location_tv;
     //添加到购物车按钮
     private Button medicine_info_add_cart_btn;
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        setAdapter();
+    }
 
     public List<? extends Map<String, ?>> getlist() {
         ArrayList<HashMap<String, Object>> comments = new ArrayList<>();
-
+        //   String responseJson = null;
+        //  try {
+        //      responseJson = OkhttpUtils.doGet(url + "/暂定");
+        //  } catch (IOException e) {
+        //      Log.i(TAG, "请求药品评论错误");
+        //  }
+        // Log.i(TAG, "登录请求响应json:" + responseJson);
+        //  UserResponse<Boolean> response = gson.fromJson(responseJson, UserResponse.class);
+        //  Log.i(TAG, "登录请求响应解析数据:" + responseJson);
         return comments;
     }
 
@@ -56,7 +71,8 @@ public class MedicineInfoActivity extends Activity {
                 mContext, getlist(), R.layout.item_comment,
                 new String[]{"userName", "Comment"},
                 new int[]{R.id.comment_userName_tv, R.id.comment_tv});
-        ScrollView sv = findViewById(R.id.comment_sv);
+        ListView sv = findViewById(R.id.comment_lv);
+        sv.setAdapter(comment);
     }
 
     /**
