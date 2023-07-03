@@ -1,0 +1,56 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/titlebar"
+        layout="@layout/titlebar" />
+
+    <RadioGroup
+        android:id="@+id/category_btn_group"
+        android:layout_width="420dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/titlebar"
+        android:background="#fec901"
+        android:orientation="horizontal"
+        android:paddingHorizontal="10dp">
+
+        <RadioButton
+            android:id="@+id/category_cold_btn"
+            style="@style/HomeCategoryButtonStyle"
+            android:layout_height="80dp"
+            android:layout_margin="10px"
+            android:text="非处方药" />
+
+        <RadioButton
+            android:id="@+id/category_fruit_btn"
+            style="@style/HomeCategoryButtonStyle"
+            android:layout_height="80dp"
+            android:layout_margin="10px"
+            android:text="儿科用药" />
+
+        <RadioButton
+            android:id="@+id/category_meat_btn"
+            style="@style/HomeCategoryButtonStyle"
+            android:layout_height="80dp"
+            android:layout_margin="10px"
+            android:text="内分泌用药" />
+
+        <RadioButton
+            android:id="@+id/category_wine_btn"
+            style="@style/HomeCategoryButtonStyle"
+            android:layout_height="80dp"
+            android:layout_margin="10px"
+            android:text="呼吸系统用药" />
+    </RadioGroup>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_home"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/category_btn_group" />
+
+
+</RelativeLayout>>
