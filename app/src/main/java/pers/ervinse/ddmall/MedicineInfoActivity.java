@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ScrollView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,8 +19,12 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
-import pers.ervinse.ddmall.domain.Medicine;
 import pers.ervinse.ddmall.domain.Medicine;
 import pers.ervinse.ddmall.utils.OkhttpUtils;
 import pers.ervinse.ddmall.utils.PropertiesUtils;
@@ -26,17 +32,32 @@ import pers.ervinse.ddmall.utils.PropertiesUtils;
 /**
  * 商品详情页面
  */
-public class GoodsInfoActivity extends Activity {
+public class MedicineInfoActivity extends Activity {
 
-    private static final String TAG = GoodsInfoActivity.class.getSimpleName();
-    private Medicine goods;
+    private static final String TAG = MedicineInfoActivity.class.getSimpleName();
+    private Medicine medicine;
     private Context mContext;
 
     //返回按钮,商品图片
-    private ImageView good_info_back_btn, goods_image;
-    private TextView goods_name_tv, goods_price_tv, goods_description_tv, goods_location_tv;
+    private ImageView medicine_info_back_btn, medicine_image;
+    private TextView medicine_name_tv, medicine_price_tv, medicine_description_tv, medicine_location_tv;
     //添加到购物车按钮
-    private Button good_info_add_cart_btn;
+    private Button medicine_info_add_cart_btn;
+
+
+    public List<? extends Map<String, ?>> getlist() {
+        ArrayList<HashMap<String, Object>> comments = new ArrayList<>();
+
+        return comments;
+    }
+
+    public void setAdapter() {
+        SimpleAdapter comment = new SimpleAdapter(
+                mContext, getlist(), R.layout.item_comment,
+                new String[]{"userName", "Comment"},
+                new int[]{R.id.comment_userName_tv, R.id.comment_tv});
+        ScrollView sv = findViewById(R.id.comment_sv);
+    }
 
     /**
      * 创建视图
@@ -46,26 +67,26 @@ public class GoodsInfoActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_goods_info);
+        setContentView(R.layout.activity_medicine_info);
         mContext = this;
 
-        good_info_back_btn = findViewById(R.id.good_info_back_btn);
-        goods_name_tv = findViewById(R.id.goods_name_tv);
-        goods_price_tv = findViewById(R.id.goods_price_tv);
-        goods_description_tv = findViewById(R.id.goods_description_tv);
-        goods_location_tv = findViewById(R.id.goods_location_tv);
-        good_info_add_cart_btn = findViewById(R.id.good_info_add_cart_btn);
-        goods_image = findViewById(R.id.goods_image);
+        medicine_info_back_btn = findViewById(R.id.medicine_info_back_btn);
+        medicine_name_tv = findViewById(R.id.medicine_name_tv);
+        medicine_price_tv = findViewById(R.id.medicine_price_tv);
+        medicine_description_tv = findViewById(R.id.medicine_description_tv);
+        medicine_location_tv = findViewById(R.id.medicine_location_tv);
+        medicine_info_add_cart_btn = findViewById(R.id.medicine_info_add_cart_btn);
+        medicine_image = findViewById(R.id.medicine_image);
 
-
-        good_info_back_btn.setOnClickListener(new View.OnClickListener() {
+        setAdapter();
+        medicine_info_back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
 
-        good_info_add_cart_btn.setOnClickListener(new View.OnClickListener() {
+        medicine_info_add_cart_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 new Thread() {
@@ -77,13 +98,13 @@ public class GoodsInfoActivity extends Activity {
                         String responseJson = null;
 
                         //获取当前商品信息
-                        Medicine goodsForAdd = new Medicine();
-                        goodsForAdd.setName(goods.getName());
-                        String goodsJson = gson.toJson(goodsForAdd);
+                        Medicine medicineForAdd = new Medicine();
+                        medicineForAdd.setName(medicine.getName());
+                        String medicineJson = gson.toJson(medicineForAdd);
                         try {
                             //发送添加到购物车请求
                             String url = PropertiesUtils.getUrl(mContext);
-                            responseJson = OkhttpUtils.doPost(url + "/cart/addGoodsToCart", goodsJson);
+                            responseJson = OkhttpUtils.doPost(url + "/cart/addmedicineToCart", medicineJson);
                             Log.i(TAG, "添加购物车商品响应json:" + responseJson);
                             responseJson = gson.fromJson(responseJson, String.class);
                             Log.i(TAG, "添加购物车商品响应解析对象:" + responseJson);
@@ -125,15 +146,15 @@ public class GoodsInfoActivity extends Activity {
 
         //加载商品数据
         Intent intent = getIntent();
-        goods = (Medicine) intent.getSerializableExtra("Medicines");
+        medicine = (Medicine) intent.getSerializableExtra("Medicines");
 
-        goods_name_tv.setText(goods.getName());
-        goods_price_tv.setText(String.valueOf(goods.getPrice()));
-        goods_description_tv.setText(goods.getDescription());
-        goods_location_tv.setText(goods.getLocation());
+        medicine_name_tv.setText(medicine.getName());
+        medicine_price_tv.setText(String.valueOf(medicine.getPrice()));
+        medicine_description_tv.setText(medicine.getDescription());
+        medicine_location_tv.setText(medicine.getLocation());
 
-        int id = mContext.getResources().getIdentifier(goods.getImage(), "drawable", mContext.getPackageName());
-        goods_image.setImageResource(id);
+        int id = mContext.getResources().getIdentifier(medicine.getImage(), "drawable", mContext.getPackageName());
+        medicine_image.setImageResource(id);
 
     }
 }

@@ -5,18 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".GoodsInfoActivity">
+    tools:context=".MedicineInfoActivity">
 
 
     <!--标题栏-->
     <LinearLayout
-        android:id="@+id/goods_info_title_bar"
+        android:id="@+id/medicine_info_title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#F4F4F4"
         android:padding="10dp">
 
         <ImageButton
-            android:id="@+id/good_info_back_btn"
+            android:id="@+id/medicine_info_back_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/top_bar_left_back" />
@@ -31,7 +32,7 @@
             android:textSize="20sp" />
 
         <ImageButton
-            android:id="@+id/ib_good_info_more"
+            android:id="@+id/ib_medicine_info_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/icon_more" />
@@ -46,7 +47,7 @@
 
 
     <ImageView
-        android:id="@+id/goods_image"
+        android:id="@+id/medicine_image"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:src="@drawable/item_example" />
@@ -57,10 +58,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
+        android:background="#EFEDED"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/goods_name_tv"
+            android:id="@+id/medicine_name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
@@ -86,10 +88,10 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/goods_price_tv"
+                android:id="@+id/medicine_price_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="0dp"
                 android:text="100"
                 android:textColor="#AE5259"
                 android:textSize="18dp"
@@ -102,13 +104,15 @@
     </LinearLayout>
 
     <!--商品描述-->
+
     <TextView
-        android:id="@+id/goods_description_tv"
+        android:id="@+id/medicine_description_tv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="142dp"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="30dp"
         android:layout_marginRight="25dp"
+        android:background="#E8E8E8"
         android:maxLines="5"
         android:text="这是药品的描述（包括成分、功效、用法、适用人群、使用禁忌）" />
 
@@ -120,12 +124,12 @@
         android:layout_marginRight="25dp">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="34dp"
+            android:layout_height="match_parent"
             android:src="@drawable/location" />
 
         <TextView
-            android:id="@+id/goods_location_tv"
+            android:id="@+id/medicine_location_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
@@ -135,6 +139,30 @@
     </LinearLayout>
 
     <!--空白填充页面-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:background="#EFEFEF"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="0dp"
+            android:text="药品评价"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <ScrollView
+            android:id="@+id/comment_sv"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="35dp" />
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="0dp"
@@ -142,14 +170,14 @@
 
     <!--底部按钮组-->
     <LinearLayout
-        android:id="@+id/ll_goods_root"
+        android:id="@+id/ll_medicine_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="#fff">
 
         <TextView
-            android:id="@+id/goods_customer_service_tv"
+            android:id="@+id/medicine_customer_service_tv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -157,28 +185,16 @@
             android:drawablePadding="5dp"
             android:gravity="center"
             android:padding="2dp"
-            android:text="联系客服"
-            android:textColor="#393b3e" />
-
-        <TextView
-            android:id="@+id/goods_like_tv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/good_uncollected"
-            android:drawablePadding="5dp"
-            android:gravity="center"
-            android:padding="2dp"
-            android:text="收藏"
+            android:text="商家详情"
             android:textColor="#393b3e" />
 
 
         <TextView
-            android:id="@+id/good_cart_tv"
+            android:id="@+id/medicine_cart_tv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:drawableTop="@drawable/icon_good_detail_cart"
+            android:drawableTop="@drawable/icon_medicine_detail_cart"
             android:drawablePadding="5dp"
             android:gravity="center"
             android:padding="2dp"
@@ -186,9 +202,9 @@
             android:textColor="#393b3e" />
 
         <Button
-            android:id="@+id/good_info_add_cart_btn"
-            android:layout_width="120dp"
-            android:layout_height="51dp"
+            android:id="@+id/medicine_info_add_cart_btn"
+            android:layout_width="153dp"
+            android:layout_height="63dp"
             android:layout_gravity="center"
             android:background="@drawable/add_cart_bg_selector"
             android:gravity="center"
