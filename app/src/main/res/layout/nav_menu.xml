@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/fragment_05"
+            android:title="界面1" />
+        <item
+            android:id="@+id/fragment_06"
+            android:title="界面2" />
+        <item
+            android:id="@+id/fragment_07"
+            android:title="界面3" />
+        <item
+            android:id="@+id/fragment_08"
+            android:title="界面4" />
+        <item
+            android:id="@+id/fragment_09"
+            android:title="界面5" />
+        <item
+            android:id="@+id/fragment_10"
+            android:title="界面6" />
+    </group>
+</menu>
