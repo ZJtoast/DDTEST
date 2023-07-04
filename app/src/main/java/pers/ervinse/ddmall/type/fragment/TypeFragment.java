@@ -30,7 +30,7 @@ import pers.ervinse.ddmall.utils.PropertiesUtils;
 public class TypeFragment extends BaseFragment {
 
     private static final String TAG = TypeFragment.class.getSimpleName();
-    List<Medicine> goodsList;
+    List<Medicine> medicineList;
     //线程处理器
     private Handler handler = new Handler();
     private RecyclerView rv_type;
@@ -67,20 +67,20 @@ public class TypeFragment extends BaseFragment {
                 try {
                     //发送获取商品请求
                     String url = PropertiesUtils.getUrl(mContext);
-                    responseJson = OkhttpUtils.doGet(url + "/goods");
+                    responseJson = OkhttpUtils.doGet(url + "/medicine");
                     Log.i(TAG, "获取商品响应json:" + responseJson);
-                    goodsList = gson.fromJson(responseJson, new TypeToken<List<Medicine>>() {
+                    medicineList = gson.fromJson(responseJson, new TypeToken<List<Medicine>>() {
                     }.getType());
-                    Log.i(TAG, "获取商品响应解析对象:" + goodsList);
+                    Log.i(TAG, "获取商品响应解析对象:" + medicineList);
 
                     //获取商品商品成功
-                    if (goodsList != null) {
+                    if (medicineList != null) {
                         //切回主线程加载视图
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
                                 //创建类别循环视图适配器,加载数据
-                                adapter = new TypeAdapter(goodsList, mContext);
+                                adapter = new TypeAdapter(medicineList, mContext);
                                 //循环视图加载适配器
                                 rv_type.setAdapter(adapter);
                                 //创建网格布局
@@ -118,18 +118,18 @@ public class TypeFragment extends BaseFragment {
                 try {
                     //发送获取商品请求
                     String url = PropertiesUtils.getUrl(mContext);
-                    responseJson = OkhttpUtils.doGet(url + "/goods");
+                    responseJson = OkhttpUtils.doGet(url + "/medicine");
                     Log.i(TAG, "获取商品响应json:" + responseJson);
-                    goodsList = gson.fromJson(responseJson, new TypeToken<List<Medicine>>() {
+                    medicineList = gson.fromJson(responseJson, new TypeToken<List<Medicine>>() {
                     }.getType());
-                    Log.i(TAG, "获取商品响应解析对象:" + goodsList);
+                    Log.i(TAG, "获取商品响应解析对象:" + medicineList);
 
                     //切回主线程更新视图
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
                             //更新数据
-                            adapter.setGoodsList(goodsList);
+                            adapter.setmedicineList(medicineList);
                             //刷新视图
                             adapter.flushView();
                         }

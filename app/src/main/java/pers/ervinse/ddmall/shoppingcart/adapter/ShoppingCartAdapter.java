@@ -43,7 +43,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
     //线程处理器
     private Handler handler = new Handler();
     //数据集合
-    private List<Medicine> goodsList;
+    private List<Medicine> medicineList;
     //每一个item的点击监听器
     private AdapterView.OnItemClickListener onItemClickListener;
 
@@ -52,9 +52,9 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
      * 获取上下文,货物商品数据,页面布局组件
      * 设置事件监听器
      */
-    public ShoppingCartAdapter(Context mContext, List<Medicine> goodsList, TextView cart_total_tv, CheckBox cart_check_all_checkbox, CheckBox cart_delete_all_checkbox) {
+    public ShoppingCartAdapter(Context mContext, List<Medicine> medicineList, TextView cart_total_tv, CheckBox cart_check_all_checkbox, CheckBox cart_delete_all_checkbox) {
         this.mContext = mContext;
-        this.goodsList = goodsList;
+        this.medicineList = medicineList;
         //商品总价TextView
         this.cart_total_tv = cart_total_tv;
         //全选
@@ -69,12 +69,12 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
     }
 
     /**
-     * 供外部使用,更新goodsList数据
+     * 供外部使用,更新medicineList数据
      *
-     * @param goodsList
+     * @param medicineList
      */
-    public void setGoodsList(List<Medicine> goodsList) {
-        this.goodsList = goodsList;
+    public void setmedicineList(List<Medicine> medicineList) {
+        this.medicineList = medicineList;
     }
 
     /**
@@ -111,11 +111,11 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
             public void onItemClick(AdapterView<?> adapterView, View item, int position, long id) {
 
                 Log.i(TAG, "购物车第" + position + "项数据点击事件");
-                //1.根据位置找到对应的Goods对象
-                Medicine goods = goodsList.get(position);
+                //1.根据位置找到对应的medicine对象
+                Medicine medicine = medicineList.get(position);
                 //2.设置取反状态
-                goods.setSelected(!goods.getSelected());
-                System.out.println(goods);
+                medicine.setSelected(!medicine.getSelected());
+                System.out.println(medicine);
                 //3.刷新状态
                 notifyItemChanged(position);
                 //4.校验是否全选
@@ -160,11 +160,11 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
      * 校验是否全选
      */
     public void checkAll() {
-        if (goodsList != null && goodsList.size() > 0) {
+        if (medicineList != null && medicineList.size() > 0) {
             int number = 0;
-            for (int i = 0; i < goodsList.size(); i++) {
-                Medicine goods = goodsList.get(i);
-                if (!goods.isSelected) {
+            for (int i = 0; i < medicineList.size(); i++) {
+                Medicine medicine = medicineList.get(i);
+                if (!medicine.isSelected) {
                     //非全选
                     cart_check_all_checkbox.setChecked(false);
                     cart_delete_all_checkbox.setChecked(false);
@@ -174,7 +174,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
                 }
             }
 
-            if (number == goodsList.size()) {
+            if (number == medicineList.size()) {
                 //全选
                 cart_check_all_checkbox.setChecked(true);
                 cart_delete_all_checkbox.setChecked(true);
@@ -191,10 +191,10 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
      * @param isCheck
      */
     public void checkAll_none(boolean isCheck) {
-        if (goodsList != null && goodsList.size() > 0) {
-            for (int i = 0; i < goodsList.size(); i++) {
-                Medicine goods = goodsList.get(i);
-                goods.setSelected(isCheck);
+        if (medicineList != null && medicineList.size() > 0) {
+            for (int i = 0; i < medicineList.size(); i++) {
+                Medicine medicine = medicineList.get(i);
+                medicine.setSelected(isCheck);
                 notifyItemChanged(i);
             }
         }
@@ -219,13 +219,13 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
      */
     public double getTotalPrice() {
         double totalPrice = 0.0;
-        if (goodsList != null && goodsList.size() > 0) {
+        if (medicineList != null && medicineList.size() > 0) {
 
-            for (int i = 0; i < goodsList.size(); i++) {
-                Medicine goods = goodsList.get(i);
-                if (goods.isSelected) {
+            for (int i = 0; i < medicineList.size(); i++) {
+                Medicine medicine = medicineList.get(i);
+                if (medicine.isSelected) {
 
-                    totalPrice = totalPrice + Double.valueOf(goods.getNumber()) * Double.valueOf(goods.getPrice());
+                    totalPrice = totalPrice + Double.valueOf(medicine.getNumber()) * Double.valueOf(medicine.getPrice());
                 }
             }
         }
@@ -255,13 +255,13 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
      */
     @Override
     public void onBindViewHolder(@NonNull ShoppingCartAdapter.ViewHolder holder, int position) {
-        Medicine goods = goodsList.get(position);
-        holder.cart_item_description_tv.setText(goods.getName() + "  " + goods.getDescription());
-        holder.cart_item_price_tv.setText("￥" + String.valueOf(goodsList.get(position).getPrice()));
-        holder.cart_item_check_checkbox.setChecked(goodsList.get(position).getSelected());
-        holder.cart_item_value_tv.setText("" + goodsList.get(position).getNumber());
+        Medicine medicine = medicineList.get(position);
+        holder.cart_item_description_tv.setText(medicine.getName() + "  " + medicine.getDescription());
+        holder.cart_item_price_tv.setText("￥" + String.valueOf(medicineList.get(position).getPrice()));
+        holder.cart_item_check_checkbox.setChecked(medicineList.get(position).getSelected());
+        holder.cart_item_value_tv.setText("" + medicineList.get(position).getNumber());
         //通过图片名字获取图片资源的id
-        int id = mContext.getResources().getIdentifier(goodsList.get(position).getImage(), "drawable", mContext.getPackageName());
+        int id = mContext.getResources().getIdentifier(medicineList.get(position).getImage(), "drawable", mContext.getPackageName());
         holder.cart_item_image.setImageResource(id);
     }
 
@@ -272,7 +272,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
      */
     @Override
     public int getItemCount() {
-        return goodsList.size();
+        return medicineList.size();
     }
 
 
@@ -314,13 +314,13 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
                 public void onClick(View view) {
                     Log.i(TAG, "减少商品数量按钮监听方法");
                     //从数据集合中获取对应的商品
-                    Medicine goods = goodsList.get(getLayoutPosition());
+                    Medicine medicine = medicineList.get(getLayoutPosition());
                     //获取该商品减少之前的数量
-                    int number = goods.getNumber();
-                    //调用subGoodsNum()方法,根据规则修改数据,返回修改之后的数据
-                    int numberBySub = subGoodsNum(number);
+                    int number = medicine.getNumber();
+                    //调用submedicineNum()方法,根据规则修改数据,返回修改之后的数据
+                    int numberBySub = submedicineNum(number);
                     //将修改之后的数据记录该商品中
-                    goods.setNumber(numberBySub);
+                    medicine.setNumber(numberBySub);
                     //页面上显示修改后的数量
                     cart_item_value_tv.setText(numberBySub + "");
                     //根据数量重新计算总价,并刷新总价页面
@@ -334,13 +334,13 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
                 public void onClick(View view) {
                     Log.i(TAG, "增加商品数量按钮监听方法");
                     //从数据集合中获取对应的商品
-                    Medicine goods = goodsList.get(getLayoutPosition());
+                    Medicine medicine = medicineList.get(getLayoutPosition());
                     //获取该商品增加之前的数量
-                    int number = goods.getNumber();
-                    //调用addGoodsNum()方法,根据规则修改数据,返回修改之后的数据
-                    int numberByAdd = addGoodsNum(number);
+                    int number = medicine.getNumber();
+                    //调用addmedicineNum()方法,根据规则修改数据,返回修改之后的数据
+                    int numberByAdd = addmedicineNum(number);
                     //将修改之后的数据记录该商品中
-                    goods.setNumber(numberByAdd);
+                    medicine.setNumber(numberByAdd);
                     //页面上显示修改后的数量
                     cart_item_value_tv.setText(numberByAdd + "");
                     //根据数量重新计算总价,并刷新总价页面
@@ -379,13 +379,13 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
                                             Gson gson = new Gson();
                                             String responseJson = null;
                                             //获取要删除的商品名
-                                            Medicine goodsForAdd = new Medicine();
-                                            goodsForAdd.setName(goodsList.get(getLayoutPosition()).getName());
-                                            String goodsJson = gson.toJson(goodsForAdd);
+                                            Medicine medicineForAdd = new Medicine();
+                                            medicineForAdd.setName(medicineList.get(getLayoutPosition()).getName());
+                                            String medicineJson = gson.toJson(medicineForAdd);
                                             try {
                                                 //发送删除请求
                                                 String url = PropertiesUtils.getUrl(mContext);
-                                                responseJson = OkhttpUtils.doPost(url + "/cart/deleteByName", goodsJson);
+                                                responseJson = OkhttpUtils.doPost(url + "/cart/deleteByName", medicineJson);
                                                 Log.i(TAG, "删除购物车商品响应json:" + responseJson);
                                                 responseJson = gson.fromJson(responseJson, String.class);
                                                 Log.i(TAG, "删除购物车商品响应解析对象:" + responseJson);
@@ -398,7 +398,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
                                                             @Override
                                                             public void run() {
                                                                 //全局刷新
-                                                                goodsList.remove(getLayoutPosition());
+                                                                medicineList.remove(getLayoutPosition());
                                                                 notifyDataSetChanged();
                                                                 Toast.makeText(mContext, "商品已删除", Toast.LENGTH_SHORT).show();
                                                             }
@@ -437,7 +437,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
          * @param num 商品原数量
          * @return 修改之后的商品数量
          */
-        private int addGoodsNum(int num) {
+        private int addmedicineNum(int num) {
             if (num >= MAX_NUM - 1) {
                 return MAX_NUM;
             } else {
@@ -451,7 +451,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
          * @param num 商品原数量
          * @return 修改之后的商品数量
          */
-        private int subGoodsNum(int num) {
+        private int submedicineNum(int num) {
             if (num <= MIN_NUM + 1) {
                 return MIN_NUM;
             } else {

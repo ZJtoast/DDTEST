@@ -37,7 +37,7 @@ public class ShoppingCartFragment extends BaseFragment {
 
     private static final String TAG = ShoppingCartFragment.class.getSimpleName();
     RecyclerView cart_item_rv;
-    List<Medicine> goodsList;
+    List<Medicine> medicineList;
     ShoppingCartAdapter adapter;
     //线程处理器
     private Handler handler = new Handler();
@@ -117,18 +117,18 @@ public class ShoppingCartFragment extends BaseFragment {
                     String url = PropertiesUtils.getUrl(mContext);
                     responseJson = OkhttpUtils.doGet(url + "/cart");
                     Log.i(TAG, "获取购物车商品响应json:" + responseJson);
-                    goodsList = gson.fromJson(responseJson, new TypeToken<List<Medicine>>() {
+                    medicineList = gson.fromJson(responseJson, new TypeToken<List<Medicine>>() {
                     }.getType());
-                    Log.i(TAG, "获取购物车商品响应解析对象:" + goodsList);
+                    Log.i(TAG, "获取购物车商品响应解析对象:" + medicineList);
 
                     //获取数据成功,加创建商品布局
-                    if (goodsList != null) {
+                    if (medicineList != null) {
                         //切回主线程加载视图
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
                                 //创建首页循环视图适配器,加载数据
-                                adapter = new ShoppingCartAdapter(mContext, goodsList, cart_total_tv, cart_check_all_checkbox, cart_delete_all_checkbox);
+                                adapter = new ShoppingCartAdapter(mContext, medicineList, cart_total_tv, cart_check_all_checkbox, cart_delete_all_checkbox);
                                 //循环视图加载适配器
                                 cart_item_rv.setAdapter(adapter);
                                 //创建网格布局
@@ -172,16 +172,16 @@ public class ShoppingCartFragment extends BaseFragment {
                     String url = PropertiesUtils.getUrl(mContext);
                     responseJson = OkhttpUtils.doGet(url + "/cart");
                     Log.i(TAG, "获取购物车商品响应json:" + responseJson);
-                    goodsList = gson.fromJson(responseJson, new TypeToken<List<Medicine>>() {
+                    medicineList = gson.fromJson(responseJson, new TypeToken<List<Medicine>>() {
                     }.getType());
-                    Log.i(TAG, "获取购物车商品响应解析对象:" + goodsList);
+                    Log.i(TAG, "获取购物车商品响应解析对象:" + medicineList);
 
                     //数据获取成功,加创建商品布局
-                    if (goodsList != null) {
+                    if (medicineList != null) {
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
-                                adapter.setGoodsList(goodsList);
+                                adapter.setmedicineList(medicineList);
                                 adapter.flushView();
                             }
                         });
@@ -211,13 +211,13 @@ public class ShoppingCartFragment extends BaseFragment {
                 Log.i(TAG, "进入保存购物车数据线程");
 
                 Gson gson = new Gson();
-                String goodsListJson = gson.toJson(goodsList);
-                Log.i(TAG, "保存购物车数据响应json:" + goodsListJson);
+                String medicineListJson = gson.toJson(medicineList);
+                Log.i(TAG, "保存购物车数据响应json:" + medicineListJson);
                 String responseJson = null;
                 try {
                     //发送获取购物车商品请求
                     String url = PropertiesUtils.getUrl(mContext);
-                    responseJson = OkhttpUtils.doPost(url + "/cart/updateGoodsInfo", goodsListJson);
+                    responseJson = OkhttpUtils.doPost(url + "/cart/updatemedicineInfo", medicineListJson);
                     Log.i(TAG, "保存购物车数据响应json:" + responseJson);
                     responseJson = gson.fromJson(responseJson, String.class);
                     Log.i(TAG, "保存购物车数据响应解析对象:" + responseJson);

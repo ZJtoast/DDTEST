@@ -34,25 +34,25 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeAdapter.TypeViewHolder
     private static final String TAG = TypeAdapter.class.getSimpleName();
 
     //商品数据
-    private List<Medicine> goodsList;
+    private List<Medicine> medicineList;
     //上下文
     private Context mContext;
 
     /**
      * 创建适配器时传入要加载的商品数据和上下文
      */
-    public TypeAdapter(List<Medicine> goodsList, Context context) {
-        this.goodsList = goodsList;
+    public TypeAdapter(List<Medicine> medicineList, Context context) {
+        this.medicineList = medicineList;
         this.mContext = context;
     }
 
     /**
-     * 供外部使用,更新goodsList数据
+     * 供外部使用,更新medicineList数据
      *
-     * @param goodsList
+     * @param medicineList
      */
-    public void setGoodsList(List<Medicine> goodsList) {
-        this.goodsList = goodsList;
+    public void setmedicineList(List<Medicine> medicineList) {
+        this.medicineList = medicineList;
     }
 
     /**
@@ -72,17 +72,17 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeAdapter.TypeViewHolder
     @Override
     public void onBindViewHolder(@NonNull TypeViewHolder holder, int position) {
 
-        holder.item_name_tv.setText(goodsList.get(position).getName());
-        holder.item_description_tv.setText(goodsList.get(position).getDescription());
-        holder.item_price_tv.setText("￥" + goodsList.get(position).getPrice());
+        holder.item_name_tv.setText(medicineList.get(position).getName());
+        holder.item_description_tv.setText(medicineList.get(position).getDescription());
+        holder.item_price_tv.setText("￥" + medicineList.get(position).getPrice());
         //通过图片名字获取图片资源的id
-        int id = mContext.getResources().getIdentifier(goodsList.get(position).getImage(), "drawable", mContext.getPackageName());
+        int id = mContext.getResources().getIdentifier(medicineList.get(position).getImage(), "drawable", mContext.getPackageName());
         holder.item_image.setImageResource(id);
     }
 
     @Override
     public int getItemCount() {
-        return goodsList.size();
+        return medicineList.size();
     }
 
     public class TypeViewHolder extends RecyclerView.ViewHolder {
@@ -108,9 +108,9 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeAdapter.TypeViewHolder
                 public void onClick(View view) {
 
                     //前往商品详情页面,并传入数据
-                    Medicine goodsByClick = goodsList.get(getLayoutPosition());
+                    Medicine medicineByClick = medicineList.get(getLayoutPosition());
                     Intent intent = new Intent(mContext, MedicineInfoActivity.class);
-                    intent.putExtra("goods", goodsByClick);
+                    intent.putExtra("medicine", medicineByClick);
                     mContext.startActivity(intent);
                 }
             });
@@ -131,14 +131,14 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeAdapter.TypeViewHolder
                             String responseJson = null;
 
                             //获取当前商品名
-                            Medicine goodsByClick = goodsList.get(getLayoutPosition());
-                            Medicine goodsForAdd = new Medicine();
-                            goodsForAdd.setName(goodsByClick.getName());
-                            String goodsJson = gson.toJson(goodsForAdd);
+                            Medicine medicineByClick = medicineList.get(getLayoutPosition());
+                            Medicine medicineForAdd = new Medicine();
+                            medicineForAdd.setName(medicineByClick.getName());
+                            String medicineJson = gson.toJson(medicineForAdd);
                             try {
                                 //发送添加购购物车请求
                                 String url = PropertiesUtils.getUrl(mContext);
-                                responseJson = OkhttpUtils.doPost(url + "/cart/addGoodsToCart", goodsJson);
+                                responseJson = OkhttpUtils.doPost(url + "/cart/addmedicineToCart", medicineJson);
                                 Log.i(TAG, "添加购物车商品响应json:" + responseJson);
                                 responseJson = gson.fromJson(responseJson, String.class);
                                 Log.i(TAG, "添加购物车商品响应解析对象:" + responseJson);
