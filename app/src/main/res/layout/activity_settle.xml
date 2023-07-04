@@ -1,0 +1,56 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 用户ID显示 -->
+    <TextView
+        android:id="@+id/userIdTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="当前用户ID: 12345"
+        android:padding="16dp"
+        android:layout_marginTop="16dp"
+        android:textSize="18dp"/>
+
+    <!-- 地址选择框 -->
+    <Spinner
+        android:id="@+id/addressSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/userIdTextView"
+        android:padding="16dp"
+        android:layout_marginTop="16dp"/>
+
+    <!-- 商品列表 -->
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/addressSpinner"
+        android:layout_marginTop="16dp"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="1dp" />
+
+    <!-- 总计 -->
+    <TextView
+        android:id="@+id/totalTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/listView"
+        android:padding="16dp"
+        android:text="总计: 0.00"
+        android:textSize="18sp" />
+
+    <!-- 结算按钮 -->
+    <Button
+        android:id="@+id/checkoutButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/totalTextView"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="结算" />
+
+</RelativeLayout>
