@@ -1,0 +1,92 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EAEAEA">
+
+    <include
+        android:id="@+id/titlebar"
+        layout="@layout/titlebar" />
+
+    <RadioGroup
+        android:id="@+id/category_btn_group"
+        android:layout_width="match_parent"
+        android:layout_height="115dp"
+        android:layout_below="@id/titlebar"
+        android:background="#fec901"
+        android:orientation="horizontal"
+        android:paddingHorizontal="10dp">
+
+        <RadioButton
+            android:id="@+id/category_cold_btn"
+            style="@style/HomeCategoryButtonStyle"
+            android:layout_height="115dp"
+            android:layout_margin="10px"
+            android:drawableTop="@drawable/home_constant"
+            android:text="家中常备"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:id="@+id/category_fruit_btn"
+            style="@style/HomeCategoryButtonStyle"
+            android:layout_height="115dp"
+            android:layout_margin="10px"
+            android:drawableTop="@drawable/specialized"
+            android:text="专科用药"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:id="@+id/category_meat_btn"
+            style="@style/HomeCategoryButtonStyle"
+            android:layout_height="115dp"
+            android:layout_margin="10px"
+            android:drawableTop="@drawable/nutrition"
+            android:text="营养滋补"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:id="@+id/category_wine_btn"
+            style="@style/HomeCategoryButtonStyle"
+            android:layout_height="115dp"
+            android:layout_margin="10px"
+            android:drawableTop="@drawable/instrument"
+            android:text="医疗器械"
+            android:textStyle="bold" />
+    </RadioGroup>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_home"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_below="@id/category_btn_group"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="10dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@+id/rv_home"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="#57FAF9EF"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:drawable="@drawable/text_top"
+            android:gravity="center"
+            android:text="健康小知识"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:drawable="@drawable/text_bottom"
+            android:text="  HELLO" />
+    </LinearLayout>
+</RelativeLayout>

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
+    android:background="#F1F1F1"
     android:orientation="vertical">
 
     <LinearLayout
@@ -168,7 +168,7 @@
             android:text="地址管理"
             android:textColor="#555"
             android:textSize="16dp" />
-        
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
