@@ -45,7 +45,6 @@
         android:layout_height="1dp"
         android:background="#eeee" />
 
-
     <ImageView
         android:id="@+id/medicine_image"
         android:layout_width="match_parent"
