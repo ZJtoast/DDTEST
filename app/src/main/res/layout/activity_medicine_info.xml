@@ -108,8 +108,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
         <!-- 这里是占位符，为了把计数器放到右边-->
         <TextView
@@ -117,15 +117,14 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="right"
+            android:layout_marginLeft="300dp"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:layout_marginLeft="300dp"
             android:text=""
             android:textColor="#f00"
             android:textSize="25dp" />
 
-        <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -140,11 +139,11 @@
 
             <TextView
                 android:id="@+id/cart_item_value_tv"
-                android:textColor="@android:color/background_dark"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:gravity="center"
                 android:text="1"
+                android:textColor="@android:color/background_dark"
                 android:textSize="16sp" />
 
             <ImageView
@@ -161,7 +160,7 @@
     <TextView
         android:id="@+id/medicine_description_tv"
         android:layout_width="match_parent"
-        android:layout_height="142dp"
+        android:layout_height="130dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
@@ -198,7 +197,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="230dp"
+        android:layout_height="200dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:background="#EFEFEF"
@@ -224,10 +223,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="1"
-
-
-        />
+        android:layout_weight="1" />
 
     <!--底部按钮组-->
     <LinearLayout

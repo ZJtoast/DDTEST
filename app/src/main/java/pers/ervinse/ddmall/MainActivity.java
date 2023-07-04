@@ -11,26 +11,23 @@ import android.widget.RadioGroup;
 import java.util.ArrayList;
 
 import pers.ervinse.ddmall.R;
+import pers.ervinse.ddmall.home.fragment.HomeFragment;
+import pers.ervinse.ddmall.shoppingcart.fragment.ShoppingCartFragment;
+import pers.ervinse.ddmall.type.fragment.TypeFragment;
 import pers.ervinse.ddmall.user.fragment.UserFragment;
 import pers.ervinse.ddmall.utils.PropertiesUtils;
 
 public class MainActivity extends FragmentActivity {
 
-    private static final String TAG = MainActivity.class.getSimpleName();;
+    private static final String TAG = MainActivity.class.getSimpleName();
+    ;
+    ArrayList<BaseFragment> fragmentList;
     //碎片索引号
     private int fragmentIndex;
-
     //切换碎片时保存的临时碎片
     private BaseFragment tempFragemnt;
-
-
     //底部按钮组
     private RadioGroup bottom_btn_group;
-
-
-
-    ArrayList<BaseFragment> fragmentList;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +68,9 @@ public class MainActivity extends FragmentActivity {
      */
     private void initFragment() {
         fragmentList = new ArrayList<>();
+        fragmentList.add(new HomeFragment());
+        fragmentList.add(new TypeFragment());
+        fragmentList.add(new ShoppingCartFragment());
         fragmentList.add(new UserFragment());
     }
 
@@ -85,7 +85,16 @@ public class MainActivity extends FragmentActivity {
                 //判断当前被选中的按钮
                 switch (checkedId) {
                     case R.id.user_bottom_btn:
+                        fragmentIndex = 3;
+                        break;
+                    case R.id.home_bottom_btn:
                         fragmentIndex = 0;
+                        break;
+                    case R.id.cart_bottom_btn:
+                        fragmentIndex = 2;
+                        break;
+                    case R.id.type_bottom_btn:
+                        fragmentIndex = 1;
                         break;
                 }
                 //根据按钮索引,获取按钮对象
@@ -96,12 +105,11 @@ public class MainActivity extends FragmentActivity {
         });
 
 
-
-
     }
 
     /**
      * 根据按钮索引,获取按钮对象
+     *
      * @param index 碎片索引号
      * @return
      */
@@ -116,6 +124,7 @@ public class MainActivity extends FragmentActivity {
 
     /**
      * 切换上次显示的Fragment
+     *
      * @param fromFragment 上次显示的Fragment
      * @param nextFragment 当前正要显示的Fragment
      */
