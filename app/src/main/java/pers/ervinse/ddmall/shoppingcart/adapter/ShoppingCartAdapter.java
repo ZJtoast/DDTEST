@@ -255,11 +255,11 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
      */
     @Override
     public void onBindViewHolder(@NonNull ShoppingCartAdapter.ViewHolder holder, int position) {
-        Medicine medicine = medicineList.get(position);
-        holder.cart_item_description_tv.setText(medicine.getName() + "  " + medicine.getDescription());
-        holder.cart_item_price_tv.setText("￥" + String.valueOf(medicineList.get(position).getPrice()));
-        holder.cart_item_check_checkbox.setChecked(medicineList.get(position).getSelected());
-        holder.cart_item_value_tv.setText("" + medicineList.get(position).getNumber());
+        Medicine medicine = medicineList.get(position);//取得这个medicine对象
+        holder.cart_item_description_tv.setText(medicine.getName() + "  " + medicine.getDescription());//设置名字和描述
+        holder.cart_item_price_tv.setText("￥" + String.valueOf(medicineList.get(position).getPrice()));//价格
+        holder.cart_item_check_checkbox.setChecked(medicineList.get(position).getSelected());//设置选中状态
+        holder.cart_item_value_tv.setText("" + medicineList.get(position).getNumber());//设置数量
         //通过图片名字获取图片资源的id
         int id = mContext.getResources().getIdentifier(medicineList.get(position).getImage(), "drawable", mContext.getPackageName());
         holder.cart_item_image.setImageResource(id);
