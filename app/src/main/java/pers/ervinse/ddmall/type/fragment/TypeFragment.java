@@ -43,7 +43,7 @@ public class TypeFragment extends BaseFragment {
     private RecyclerView rv_type;
     private TypeAdapter adapter;
     private Integer type = 0;
-
+    private Thread current;
     private RadioGroup typeGroup;
     private RadioButton medicine_chinese, medicine_antipyretic, medicine_vessel, medicine_respiratory, medicine_anticold, medicine_children, medicine_skin, medicine_stomach, medicine_nutrition, medicine_instrument;
 
@@ -122,97 +122,107 @@ public class TypeFragment extends BaseFragment {
     public void initData() {
         super.initData();
         Log.i(TAG, "类别数据初始化");
+        Thread initThread = new Thread(() -> {
+            List<Medicine> medicines = new ArrayList<>();
+            Log.i(TAG, "进入获取商品线程");
+            String responseJson = null;
+            try {
+                //发送获取商品请求
+                String url = PropertiesUtils.getUrl(mContext);
+                //提交查找请求
+                responseJson = OkhttpUtils.doGet(url + "/medicines/type/" + type.toString());
+                Result<List<Medicine>> medicineResponse = JSONObject.parseObject(responseJson, new TypeReference<Result<List<Medicine>>>() {
+                });
+                medicines = medicineResponse.getData();
+                Log.i(TAG, "获取商品响应解析对象:");
 
-        new Thread() {
-            @Override
-            public void run() {
-                Log.i(TAG, "进入获取商品线程");
-                String responseJson = null;
-                try {
-                    //发送获取商品请求
-                    String url = PropertiesUtils.getUrl(mContext);
-                    //提交查找请求
-                    responseJson = OkhttpUtils.doGet(url + "/medicines/type/" + type.toString());
-                    Result<List<Medicine>> medicineResponse = JSONObject.parseObject(responseJson, new TypeReference<Result<List<Medicine>>>() {
-                    });
-                    medicineList = medicineResponse.getData();
-                    Log.i(TAG, "获取商品响应解析对象:");
+                if (medicines != null && current.equals(this)) {
+                    firstFresh(medicines);
 
-                    //获取商品商品成功
-                    if (medicineList != null) {
-                        //切回主线程加载视图
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                //创建类别循环视图适配器,加载数据
-                                adapter = new TypeAdapter(medicineList, mContext);
-                                //循环视图加载适配器
-                                rv_type.setAdapter(adapter);
-                                //创建网格布局
-                                GridLayoutManager manager = new GridLayoutManager(mContext, 1);
-                                //循环视图加载网格布局
-                                rv_type.setLayoutManager(manager);
-                            }
-                        });
+                    for (Medicine medicine : medicines) {
+                        try {
+                            OkhttpUtils.saveImage(url + "/medicines/MedicinePicture/" + medicine.getCommodityID(), medicine.getCommodityID().toString(), mContext);
+                        } catch (IOException e) {
+                            Log.i(TAG, e.toString());
+                        }
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Looper.prepare();
-                    Toast.makeText(mContext, "获取数据失败,服务器错误", Toast.LENGTH_SHORT).show();
-                    Looper.loop();
+                    freshInMain(medicines);
+                    medicineList = medicines;
                 }
-
+            } catch (IOException e) {
+                e.printStackTrace();
+                Looper.prepare();
+                Toast.makeText(mContext, "获取数据失败,服务器错误", Toast.LENGTH_SHORT).show();
+                Looper.loop();
             }
-        }.start();
+
+        });
+        current = initThread;
+        initThread.start();
     }
 
     public void getDate() {
         Log.i(TAG, "联网刷新数据");
-        new Thread() {
+        Thread dataThread = new Thread(() -> {
             @SuppressLint("NotifyDataSetChanged")
-            @Override
-            public void run() {
-
-                String responseJson = null;
-
-                try {
-                    Log.i(TAG, "进入获取商品类型线程,商品类型为" + type.toString());
-                    //发送获取商品请求
-                    String url = PropertiesUtils.getUrl(mContext);
+            List<Medicine> medicines = new ArrayList<>();
+            String responseJson = null;
+            try {
+                Log.i(TAG, "进入获取商品类型线程,商品类型为" + type.toString());
+                //发送获取商品请求
+                String url = PropertiesUtils.getUrl(mContext);
 
 
-                    //提交查找请求
-                    responseJson = OkhttpUtils.doGet(url + "/medicines/type/" + type.toString());
-                    Result<List<Medicine>> medicineResponse = JSONObject.parseObject(responseJson, new TypeReference<Result<List<Medicine>>>() {
-                    });
-                    Log.i(TAG, "获取热点响应解析对象:" + medicineResponse);
-                    //获取商品成功
-                    //接下来接收药品图片
-                    medicineList.addAll(medicineResponse.getData());
-                    Log.i(TAG, "获取商品响应json:" + responseJson);
+                //提交查找请求
+                responseJson = OkhttpUtils.doGet(url + "/medicines/type/" + type.toString());
+                Result<List<Medicine>> medicineResponse = JSONObject.parseObject(responseJson, new TypeReference<Result<List<Medicine>>>() {
+                });
+                Log.i(TAG, "获取热点响应解析对象:" + medicineResponse);
+                //获取商品成功
+                //接下来接收药品图片
+                medicines = medicineResponse.getData();
+                Log.i(TAG, "获取商品响应json:" + responseJson);
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Looper.prepare();
-                    Toast.makeText(mContext, "获取数据失败,服务器错误", Toast.LENGTH_SHORT).show();
-                    Looper.loop();
+            } catch (IOException e) {
+                e.printStackTrace();
+                Looper.prepare();
+                Toast.makeText(mContext, "获取数据失败,服务器错误", Toast.LENGTH_SHORT).show();
+                Looper.loop();
 
-                }
-
-
-                freshInMain(medicineList);
-                for (Medicine medicine : medicineList) {
+            }
+            if (current.equals(this)) {
+                freshInMain(medicines);
+                for (Medicine medicine : medicines) {
                     String url = PropertiesUtils.getUrl(mContext);
                     try {
-                        OkhttpUtils.doGet(url + "/medicines/MedicinePicture/" + medicine.getCommodityID(), medicine.getCommodityID().toString());
+                        OkhttpUtils.saveImage(url + "/medicines/MedicinePicture/" + medicine.getCommodityID(), medicine.getCommodityID().toString(), mContext);
                     } catch (IOException e) {
                         Log.i(TAG, e.toString());
                     }
                 }
                 //切回主线程调整布局
-                freshInMain(medicineList);
+                freshInMain(medicines);
+                medicineList = medicines;
             }
-        }.start();
+        });
+        current = dataThread;
+        dataThread.start();
+    }
+
+    public void firstFresh(List<Medicine> list) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                //创建类别循环视图适配器,加载数据
+                adapter = new TypeAdapter(list, mContext);
+                //循环视图加载适配器
+                rv_type.setAdapter(adapter);
+                //创建网格布局
+                GridLayoutManager manager = new GridLayoutManager(mContext, 1);
+                //循环视图加载网格布局
+                rv_type.setLayoutManager(manager);
+            }
+        });
     }
 
     public void freshInMain(List<Medicine> list) {

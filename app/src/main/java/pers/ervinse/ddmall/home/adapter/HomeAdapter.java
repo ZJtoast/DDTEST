@@ -87,8 +87,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         holder.item_description_tv.setText(medicineList.get(position).getCommodityDesc());
         holder.item_price_tv.setText("￥" + medicineList.get(position).getCommodityPrice());
         //通过图片名字获取图片资源的id
-        int id = mContext.getResources().getIdentifier(medicineList.get(position).getCommodityID().toString(), "drawable", mContext.getPackageName());
-        holder.item_image.setImageResource(id);
+        try {
+            OkhttpUtils.setImage(holder.item_image, medicineList.get(position).getCommodityID().toString(), mContext);
+        } catch (IOException e) {
+            Log.i("TAG", "图片传输错误");
+        }
 
     }
 
@@ -142,7 +145,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                     new Thread() {
                         @Override
                         public void run() {
-                            
+
                             Medicine medicineByClick = medicineList.get(getLayoutPosition());
                             Intent intent = new Intent(mContext, MedicineInfoActivity.class);
                             intent.putExtra("medicine", medicineByClick);

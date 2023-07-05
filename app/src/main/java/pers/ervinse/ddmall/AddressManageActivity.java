@@ -19,18 +19,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import pers.ervinse.ddmall.domain.UserResponse;
+import pers.ervinse.ddmall.domain.Result;
 import pers.ervinse.ddmall.utils.OkhttpUtils;
 import pers.ervinse.ddmall.utils.PropertiesUtils;
 
 public class AddressManageActivity extends Activity {
     private static final String TAG = AddAddressActivity.class.getSimpleName();
+    private static final int Add__Address__CODE = 1;
     private Context mContext;
     private Button editAddressButton;//编辑地址按钮
     private Button addAddressButton;//添加地址按钮
     private ImageView address_info_back_btn;//导航栏返回按钮
 
-    private static final int Add__Address__CODE = 1;
     protected void onRestart() {
         super.onRestart();
         setAdapter();
@@ -47,7 +47,7 @@ public class AddressManageActivity extends Activity {
             Log.i(TAG, "请求地址发生错误");
         }
         Log.i(TAG, "请求响应地址列表:" + responseJson);
-        UserResponse<Boolean> response = gson.fromJson(responseJson, UserResponse.class);
+        Result<Boolean> response = gson.fromJson(responseJson, Result.class);
         Log.i(TAG, "请求响应解析地址列表:" + responseJson);
         return Address;
     }
@@ -55,8 +55,8 @@ public class AddressManageActivity extends Activity {
     private void setAdapter() {
         SimpleAdapter Address = new SimpleAdapter(
                 mContext, getlist(), R.layout.item_address,
-                new String[]{"userName", "phoneNumber","detailedAddress"},
-                new int[]{R.id.nameTextView, R.id.phoneTextView,R.id.addressTextView});
+                new String[]{"userName", "phoneNumber", "detailedAddress"},
+                new int[]{R.id.nameTextView, R.id.phoneTextView, R.id.addressTextView});
         ListView sv = findViewById(R.id.addressListView);
         sv.setAdapter(Address);
     }
