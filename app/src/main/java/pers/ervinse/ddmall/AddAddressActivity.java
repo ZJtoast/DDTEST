@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -26,6 +28,7 @@ public class AddAddressActivity extends Activity {
     private Context mContext;
 //    private String countryforAddress, provinceforAddress, townforAddress, districtforAddress, streetforAddress, detailAddress, receiveName, receiveTel;
     private EditText nation, province, city, district, street, consignee_name, detailed_address, phone_number;
+    private Button comment_commit_btn;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,11 +42,19 @@ public class AddAddressActivity extends Activity {
         detailed_address = findViewById(R.id.detailed_address);
         phone_number = findViewById(R.id.phone_number);
 
-        address = new Address_(getString(nation),getString(province),getString(city),getString(district),getString(street),getString(consignee_name),getString(detailed_address),getString(phone_number));
-        AddData();
-        Intent intent = new Intent(mContext, AddressManageActivity.class);
-        startActivity(intent);
+        //给地址提交按钮绑定事件
+        comment_commit_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                address = new Address_(getString(nation),getString(province),getString(city),getString(district),getString(street),getString(consignee_name),getString(detailed_address),getString(phone_number));
+                AddData();
+                Intent intent = new Intent(mContext, AddressManageActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
+
 
     public String getString(EditText view){
         return view.getText().toString();

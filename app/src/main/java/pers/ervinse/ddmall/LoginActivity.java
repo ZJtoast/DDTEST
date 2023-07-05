@@ -25,6 +25,7 @@ import pers.ervinse.ddmall.domain.Token;
 import pers.ervinse.ddmall.domain.User;
 import pers.ervinse.ddmall.utils.OkhttpUtils;
 import pers.ervinse.ddmall.utils.PropertiesUtils;
+import pers.ervinse.ddmall.utils.TokenContextUtils;
 
 /**
  * 登录页面
@@ -137,6 +138,10 @@ public class LoginActivity extends Activity {
                             Intent intent = new Intent();
                             intent.putExtra("user", userRes);
                             intent.putExtra("token", response.getData());
+
+                            Token token =response.getData();
+                            TokenContextUtils.setToken(token.getToken());
+
                             //intent.putExtra("userId", userId);
                             //设置数据状态
                             setResult(RESULT_OK, intent);
