@@ -37,7 +37,6 @@ public class OkhttpUtils {
     private static final MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json;charset=utf-8");
     private static final OkHttpClient okhttpclient = new OkHttpClient();
 
-    //1.创建对应的MediaType
     public static OkHttpClient genericClient(String value) {
         OkHttpClient httpClient = okhttpclient.newBuilder()
                 .addInterceptor(new Interceptor() {
@@ -54,17 +53,6 @@ public class OkhttpUtils {
         return httpClient;
     }
 
-    public static String doGetByToken(String url,String token) throws IOException {
-
-        Request request = new Request.Builder()
-                .url(url)
-                .header("token",token)
-                .build();
-        Call call = okhttpclient.newCall(request);
-        Response resp = call.execute();
-
-        return resp.body().string();
-    }
 
     public static String doGet(String url) throws IOException {
 
@@ -77,7 +65,7 @@ public class OkhttpUtils {
         return resp.body().string();
     }
 
-    public static String doGet(String url, String token) throws IOException {
+    public static String doGetByToken(String url, String token) throws IOException {
 
         Request request = new Request.Builder()
                 .url(url)

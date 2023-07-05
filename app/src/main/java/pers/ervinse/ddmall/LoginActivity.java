@@ -125,7 +125,7 @@ public class LoginActivity extends Activity {
                         //登录成功
                         if (code == 200) {
                             //发送请求获取当前用户名对应的简介
-                            responseJson = OkhttpUtils.doGet(url + "/users/getDescription/" + userName, TokenContextUtils.getToken());
+                            responseJson = OkhttpUtils.doGetByToken(url + "/users/getDescription/" + userName, TokenContextUtils.getToken());
                             Log.i(TAG, "获取描述请求响应json:" + responseJson);
                             Result<User> responseS = JSONObject.parseObject(responseJson, new TypeReference<Result<User>>() {
                             });
