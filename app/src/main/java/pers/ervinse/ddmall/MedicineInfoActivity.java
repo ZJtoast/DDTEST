@@ -165,8 +165,11 @@ public class MedicineInfoActivity extends Activity {
         medicine_description_tv.setText(medicine.getCommodityDesc());
         medicine_location_tv.setText(medicine.getMerchantLocation());
 
-        int id = mContext.getResources().getIdentifier(medicine.getCommodityID().toString(), "drawable", mContext.getPackageName());
-        medicine_image.setImageResource(id);
+        try {
+            OkhttpUtils.setImage(medicine_image, medicine.getCommodityID().toString(), mContext);
+        } catch (IOException e) {
+            Log.i("TAG", "图片传输错误");
+        }
 
     }
 }

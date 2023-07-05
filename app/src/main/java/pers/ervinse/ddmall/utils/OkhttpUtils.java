@@ -1,15 +1,20 @@
 package pers.ervinse.ddmall.utils;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Base64;
 
 import android.os.Environment;
 import android.util.Log;
+import android.widget.ImageView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
@@ -28,7 +33,6 @@ import pers.ervinse.ddmall.domain.Photo;
 import pers.ervinse.ddmall.domain.Result;
 
 public class OkhttpUtils {
-    private static final String SD_PATH = Environment.getExternalStorageDirectory().getPath() + "/image/";
     private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
     private static final MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json;charset=utf-8");
     private static final OkHttpClient okhttpclient = new OkHttpClient();
@@ -73,7 +77,23 @@ public class OkhttpUtils {
         return resp.body().string();
     }
 
-    public static void doGet(String url, String pictureName) throws IOException {
+    public static void setImage(ImageView view, String pictureName, Context context) throws IOException {
+        String TargetPath = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).toString();
+        Bitmap bitmap = null;
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(TargetPath + "/" + pictureName + ".png");
+            bitmap = BitmapFactory.decodeStream(fis);
+            view.setImageBitmap(bitmap);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (fis != null) fis.close();
+        }
+
+    }
+
+    public static void saveImage(String url, String pictureName, Context context) throws IOException {
 
         Request request = new Request.Builder()
                 .url(url)
@@ -84,29 +104,32 @@ public class OkhttpUtils {
         Result<Photo> medicineResponse = JSONObject.parseObject(resp.body().string(), new TypeReference<Result<Photo>>() {
         });
         Log.i("当前图片code获取", medicineResponse.getCode().toString());
+
         if (medicineResponse.getCode().equals(500)) return;
+
         byte[] data = medicineResponse.getData().getPhotoBytes().getBytes();
-        //data = Base64.getDecoder().decode(data);
+        data = Base64.getDecoder().decode(data);
         Log.i("", medicineResponse.getData().toString());
 
-
+        //获取位图文件
         Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-        String TargetPath = SD_PATH;
-        File file;
-        try {
-            file = new File(TargetPath + pictureName + ".png"); // 本地目录
-            Log.i("", file.getAbsolutePath());
-            if (!file.exists()) {
-                file.getParentFile().mkdirs();
-                file.createNewFile();
-            }
-            FileOutputStream fops = new FileOutputStream(file);
 
-            bitmap.compress(Bitmap.CompressFormat.PNG, 80, fops);
-            fops.flush();
-            fops.close();
+        //获取目标目录
+        String TargetPath = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).toString();
+        FileOutputStream fos = null;
+        try {
+            // 本地目录
+            fos = new FileOutputStream(TargetPath + "/" + pictureName + ".png");
+
+            bitmap.compress(Bitmap.CompressFormat.PNG, 80, fos);
+
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if (fos != null) {
+                fos.flush();
+                fos.close();
+            }
         }
     }
 

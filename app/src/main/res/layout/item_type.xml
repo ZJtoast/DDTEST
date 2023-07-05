@@ -4,14 +4,14 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="horizontal"
-    android:padding="16dp">
+    android:padding="10dp">
 
 
     <ImageView
         android:id="@+id/item_image"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginRight="30dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginRight="20dp"
         android:src="@drawable/medicine_image_1" />
 
     <RelativeLayout
@@ -25,9 +25,11 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="30dp"
+            android:maxLength="8"
+            android:maxLines="1"
             android:text="商品名称"
             android:textColor="#FF8F03"
-            android:textSize="16sp" />
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/item_description"
@@ -37,10 +39,10 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:ellipsize="end"
-            android:maxLines="2"
+            android:maxLines="3"
             android:text="这里是商品描述"
             android:textColor="#FF716c6d"
-            android:textSize="10sp" />
+            android:textSize="8sp" />
 
         <TextView
             android:id="@+id/item_price"
@@ -49,22 +51,20 @@
             android:layout_below="@+id/item_description"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:text="$ 999"
+            android:text="￥999"
             android:textColor="@color/black"
             android:textSize="14sp" />
 
     </RelativeLayout>
 
     <Button
-        android:id="@+id/item_add_cart_btn"
-        android:layout_width="90dp"
+        android:id="@+id/item_desc_btn"
+        android:layout_width="60dp"
         android:layout_height="25dp"
         android:layout_marginTop="12dp"
         android:layout_marginRight="0dp"
         android:background="@drawable/add_type_item_shape"
-        android:text="添加到购物车"
+        android:text="详情"
         android:textColor="#FF8F03"
         android:textSize="12sp" />
-
-
 </LinearLayout>

@@ -38,7 +38,6 @@ public class HomeFragment extends BaseFragment {
 
     private static final String TAG = HomeFragment.class.getSimpleName();
     private List<Medicine> medicineList;
-    private List<Medicine> medicineTypeList;
     private Handler handler = new Handler();
     private RecyclerView rvHome;
 
@@ -47,6 +46,8 @@ public class HomeFragment extends BaseFragment {
     private TextView tv_message_home;
     private HomeAdapter adapter;
     private RadioGroup fourType;
+
+    private Thread current;
     private List<Integer> typelist;
     private RadioButton householdEssentials, specializedMedication, nutritionalSupplements, medicalEquipment;
 
@@ -83,7 +84,6 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 typelist = new ArrayList<>();
-                medicineTypeList = new ArrayList<>();
                 //判断当前被选中的按钮
                 switch (checkedId) {
                     case R.id.category_house_btn:
@@ -110,52 +110,52 @@ public class HomeFragment extends BaseFragment {
 
     public void getDate() {
         Log.i(TAG, "联网刷新数据");
-        new Thread() {
+        Thread dataThread = new Thread(() -> {
             @SuppressLint("NotifyDataSetChanged")
-            @Override
-            public void run() {
-                
-                String responseJson = null;
-
-                for (Integer type : typelist) {
-                    try {
-                        Log.i(TAG, "进入获取商品类型线程,商品类型为" + type.toString());
-                        //发送获取商品请求
-                        String url = PropertiesUtils.getUrl(mContext);
+            List<Medicine> medicines = new ArrayList<>();
+            String responseJson = null;
+            for (Integer type : typelist) {
+                try {
+                    Log.i(TAG, "进入获取商品类型线程,商品类型为" + type.toString());
+                    //发送获取商品请求
+                    String url = PropertiesUtils.getUrl(mContext);
 
 
-                        //提交查找请求
-                        responseJson = OkhttpUtils.doGet(url + "/medicines/type/" + type.toString());
-                        Result<List<Medicine>> medicineResponse = JSONObject.parseObject(responseJson, new TypeReference<Result<List<Medicine>>>() {
-                        });
-                        Log.i(TAG, "获取热点响应解析对象:" + medicineResponse);
-                        //获取商品成功
-                        //接下来接收药品图片
-                        medicineTypeList.addAll(medicineResponse.getData());
-                        Log.i(TAG, "获取商品响应json:" + responseJson);
+                    //提交查找请求
+                    responseJson = OkhttpUtils.doGet(url + "/medicines/type/" + type.toString());
+                    Result<List<Medicine>> medicineResponse = JSONObject.parseObject(responseJson, new TypeReference<Result<List<Medicine>>>() {
+                    });
+                    Log.i(TAG, "获取热点响应解析对象:" + medicineResponse);
+                    //获取商品成功
+                    //接下来接收药品图片
+                    medicines.addAll(medicineResponse.getData());
+                    Log.i(TAG, "获取商品响应json:" + responseJson);
 
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        Looper.prepare();
-                        Toast.makeText(mContext, "获取数据失败,服务器错误", Toast.LENGTH_SHORT).show();
-                        Looper.loop();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Looper.prepare();
+                    Toast.makeText(mContext, "获取数据失败,服务器错误", Toast.LENGTH_SHORT).show();
+                    Looper.loop();
 
-                    }
                 }
-
-                freshInMain(medicineTypeList);
-                for (Medicine medicine : medicineTypeList) {
+            }
+            if (current.getName().equals(Thread.currentThread().getName())) {
+                freshInMain(medicines);
+                for (Medicine medicine : medicines) {
                     String url = PropertiesUtils.getUrl(mContext);
                     try {
-                        OkhttpUtils.doGet(url + "/medicines/MedicinePicture/" + medicine.getCommodityID(), medicine.getCommodityID().toString());
+                        OkhttpUtils.saveImage(url + "/medicines/MedicinePicture/" + medicine.getCommodityID(), medicine.getCommodityID().toString(), mContext);
                     } catch (IOException e) {
                         Log.i(TAG, e.toString());
                     }
                 }
                 //切回主线程调整布局
-                freshInMain(medicineTypeList);
+                freshInMain(medicines);
+                medicineList = medicines;
             }
-        }.start();
+        });
+        current = dataThread;
+        dataThread.start();
     }
 
     public void freshInMain(List<Medicine> list) {
@@ -173,67 +173,69 @@ public class HomeFragment extends BaseFragment {
         });
     }
 
+    public void firstFresh(List<Medicine> list) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+
+                //创建首页循环视图适配器,加载数据
+                adapter = new HomeAdapter(list, mContext);
+                //循环视图加载适配器
+                rvHome.setAdapter(adapter);
+                //创建网格布局
+                GridLayoutManager manager = new GridLayoutManager(mContext, 1);
+                //循环视图加载网格布局
+                rvHome.setLayoutManager(manager);
+            }
+        });
+    }
+
     /**
      * 初始化数据
      */
     public void initData() {
         super.initData();
         Log.i(TAG, "主页数据初始化");
+        Thread initThread = new Thread(() -> {
+            List<Medicine> medicines = new ArrayList<>();
+            Log.i(TAG, "进入获取商品线程");
+            String responseJson = null;
+            try {
+                //发送获取商品请求
+                String url = PropertiesUtils.getUrl(mContext);
+                responseJson = OkhttpUtils.doGet(url + "/medicines/hotMedicine");
+                Log.i(TAG, "获取热点商品响应json:" + responseJson);
+                Result<List<Medicine>> medicineResponse = JSONObject.parseObject(responseJson, new TypeReference<Result<List<Medicine>>>() {
+                });
+                Log.i(TAG, "获取热点响应解析对象:" + medicineResponse);
+                //获取商品成功
+                medicines = medicineResponse.getData();
 
-        new Thread() {
-            @Override
-            public void run() {
-                Log.i(TAG, "进入获取商品线程");
-                String responseJson = null;
-                try {
-                    //发送获取商品请求
-                    String url = PropertiesUtils.getUrl(mContext);
-                    responseJson = OkhttpUtils.doGet(url + "/medicines/hotMedicine");
-                    Log.i(TAG, "获取热点商品响应json:" + responseJson);
-                    Result<List<Medicine>> medicineResponse = JSONObject.parseObject(responseJson, new TypeReference<Result<List<Medicine>>>() {
-                    });
-                    Log.i(TAG, "获取热点响应解析对象:" + medicineResponse);
-                    //获取商品成功
-                    medicineList = medicineResponse.getData();
+                //接下来接收药品图片
+                Log.i(TAG, "获取商品图片解析对象:" + medicines.getClass());
+                if (current.getName().equals(Thread.currentThread().getName())) {
+                    firstFresh(medicines);
 
-                    //接下来接收药品图片
-                    Log.i(TAG, "获取商品图片解析对象:" + medicineList.getClass());
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            //创建首页循环视图适配器,加载数据
-                            adapter = new HomeAdapter(medicineList, mContext);
-                            //循环视图加载适配器
-                            rvHome.setAdapter(adapter);
-                            //创建网格布局
-                            GridLayoutManager manager = new GridLayoutManager(mContext, 1);
-                            //循环视图加载网格布局
-                            rvHome.setLayoutManager(manager);
-                        }
-                    });
-
-                    for (Medicine medicine : medicineList) {
+                    for (Medicine medicine : medicines) {
                         try {
-                            OkhttpUtils.doGet(url + "/medicines/MedicinePicture/" + medicine.getCommodityID(), medicine.getCommodityID().toString());
+                            OkhttpUtils.saveImage(url + "/medicines/MedicinePicture/" + medicine.getCommodityID(), medicine.getCommodityID().toString(), mContext);
                         } catch (IOException e) {
                             Log.i(TAG, e.toString());
                         }
                     }
-
-
-                    if (medicineList != null) {
-                        freshInMain(medicineList);
-                    }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Looper.prepare();
-                    Toast.makeText(mContext, "获取数据失败,服务器错误", Toast.LENGTH_SHORT).show();
-                    Looper.loop();
+                    freshInMain(medicines);
+                    medicineList = medicines;
                 }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                Looper.prepare();
+                Toast.makeText(mContext, "获取数据失败,服务器错误", Toast.LENGTH_SHORT).show();
+                Looper.loop();
             }
-        }.start();
+        });
+        current = initThread;
+        initThread.start();
     }
 
     /**
@@ -243,8 +245,8 @@ public class HomeFragment extends BaseFragment {
     public void refreshData() {
         if (typelist == null) {
             typelist = new ArrayList<>();
-            typelist.add(2);
             typelist.add(1);
+            typelist.add(2);
             typelist.add(3);
             typelist.add(4);
         }
