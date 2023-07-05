@@ -19,6 +19,18 @@
             android:name=".MedicineInfoActivity"
             android:exported="false" />
         <activity
+            android:name=".WaitDeliverActivity"
+            android:exported="false" />
+        <activity
+            android:name=".WaitPayActivity"
+            android:exported="false" />
+        <activity
+            android:name=".WaitCommentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".WaitReceiveActivity"
+            android:exported="false" />
+        <activity
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity

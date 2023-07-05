@@ -4,11 +4,14 @@ import static android.app.Activity.RESULT_OK;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -17,25 +20,31 @@ import pers.ervinse.ddmall.BaseFragment;
 import pers.ervinse.ddmall.LoginActivity;
 import pers.ervinse.ddmall.MedicineInfoActivity;
 import pers.ervinse.ddmall.R;
+import pers.ervinse.ddmall.WaitCommentActivity;
+import pers.ervinse.ddmall.WaitDeliverActivity;
+import pers.ervinse.ddmall.WaitPayActivity;
+import pers.ervinse.ddmall.WaitReceiveActivity;
 import pers.ervinse.ddmall.domain.Medicine;
 import pers.ervinse.ddmall.domain.Token;
 import pers.ervinse.ddmall.domain.User;
+import pers.ervinse.ddmall.utils.TokenContextUtils;
 
 public class UserFragment extends BaseFragment {
 
     private static final String TAG = UserFragment.class.getSimpleName();
     private static final int LOGIN_REQUEST_CODE = 1;
-
     //当前登录状态
     private boolean isLogin = false;
 
     private ImageView user_photo_image;
+
+    private Integer user_id;
     private TextView user_desc_tv;
     private TextView user_id_tv, user_name_tv;
     private Button user_logout_btn;
-    private Token token;
-    private View user_bar;
 
+    private ImageButton wait_pay, wait_comment, wait_deliver, wait_receive;
+    private View user_bar;
 
     /**
      * 初始化视图
@@ -51,6 +60,11 @@ public class UserFragment extends BaseFragment {
         user_desc_tv = view.findViewById(R.id.user_desc);
         user_id_tv = view.findViewById(R.id.user_id_tv);
         user_name_tv = view.findViewById(R.id.user_name_tv);
+        wait_pay = view.findViewById(R.id.wait_pay);
+        wait_comment = view.findViewById(R.id.wait_comment);
+        wait_deliver = view.findViewById(R.id.wait_deliver);
+        wait_receive = view.findViewById(R.id.wait_receive);
+        TokenContextUtils.setToken(null);
         return view;
     }
 
@@ -67,11 +81,45 @@ public class UserFragment extends BaseFragment {
      * 初始化监听器
      */
     private void initListener() {
-        user_desc_tv.setOnClickListener((view) -> {
-            Intent intent = new Intent(mContext, MedicineInfoActivity.class);
-            Medicine medicine = new Medicine(true, "999感冒灵", "这个药太棒了", "广东", "item_example", 11, 1, 1, 2);
-            intent.putExtra("Medicines", medicine);
-            startActivityForResult(intent, LOGIN_REQUEST_CODE);
+        wait_pay.setOnClickListener(v -> {
+            if (isLogin) {
+                Log.i(TAG, "用户打开待支付界面");
+                Intent intent = new Intent(mContext, WaitPayActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(mContext, "用户未登录", Toast.LENGTH_SHORT).show();
+                Looper.loop();
+            }
+        });
+        wait_comment.setOnClickListener(v -> {
+            if (isLogin) {
+                Log.i(TAG, "用户打开待评价界面");
+                Intent intent = new Intent(mContext, WaitCommentActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(mContext, "用户未登录", Toast.LENGTH_SHORT).show();
+                Looper.loop();
+            }
+        });
+        wait_deliver.setOnClickListener(v -> {
+            if (isLogin) {
+                Log.i(TAG, "用户打开待发货界面");
+                Intent intent = new Intent(mContext, WaitDeliverActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(mContext, "用户未登录", Toast.LENGTH_SHORT).show();
+                Looper.loop();
+            }
+        });
+        wait_receive.setOnClickListener(v -> {
+            if (isLogin) {
+                Log.i(TAG, "用户打开待收货界面");
+                Intent intent = new Intent(mContext, WaitReceiveActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(mContext, "用户未登录", Toast.LENGTH_SHORT).show();
+                Looper.loop();
+            }
         });
         //登录
         user_name_tv.setOnClickListener(new View.OnClickListener() {
@@ -104,7 +152,7 @@ public class UserFragment extends BaseFragment {
                                 dialogInterface.dismiss();
                                 //用户名恢复,简介不可见
                                 isLogin = false;
-                                token = null;
+                                TokenContextUtils.setToken(null);
                                 user_name_tv.setText("点击登录");
                                 user_desc_tv.setText("用户信息");
                             }
@@ -147,16 +195,20 @@ public class UserFragment extends BaseFragment {
                     isLogin = true;
                     //获取数据并打印
                     User userInfo = (User) data.getSerializableExtra("user");
+                    try {
+                        String userDesc = userInfo.getUserSex() + "   " + userInfo.getUserAge().toString() + "岁";
+                        Log.i(TAG, "用户登录数据回传: userName ");
+                        user_desc_tv.setVisibility(View.VISIBLE);
+                        user_desc_tv.setText("用户信息:" + userDesc);
+                    } catch (NullPointerException ne) {
+                        Log.i(TAG, "缺少了某些信息");
+                    }
                     String userName = userInfo.getUserName();
-                    String userDesc = userInfo.getUserSex() + "   " + userInfo.getUserAge().toString() + "岁";
-                    String userId = userInfo.getUserAccount();
-                    Log.i(TAG, "用户登录数据回传: userName = " + userName
-                            + ",userDesc = " + userDesc);
-                    token = (Token) data.getSerializableExtra("token");
+                    String userAccount = userInfo.getUserAccount();
                     user_name_tv.setText(userName);
-                    user_id_tv.setText(userId);
-                    user_desc_tv.setVisibility(View.VISIBLE);
-                    user_desc_tv.setText("用户信息:" + userDesc);
+                    user_id_tv.setText(userAccount);
+                    user_id = userInfo.getUserID();
+
                 }
                 break;
             default:

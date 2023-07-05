@@ -7,6 +7,7 @@ public class User implements Serializable {
 
     private String UserName, UserPassword, UserExtendInfo, UserAccount, UserSex;
     private Integer UserAge;
+    private Integer UserID;
 
     public User() {
 
@@ -31,6 +32,14 @@ public class User implements Serializable {
         this.UserAccount = UserAccount;
         this.UserSex = UserSex;
         this.UserAge = UserAge;
+    }
+
+    public Integer getUserID() {
+        return UserID;
+    }
+
+    public void setUserID(Integer userID) {
+        UserID = userID;
     }
 
     public String getUserAccount() {

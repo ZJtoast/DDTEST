@@ -77,28 +77,41 @@
         android:rowCount="1">
 
         <ImageButton
+            android:id="@+id/wait_pay"
+
             android:layout_height="match_parent"
             android:layout_columnWeight="3"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="10dp" />
+            android:layout_marginRight="10dp"
+            android:background="#F1F1F1"
+            android:src="@drawable/wait_pay" />
 
         <ImageButton
+            android:id="@+id/wait_deliver"
             android:layout_height="match_parent"
             android:layout_columnWeight="3"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp" />
+            android:layout_marginRight="10dp"
+            android:background="#F1F1F1"
+            android:src="@drawable/wait_deliver" />
 
         <ImageButton
+            android:id="@+id/wait_receive"
             android:layout_height="match_parent"
             android:layout_columnWeight="3"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp" />
+            android:layout_marginRight="10dp"
+            android:background="#F1F1F1"
+            android:src="@drawable/wait_receive" />
 
         <ImageButton
+            android:id="@+id/wait_comment"
             android:layout_height="match_parent"
             android:layout_columnWeight="3"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="20dp" />
+            android:layout_marginRight="20dp"
+            android:background="#F1F1F1"
+            android:src="@drawable/wait_comment" />
 
     </GridLayout>
 

@@ -114,18 +114,18 @@ public class LoginActivity extends Activity {
                     //发送登录请求
                     String url = PropertiesUtils.getUrl(mContext);
                     responseJson = OkhttpUtils.doPost(url + "/users/login", userJson);
-                    Log.i(TAG, "登录请求响应json:" + responseJson);
 
                     Result<Token> response = JSONObject.parseObject(responseJson, new TypeReference<Result<Token>>() {
                     });
-
+                    Token tok = response.getData();
+                    TokenContextUtils.setToken(tok.getToken());
                     Log.i(TAG, "登录请求响应解析数据:" + responseJson);
                     Integer code = response.getCode();
                     if (response != null) {
                         //登录成功
                         if (code == 200) {
                             //发送请求获取当前用户名对应的简介
-                            responseJson = OkhttpUtils.doGet(url + "/users/getDescription/" + userName);
+                            responseJson = OkhttpUtils.doGet(url + "/users/getDescription/" + userName, TokenContextUtils.getToken());
                             Log.i(TAG, "获取描述请求响应json:" + responseJson);
                             Result<User> responseS = JSONObject.parseObject(responseJson, new TypeReference<Result<User>>() {
                             });
@@ -139,7 +139,7 @@ public class LoginActivity extends Activity {
                             intent.putExtra("user", userRes);
                             intent.putExtra("token", response.getData());
 
-                            Token token =response.getData();
+                            Token token = response.getData();
                             TokenContextUtils.setToken(token.getToken());
 
                             //intent.putExtra("userId", userId);
