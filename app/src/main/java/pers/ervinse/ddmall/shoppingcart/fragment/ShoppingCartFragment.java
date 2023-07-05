@@ -56,15 +56,16 @@ public class ShoppingCartFragment extends BaseFragment {
     public View initView() {
         Log.i(TAG, "购物车视图被初始化了");
 
-        View view = View.inflate(mContext, R.layout.fragment_shopping_cart, null);
-        cart_total_tv = view.findViewById(R.id.cart_total_tv);
-        cart_check_all_checkbox = view.findViewById(R.id.cart_check_all_checkbox);
-        cart_delete_all_checkbox = view.findViewById(R.id.cart_delete_all_checkbox);
-        View viewById = view.findViewById(R.id.cart_item_price_tv);
-        cart_item_rv = view.findViewById(R.id.cart_item_rv);
+        View view = View.inflate(mContext, R.layout.fragment_shopping_cart, null);//加载购物车碎片的布局
+        cart_total_tv = view.findViewById(R.id.cart_total_tv);//总价
+        cart_check_all_checkbox = view.findViewById(R.id.cart_check_all_checkbox);//全选
+        cart_delete_all_checkbox = view.findViewById(R.id.cart_delete_all_checkbox);//全不选
+        View viewById = view.findViewById(R.id.cart_item_price_tv);//商品价格
+        cart_item_rv = view.findViewById(R.id.cart_item_rv);//待添入商品的列表
 
-        cart_settle_btn = view.findViewById(R.id.cart_settle_btn);
+        cart_settle_btn = view.findViewById(R.id.cart_settle_btn);//结算按钮
 
+        //给结算按钮绑定事件
         cart_settle_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,31 +73,45 @@ public class ShoppingCartFragment extends BaseFragment {
                 DecimalFormat decimalFormat = new DecimalFormat("#.00");
                 String totalPrice = decimalFormat.format(adapter.getTotalPrice());
                 if (!totalPrice.equals(".00")) {
-
+                    // 检查totalPrice是否不等于".00"，即判断是否有有效的商品总价
                     AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
+                            // 创建一个AlertDialog.Builder对象，并传入当前的上下文（mContext）
                             .setTitle("完成结算")
+                            // 设置对话框的标题为"完成结算"
                             .setMessage("商品总计:" + totalPrice + "元,是否完成结算?")
+                            // 设置对话框的消息内容，包括商品总计价格（totalPrice）
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
+                                    // 设置对话框的确定按钮，当用户点击确定时触发此处的代码   这里是结算的代码
+
+
+
+
                                     Toast.makeText(mContext, "完成商品购买,总计价格为:" + totalPrice + "元", Toast.LENGTH_SHORT).show();
+                                    // 显示一个短暂的Toast提示，显示完成商品购买的信息和总计价格
                                 }
                             })
+
                             .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-
+                                    // 设置对话框的取消按钮，当用户点击取消时触发此处的代码
+                                    // 在这里可以添加取消操作的逻辑代码
+                                    Toast.makeText(mContext, "取消成功",Toast.LENGTH_SHORT).show();
                                 }
                             });
+
+                    // 根据以上设置创建AlertDialog对象，但并没有显示对话框
                     //创建删除对话框并显示
                     AlertDialog alertDialog = builder.create();
                     alertDialog.show();
                 }
             }
-        });
+    });
 
         return view;
-    }
+}
 
     /**
      * 初始化数据
@@ -163,15 +178,15 @@ public class ShoppingCartFragment extends BaseFragment {
             @Override
             public void run() {
                 Log.i(TAG, "进入获取购物车商品线程");
-
-
                 Gson gson = new Gson();
                 String responseJson = null;
                 try {
                     //发送登录请求
                     String url = PropertiesUtils.getUrl(mContext);
-                    responseJson = OkhttpUtils.doGet(url + "/cart");
+                    responseJson = OkhttpUtils.doGet(url + "/cart");//发送一个HTTP GET请求，并将返回的响应结果赋值给responseJson变量。
                     Log.i(TAG, "获取购物车商品响应json:" + responseJson);
+                    //将responseJson字符串解析为一个List<Medicine>对象，并将其赋值给名为medicineList的变量。
+                    // gson.fromJson()方法使用泛型和TypeToken类来指定解析结果的类型。
                     medicineList = gson.fromJson(responseJson, new TypeToken<List<Medicine>>() {
                     }.getType());
                     Log.i(TAG, "获取购物车商品响应解析对象:" + medicineList);

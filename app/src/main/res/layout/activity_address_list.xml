@@ -10,7 +10,7 @@
         android:padding="10dp">
 
         <ImageButton
-            android:id="@+id/medicine_info_back_btn"
+            android:id="@+id/address_info_back_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/top_bar_left_back" />

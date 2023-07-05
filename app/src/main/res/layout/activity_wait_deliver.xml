@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="评价"
+            android:text="待发货"
             android:textColor="#564c4c"
             android:textSize="20sp" />
 
@@ -40,5 +40,7 @@
         android:layout_height="200dp"
         android:layout_marginTop="5dp"
         android:paddingLeft="35dp" />
+
+
 </LinearLayout>
 
