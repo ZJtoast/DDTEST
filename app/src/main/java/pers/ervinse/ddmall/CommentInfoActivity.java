@@ -1,6 +1,5 @@
 package pers.ervinse.ddmall;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.widget.ListView;
@@ -14,10 +13,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CommentInfo extends AppCompatActivity {
+public class CommentInfoActivity extends AppCompatActivity {
 
     private Context mContext;
     private ListView drug_lv;
+
     protected void onRestart() {
         super.onRestart();
         setAdapter();

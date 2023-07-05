@@ -37,7 +37,7 @@ public class MainActivity extends FragmentActivity {
         //加载底部按钮组
         bottom_btn_group = findViewById(R.id.bottom_btn_group);
         //设置底部按钮中的'首页'在打开应用时被选中
-
+        bottom_btn_group.check(R.id.home_bottom_btn);
         //初始化碎片
         initFragment();
 

@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center|bottom"
-                android:text="账号："
+                android:text="手机号："
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -42,7 +42,8 @@
                 android:id="@+id/register_login_id_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="请输入账号" />
+                android:hint="请输入手机号"
+                android:maxLines="1" />
         </LinearLayout>
 
         <LinearLayout
@@ -64,7 +65,8 @@
                 android:id="@+id/register_login_name_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="请输入用户名" />
+                android:hint="请输入用户名"
+                android:maxLines="1" />
         </LinearLayout>
 
         <LinearLayout
@@ -78,7 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center|bottom"
-                android:text="密码："
+                android:text="  密码 ："
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -86,7 +88,8 @@
                 android:id="@+id/register_login_password_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="请输入密码" />
+                android:hint="请输入密码"
+                android:maxLines="1" />
         </LinearLayout>
 
         <LinearLayout
@@ -100,7 +103,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center|bottom"
-                android:text="简介："
+                android:text="  简介 ："
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -108,8 +111,79 @@
                 android:id="@+id/register_login_desc_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="请输入简介" />
+                android:hint="请输入简介"
+                android:maxLines="1" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:background="@color/white"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|bottom"
+                    android:text="  年龄 ："
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/register_login_age_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="请输入年龄"
+                    android:maxLines="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="5"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="  性别 ："
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <RadioGroup
+                    android:id="@+id/sex_select"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/male_select_btn"
+                        android:layout_width="30dp"
+                        android:layout_height="20dp"
+                        android:layout_weight="1"
+                        android:text="男" />
+
+                    <RadioButton
+                        android:id="@+id/female_select_btn"
+                        android:layout_width="30dp"
+                        android:layout_height="20dp"
+                        android:layout_weight="1"
+                        android:text="女" />
+                </RadioGroup>
+            </LinearLayout>
+
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"

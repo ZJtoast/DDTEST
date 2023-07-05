@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,10 +23,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import pers.ervinse.ddmall.domain.Medicine;
-import pers.ervinse.ddmall.domain.UserResponse;
 import pers.ervinse.ddmall.utils.OkhttpUtils;
 import pers.ervinse.ddmall.utils.PropertiesUtils;
 
@@ -114,7 +111,7 @@ public class MedicineInfoActivity extends Activity {
 
                         //获取当前商品信息
                         Medicine medicineForAdd = new Medicine();
-                        medicineForAdd.setName(medicine.getName());
+                        medicineForAdd.setCommodityName(medicine.getCommodityName());
                         String medicineJson = gson.toJson(medicineForAdd);
                         try {
                             //发送添加到购物车请求
@@ -161,14 +158,14 @@ public class MedicineInfoActivity extends Activity {
 
         //加载商品数据
         Intent intent = getIntent();
-        medicine = (Medicine) intent.getSerializableExtra("Medicines");
+        medicine = (Medicine) intent.getSerializableExtra("medicine");
 
-        medicine_name_tv.setText(medicine.getName());
-        medicine_price_tv.setText(String.valueOf(medicine.getPrice()));
-        medicine_description_tv.setText(medicine.getDescription());
-        medicine_location_tv.setText(medicine.getLocation());
+        medicine_name_tv.setText(medicine.getCommodityName());
+        medicine_price_tv.setText(String.valueOf(medicine.getCommodityPrice()));
+        medicine_description_tv.setText(medicine.getCommodityDesc());
+        medicine_location_tv.setText(medicine.getMerchantLocation());
 
-        int id = mContext.getResources().getIdentifier(medicine.getImage(), "drawable", mContext.getPackageName());
+        int id = mContext.getResources().getIdentifier(medicine.getCommodityID().toString(), "drawable", mContext.getPackageName());
         medicine_image.setImageResource(id);
 
     }

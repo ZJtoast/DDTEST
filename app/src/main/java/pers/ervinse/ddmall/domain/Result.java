@@ -1,66 +1,59 @@
 package pers.ervinse.ddmall.domain;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 
-/**
- * 前后端数据协议类
- * 每次请求返回一个R对象
- */
-public class Result {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-    //当前请求是否正常执行
-    private Boolean flag;
-    //返回的查询数据
-    private Object data;
-    //是否抛出异常
-    private Boolean errorFlag;
+public class Result<T> implements Response {
+    private Integer code;
+    private String message;
+    private T data;
 
-    //执行操作的返回对象
-    public Result(Boolean flag) {
-        this.flag = flag;
+    Result() {
     }
 
-    //查询的返回对象
-    public Result(Boolean flag, Object data) {
-        this.flag = flag;
+    Result(Integer code, String message, T data) {
+        this.code = code;
+        this.message = message;
         this.data = data;
     }
 
-    //抛出异常的返回对象
-    public Result(Boolean flag, Boolean errorFlag) {
-        this.flag = flag;
-        this.errorFlag = errorFlag;
+    /**
+     * 将上述的Json串转化为对象
+     */
+    public static <V> Result<V> parseResultValue(String json) {
+        return JSONObject.parseObject(json, new TypeReference<Result<V>>() {
+        });
     }
 
-    public Boolean getFlag() {
-        return flag;
+    public Integer getCode() {
+        return code;
     }
 
-    public void setFlag(Boolean flag) {
-        this.flag = flag;
+    public void setCode(Integer code) {
+        this.code = code;
     }
 
-    public Object getData() {
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public T getData() {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(T data) {
         this.data = data;
     }
+    //应当以如下代码进行嵌套数据传输
+    //  Result<List<Medicine>> medicineResponse = JSONObject.parseObject(responseJson, new TypeReference<Result<List<Medicine>>>() {
+    //                    });
 
-    public Boolean getErrorFlag() {
-        return errorFlag;
-    }
-
-    public void setErrorFlag(Boolean errorFlag) {
-        this.errorFlag = errorFlag;
-    }
-
-    @Override
-    public String toString() {
-        return "Result{" +
-                "flag=" + flag +
-                ", data=" + data +
-                ", errorFlag=" + errorFlag +
-                '}';
-    }
 }

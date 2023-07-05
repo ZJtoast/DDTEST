@@ -13,14 +13,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.google.gson.Gson;
 
 import java.io.IOException;
 
 import pers.ervinse.ddmall.domain.Result;
+import pers.ervinse.ddmall.domain.Token;
 import pers.ervinse.ddmall.domain.User;
-import pers.ervinse.ddmall.R;
-import pers.ervinse.ddmall.domain.UserResponse;
 import pers.ervinse.ddmall.utils.OkhttpUtils;
 import pers.ervinse.ddmall.utils.PropertiesUtils;
 
@@ -38,7 +40,8 @@ public class LoginActivity extends Activity {
     private EditText login_name_et, login_password_et;
     private Button user_register_btn, login_btn;
 
-    private String userName, userPassword, userDesc;
+    private String userName, userPassword;
+    private String userDesc, userExtendInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,40 +104,41 @@ public class LoginActivity extends Activity {
                 Log.i(TAG, "进入请求登录线程");
 
 
-                Gson gson = new Gson();
-                User user = new User(userName, userPassword);
-                String userJson = gson.toJson(user);
+                User user = new User(userName, userPassword);//userName这里对应UserAccount
+                String userJson = JSON.toJSONString(user);
                 Log.i(TAG, "登录请求json:" + userJson);
                 String responseJson = null;
 
-                Result result = null;
                 try {
                     //发送登录请求
                     String url = PropertiesUtils.getUrl(mContext);
                     responseJson = OkhttpUtils.doPost(url + "/users/login", userJson);
                     Log.i(TAG, "登录请求响应json:" + responseJson);
-                    UserResponse<Boolean> response = gson.fromJson(responseJson, UserResponse.class);
+
+                    Result<Token> response = JSONObject.parseObject(responseJson, new TypeReference<Result<Token>>() {
+                    });
+
                     Log.i(TAG, "登录请求响应解析数据:" + responseJson);
-                    Boolean rd = response.getData();
+                    Integer code = response.getCode();
                     if (response != null) {
                         //登录成功
-                        if (response.getCode() == 200 && rd) {
+                        if (code == 200) {
                             //发送请求获取当前用户名对应的简介
                             responseJson = OkhttpUtils.doGet(url + "/users/getDescription/" + userName);
                             Log.i(TAG, "获取描述请求响应json:" + responseJson);
-                            UserResponse<String> responseS = gson.fromJson(responseJson, UserResponse.class);
-                            userDesc = responseS.getData();
-                            Log.i(TAG, "获取描述请求响应解析数据:" + userDesc);
+                            Result<User> responseS = JSONObject.parseObject(responseJson, new TypeReference<Result<User>>() {
+                            });
+                            User userRes = responseS.getData();
+
+                            Log.i(TAG, "获取描述请求响应解析数据:" + userRes);
                             //回传用户名和简介
 
 
                             Intent intent = new Intent();
-                            intent.putExtra("userName", userName);
-                            intent.putExtra("userDesc", userDesc);
+                            intent.putExtra("user", userRes);
+                            intent.putExtra("token", response.getData());
                             //intent.putExtra("userId", userId);
                             //设置数据状态
-
-
                             setResult(RESULT_OK, intent);
                             //销毁当前方法
 
@@ -174,13 +178,14 @@ public class LoginActivity extends Activity {
                 //判断返回当数据是否正常（判断是否是resultCode == RESULT_OK）
                 if (resultCode == RESULT_OK) {
                     //获取数据并打印
-                    userName = data.getStringExtra("userId");
-                    userPassword = data.getStringExtra("userPassword");
-                    userDesc = data.getStringExtra("userDesc");
+                    User user = (User) data.getSerializableExtra("user");
+                    userName = user.getUserName();
+                    userPassword = user.getUserPassword();
+                    userExtendInfo = user.getUserExtendInfo();
                     Log.i(TAG, "用户注册数据回传: " +
                             "userName = " + userName +
                             ",userPassword = " + userPassword +
-                            ",userDesc = " + userDesc);
+                            ",userDesc = " + userExtendInfo);
                     //注册完自动登录
                     login();
                 }

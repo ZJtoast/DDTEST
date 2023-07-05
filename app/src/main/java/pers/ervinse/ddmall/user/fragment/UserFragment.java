@@ -18,6 +18,8 @@ import pers.ervinse.ddmall.LoginActivity;
 import pers.ervinse.ddmall.MedicineInfoActivity;
 import pers.ervinse.ddmall.R;
 import pers.ervinse.ddmall.domain.Medicine;
+import pers.ervinse.ddmall.domain.Token;
+import pers.ervinse.ddmall.domain.User;
 
 public class UserFragment extends BaseFragment {
 
@@ -31,6 +33,7 @@ public class UserFragment extends BaseFragment {
     private TextView user_desc_tv;
     private TextView user_id_tv, user_name_tv;
     private Button user_logout_btn;
+    private Token token;
     private View user_bar;
 
 
@@ -66,7 +69,7 @@ public class UserFragment extends BaseFragment {
     private void initListener() {
         user_desc_tv.setOnClickListener((view) -> {
             Intent intent = new Intent(mContext, MedicineInfoActivity.class);
-            Medicine medicine = new Medicine("999感冒灵", "这个药太棒了", "广东", "item_example", 1, 1, true);
+            Medicine medicine = new Medicine(true, "999感冒灵", "这个药太棒了", "广东", "item_example", 11, 1, 1, 2);
             intent.putExtra("Medicines", medicine);
             startActivityForResult(intent, LOGIN_REQUEST_CODE);
         });
@@ -142,12 +145,15 @@ public class UserFragment extends BaseFragment {
                 if (resultCode == RESULT_OK) {
                     isLogin = true;
                     //获取数据并打印
-                    String userName = data.getStringExtra("userName");
-                    String userDesc = data.getStringExtra("userDesc");
+                    User userInfo = (User) data.getSerializableExtra("user");
+                    String userName = userInfo.getUserName();
+                    String userDesc = userInfo.getUserSex() + "   " + userInfo.getUserAge().toString() + "岁";
+                    String userId = userInfo.getUserAccount();
                     Log.i(TAG, "用户登录数据回传: userName = " + userName
                             + ",userDesc = " + userDesc);
-
+                    token = (Token) data.getSerializableExtra("token");
                     user_name_tv.setText(userName);
+                    user_id_tv.setText(userId);
                     user_desc_tv.setVisibility(View.VISIBLE);
                     user_desc_tv.setText("用户信息:" + userDesc);
                 }

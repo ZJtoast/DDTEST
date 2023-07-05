@@ -10,17 +10,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 
 import java.io.IOException;
 
+import pers.ervinse.ddmall.domain.Result;
 import pers.ervinse.ddmall.domain.User;
-import pers.ervinse.ddmall.domain.UserResponse;
 import pers.ervinse.ddmall.utils.OkhttpUtils;
 import pers.ervinse.ddmall.utils.PropertiesUtils;
-import pers.ervinse.ddmall.R;
 
 /**
  * 注册页面
@@ -30,10 +31,13 @@ public class RegisterActivity extends Activity {
     private static final String TAG = RegisterActivity.class.getSimpleName();
     private Context mContext;
 
-    private EditText register_login_name_et, register_login_password_et,register_login_desc_et,register_login_id_et;
+    private EditText register_login_name_et, register_login_password_et, register_login_desc_et, register_login_id_et, register_login_age_et;
     private Button register_btn;
+    private RadioGroup sex_select;
+    private RadioButton male_btn, female_btn;
 
-    private String userName,userPassword, userDesc,userId;
+    private String userName, userPassword, userExtendInfo, userId, userSex;
+    private Integer userAge;
 
 
     @Override
@@ -47,13 +51,30 @@ public class RegisterActivity extends Activity {
         register_login_desc_et = findViewById(R.id.register_login_desc_et);
         register_btn = findViewById(R.id.register_btn);
         register_login_id_et = findViewById(R.id.register_login_id_et);
+
+        register_login_age_et = findViewById(R.id.register_login_age_et);
+        sex_select = findViewById(R.id.sex_select);
+        male_btn = findViewById(R.id.male_select_btn);
+        female_btn = findViewById(R.id.female_select_btn);
+
         initListener();
     }
 
     /**
      * 初始化监听器
      */
-    private void initListener(){
+    private void initListener() {
+        sex_select.setOnCheckedChangeListener((e, v) -> {
+            switch (v) {
+                case R.id.male_select_btn:
+                    userSex = "男性";
+                    break;
+                case R.id.female_select_btn:
+                    userSex = "女性";
+                    break;
+            }
+
+        });
 
         //注册按钮监听事件
         register_btn.setOnClickListener(new View.OnClickListener() {
@@ -63,15 +84,27 @@ public class RegisterActivity extends Activity {
 
                 userName = register_login_name_et.getText().toString();
                 userPassword = register_login_password_et.getText().toString();
-                userDesc = register_login_desc_et.getText().toString();
-                userId=register_login_id_et.getText().toString();
+                userExtendInfo = register_login_desc_et.getText().toString();
+                userId = register_login_id_et.getText().toString();
+
+                String age = register_login_age_et.getText().toString();
+                try {
+                    userAge = Integer.parseInt(age);
+                } catch (NumberFormatException nfe) {
+                    Log.i(TAG, "用户输入不合法的年龄信息");
+                    register_login_age_et.setText("请输入年龄");
+                    Looper.prepare();
+                    Toast.makeText(mContext, "登录失败,用户名或密码错误", Toast.LENGTH_SHORT).show();
+                    Looper.loop();
+                }
+
                 new Thread() {
                     @Override
                     public void run() {
                         Log.d(TAG, "进入注册请求线程");
 
                         Gson gson = new Gson();
-                        User user = new User(userId,userName, userPassword,userDesc);
+                        User user = new User(userId, userName, userPassword, userExtendInfo, userSex, userAge);
                         String userJson = gson.toJson(user);
                         Log.i(TAG, "注册请求请求json:" + userJson);
                         String responseJson = null;
@@ -80,32 +113,27 @@ public class RegisterActivity extends Activity {
                             String url = PropertiesUtils.getUrl(mContext);
                             responseJson = OkhttpUtils.doPost(url + "/users/register", userJson);
                             Log.i(TAG, "注册请求响应json:" + responseJson);
-                            UserResponse<Double> response=gson.fromJson(responseJson, UserResponse.class);
+                            Result<Double> response = gson.fromJson(responseJson, Result.class);
                             Log.i(TAG, "注册请求响应解析对象:" + response);
-                            if (response != null){
+                            if (response != null) {
                                 //注册成功
-                                if (response.getCode()==200&&response.getData()==1.0){
+                                if (response.getCode() == 200 && response.getData() == 1.0) {
                                     Log.d(TAG, "注册请求成功");
                                     //将新注册的用户数据回传到登录页面
                                     Intent intent = new Intent();
-                                    intent.putExtra("userId", userId);
-                                    intent.putExtra("userPassword", userPassword);
-                                    intent.putExtra("userDesc", userDesc);
+                                    intent.putExtra("user", user);
                                     //设置数据状态
-                                    setResult(RESULT_OK,intent);
+                                    setResult(RESULT_OK, intent);
                                     //销毁当前方法
                                     finish();
 
-                                }else if(response.getCode()==201)
-                                {
+                                } else if (response.getCode() == 201) {
                                     //注册失败
                                     //子线程中准备Toast
                                     Looper.prepare();
                                     Toast.makeText(RegisterActivity.this, "注册失败！", Toast.LENGTH_SHORT).show();
                                     Looper.loop();
-                                }
-                                else
-                                {
+                                } else {
                                     //注册失败
                                     //子线程中准备Toast
                                     Looper.prepare();

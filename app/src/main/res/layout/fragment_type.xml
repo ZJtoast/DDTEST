@@ -5,7 +5,7 @@
     android:background="#fff"
     android:orientation="vertical">
 
-    <!--购物车标题栏-->
+    <!--TYPE标题栏-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
             android:layout_centerInParent="true"
             android:layout_marginLeft="30dp"
             android:layout_weight="1"
-            android:text="全部商品"
+            android:text="分类"
             android:textColor="#303235"
             android:textSize="20sp" />
     </RelativeLayout>
@@ -29,10 +29,81 @@
         android:layout_height="5dp"
         android:background="#eeee" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_type"
-        android:layout_width="411dp"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="0dp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#E8E6E6">
+
+        <RadioGroup
+            android:id="@+id/type_group"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="14dp"
+            android:background="#FFFFFF">
+
+            <RadioButton
+                android:id="@+id/medicine_chinese"
+                style="@style/TypeButtonStyle"
+                android:text="中药" />
+
+            <RadioButton
+                android:id="@+id/medicine_antipyretic"
+                style="@style/TypeButtonStyle"
+                android:text="解热镇痛" />
+
+            <RadioButton
+                android:id="@+id/medicine_vessel"
+                style="@style/TypeButtonStyle"
+                android:text="心脑血管" />
+
+            <RadioButton
+                android:id="@+id/medicine_respiratory"
+                style="@style/TypeButtonStyle"
+                android:text="抗菌消炎" />
+
+            <RadioButton
+                android:id="@+id/medicine_anticold"
+                style="@style/TypeButtonStyle"
+                android:text="抗感冒类" />
+
+            <RadioButton
+                android:id="@+id/medicine_children"
+                style="@style/TypeButtonStyle"
+                android:text="儿科用药" />
+
+            <RadioButton
+                android:id="@+id/medicine_skin"
+                style="@style/TypeButtonStyle"
+                android:text="皮肤外用" />
+
+            <RadioButton
+                android:id="@+id/medicine_stomach"
+                style="@style/TypeButtonStyle"
+                android:text="肠胃用药" />
+
+            <RadioButton
+                android:id="@+id/medicine_nutrition"
+                style="@style/TypeButtonStyle"
+                android:text="营养保健" />
+
+            <RadioButton
+                android:id="@+id/medicine_instrument"
+                style="@style/TypeButtonStyle"
+                android:text="医疗机械" />
+        </RadioGroup>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_type"
+            android:layout_width="288dp"
+            android:layout_height="672dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@+id/type_group"
+            android:background="#FFFFFF" />
+    </RelativeLayout>
+
 
 </LinearLayout>

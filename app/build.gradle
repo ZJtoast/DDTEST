@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "pers.ervinse.ddmall"
-        minSdk 21
+        minSdk 26
         targetSdk 32
         versionCode 1
         versionName "1.0"
@@ -51,10 +51,10 @@ dependencies {
     implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.9.1'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.3'
     implementation 'com.google.code.gson:gson:2.7'
+    implementation 'com.alibaba:fastjson:1.2.76'
 
-
-    compileOnly 'org.projectlombok:lombok:1.18.6'
-    annotationProcessor 'org.projectlombok:lombok:1.18.6'
+    compileOnly 'org.projectlombok:lombok:1.18.28'
+    annotationProcessor 'org.projectlombok:lombok:1.18.28'
 }
 
 

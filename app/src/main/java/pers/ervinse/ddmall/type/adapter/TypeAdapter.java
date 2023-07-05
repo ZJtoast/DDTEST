@@ -72,11 +72,11 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeAdapter.TypeViewHolder
     @Override
     public void onBindViewHolder(@NonNull TypeViewHolder holder, int position) {
 
-        holder.item_name_tv.setText(medicineList.get(position).getName());
-        holder.item_description_tv.setText(medicineList.get(position).getDescription());
-        holder.item_price_tv.setText("￥" + medicineList.get(position).getPrice());
+        holder.item_name_tv.setText(medicineList.get(position).getCommodityName());
+        holder.item_description_tv.setText(medicineList.get(position).getCommodityDesc());
+        holder.item_price_tv.setText("￥" + medicineList.get(position).getCommodityPrice());
         //通过图片名字获取图片资源的id
-        int id = mContext.getResources().getIdentifier(medicineList.get(position).getImage(), "drawable", mContext.getPackageName());
+        int id = mContext.getResources().getIdentifier(medicineList.get(position).getCommodityID().toString(), "drawable", mContext.getPackageName());
         holder.item_image.setImageResource(id);
     }
 
@@ -133,7 +133,7 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeAdapter.TypeViewHolder
                             //获取当前商品名
                             Medicine medicineByClick = medicineList.get(getLayoutPosition());
                             Medicine medicineForAdd = new Medicine();
-                            medicineForAdd.setName(medicineByClick.getName());
+                            medicineForAdd.setCommodityName(medicineByClick.getCommodityName());
                             String medicineJson = gson.toJson(medicineForAdd);
                             try {
                                 //发送添加购购物车请求

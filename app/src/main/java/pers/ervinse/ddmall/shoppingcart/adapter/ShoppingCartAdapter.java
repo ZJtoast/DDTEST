@@ -114,7 +114,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
                 //1.根据位置找到对应的medicine对象
                 Medicine medicine = medicineList.get(position);
                 //2.设置取反状态
-                medicine.setSelected(!medicine.getSelected());
+                medicine.setIsSelected(!medicine.getIsSelected());
                 System.out.println(medicine);
                 //3.刷新状态
                 notifyItemChanged(position);
@@ -194,7 +194,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
         if (medicineList != null && medicineList.size() > 0) {
             for (int i = 0; i < medicineList.size(); i++) {
                 Medicine medicine = medicineList.get(i);
-                medicine.setSelected(isCheck);
+                medicine.setIsSelected(isCheck);
                 notifyItemChanged(i);
             }
         }
@@ -225,7 +225,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
                 Medicine medicine = medicineList.get(i);
                 if (medicine.isSelected) {
 
-                    totalPrice = totalPrice + Double.valueOf(medicine.getNumber()) * Double.valueOf(medicine.getPrice());
+                    totalPrice = totalPrice + Double.valueOf(medicine.getCommodityName()) * Double.valueOf(medicine.getCommodityPrice());
                 }
             }
         }
@@ -256,12 +256,12 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
     @Override
     public void onBindViewHolder(@NonNull ShoppingCartAdapter.ViewHolder holder, int position) {
         Medicine medicine = medicineList.get(position);
-        holder.cart_item_description_tv.setText(medicine.getName() + "  " + medicine.getDescription());
-        holder.cart_item_price_tv.setText("￥" + String.valueOf(medicineList.get(position).getPrice()));
-        holder.cart_item_check_checkbox.setChecked(medicineList.get(position).getSelected());
-        holder.cart_item_value_tv.setText("" + medicineList.get(position).getNumber());
+        holder.cart_item_description_tv.setText(medicine.getCommodityName() + "  " + medicine.getCommodityDesc());
+        holder.cart_item_price_tv.setText("￥" + String.valueOf(medicineList.get(position).getCommodityPrice()));
+        holder.cart_item_check_checkbox.setChecked(medicineList.get(position).getIsSelected());
+        holder.cart_item_value_tv.setText("" + medicineList.get(position).getCommodityPurchaseNumber().toString());
         //通过图片名字获取图片资源的id
-        int id = mContext.getResources().getIdentifier(medicineList.get(position).getImage(), "drawable", mContext.getPackageName());
+        int id = mContext.getResources().getIdentifier(medicineList.get(position).getCommodityID().toString(), "drawable", mContext.getPackageName());
         holder.cart_item_image.setImageResource(id);
     }
 
@@ -316,11 +316,11 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
                     //从数据集合中获取对应的商品
                     Medicine medicine = medicineList.get(getLayoutPosition());
                     //获取该商品减少之前的数量
-                    int number = medicine.getNumber();
+                    Integer number = medicine.getCommodityPurchaseNumber();
                     //调用submedicineNum()方法,根据规则修改数据,返回修改之后的数据
                     int numberBySub = submedicineNum(number);
                     //将修改之后的数据记录该商品中
-                    medicine.setNumber(numberBySub);
+                    medicine.setCommodityPurchaseNumber(numberBySub);
                     //页面上显示修改后的数量
                     cart_item_value_tv.setText(numberBySub + "");
                     //根据数量重新计算总价,并刷新总价页面
@@ -336,11 +336,11 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
                     //从数据集合中获取对应的商品
                     Medicine medicine = medicineList.get(getLayoutPosition());
                     //获取该商品增加之前的数量
-                    int number = medicine.getNumber();
+                    Integer number = medicine.getCommodityPurchaseNumber();
                     //调用addmedicineNum()方法,根据规则修改数据,返回修改之后的数据
-                    int numberByAdd = addmedicineNum(number);
+                    Integer numberByAdd = addmedicineNum(number);
                     //将修改之后的数据记录该商品中
-                    medicine.setNumber(numberByAdd);
+                    medicine.setCommodityPurchaseNumber(numberByAdd);
                     //页面上显示修改后的数量
                     cart_item_value_tv.setText(numberByAdd + "");
                     //根据数量重新计算总价,并刷新总价页面
@@ -380,7 +380,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
                                             String responseJson = null;
                                             //获取要删除的商品名
                                             Medicine medicineForAdd = new Medicine();
-                                            medicineForAdd.setName(medicineList.get(getLayoutPosition()).getName());
+                                            medicineForAdd.setCommodityName(medicineList.get(getLayoutPosition()).getCommodityName());
                                             String medicineJson = gson.toJson(medicineForAdd);
                                             try {
                                                 //发送删除请求

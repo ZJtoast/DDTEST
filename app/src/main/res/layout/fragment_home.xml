@@ -18,7 +18,7 @@
         android:paddingHorizontal="10dp">
 
         <RadioButton
-            android:id="@+id/category_cold_btn"
+            android:id="@+id/category_house_btn"
             style="@style/HomeCategoryButtonStyle"
             android:layout_height="115dp"
             android:layout_margin="10px"
@@ -27,7 +27,7 @@
             android:textStyle="bold" />
 
         <RadioButton
-            android:id="@+id/category_fruit_btn"
+            android:id="@+id/category_spec_btn"
             style="@style/HomeCategoryButtonStyle"
             android:layout_height="115dp"
             android:layout_margin="10px"
@@ -36,7 +36,7 @@
             android:textStyle="bold" />
 
         <RadioButton
-            android:id="@+id/category_meat_btn"
+            android:id="@+id/category_nutri_btn"
             style="@style/HomeCategoryButtonStyle"
             android:layout_height="115dp"
             android:layout_margin="10px"
@@ -45,7 +45,7 @@
             android:textStyle="bold" />
 
         <RadioButton
-            android:id="@+id/category_wine_btn"
+            android:id="@+id/category_equip_btn"
             style="@style/HomeCategoryButtonStyle"
             android:layout_height="115dp"
             android:layout_margin="10px"

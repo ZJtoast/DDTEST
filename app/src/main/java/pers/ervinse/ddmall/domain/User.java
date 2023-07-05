@@ -1,64 +1,85 @@
 package pers.ervinse.ddmall.domain;
 
 
-public class User {
+import java.io.Serializable;
 
-    private String name, password, description,uid;
+public class User implements Serializable {
+
+    private String UserName, UserPassword, UserExtendInfo, UserAccount, UserSex;
+    private Integer UserAge;
 
     public User() {
+
     }
 
-    public User(String uid, String password) {
-        this.uid = uid;
-        this.password = password;
+    public User(String UserAccount, String UserName, String UserPassword) {
+        this.UserAccount = UserAccount;
+        this.UserName = UserName;
+        this.UserPassword = UserPassword;
     }
 
-    public String getUid() {
-        return uid;
+    public User(String UserAccount, String UserPassword) {
+        this.UserAccount = UserAccount;
+        this.UserName = UserName;
+        this.UserPassword = UserPassword;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    public User(String UserAccount, String UserName, String UserPassword, String UserExtendInfo, String UserSex, Integer UserAge) {
+        this.UserName = UserName;
+        this.UserPassword = UserPassword;
+        this.UserExtendInfo = UserExtendInfo;
+        this.UserAccount = UserAccount;
+        this.UserSex = UserSex;
+        this.UserAge = UserAge;
     }
 
-    public User(String uid,String name, String password, String description) {
-        this.name = name;
-        this.password = password;
-        this.description = description;
-        this.uid=uid;
+    public String getUserAccount() {
+        return UserAccount;
     }
 
-    public String getName() {
-        return name;
+    public void setUserAccount(String UserAccount) {
+        this.UserAccount = UserAccount;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getUserName() {
+        return UserName;
     }
 
-    public String getPassword() {
-        return password;
+    public void setUserName(String UserName) {
+        this.UserName = UserName;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public String getUserSex() {
+        return UserSex;
     }
 
-    public String getDescription() {
-        return description;
+    public Integer getUserAge() {
+        return UserAge;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public String getUserPassword() {
+        return UserPassword;
+    }
+
+    public void setUserPassword(String UserPassword) {
+        this.UserPassword = UserPassword;
+    }
+
+    public String getUserExtendInfo() {
+        return UserExtendInfo;
+    }
+
+    public void setUserExtendInfo(String UserExtendInfo) {
+        this.UserExtendInfo = UserExtendInfo;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "uid='" + uid + '\'' +
-                ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", description='" + description + '\'' +
+                "UserAccount='" + UserAccount + '\'' +
+                ", UserName='" + UserName + '\'' +
+                ", UserPassword='" + UserPassword + '\'' +
+                ", UserExtendInfo='" + UserExtendInfo + '\'' +
                 '}';
     }
 }
