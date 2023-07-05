@@ -37,10 +37,12 @@ public class MedicineInfoActivity extends Activity {
     private Medicine medicine;
     private Context mContext;
     //返回按钮,商品图片
-    private ImageView medicine_info_back_btn, medicine_image;
-    private TextView medicine_name_tv, medicine_price_tv, medicine_description_tv, medicine_location_tv;
+    private ImageView medicine_info_back_btn, medicine_image, cart_item_add_btn, cart_item_sub_btn;
+    private TextView medicine_name_tv, medicine_price_tv, medicine_description_tv, medicine_location_tv, cart_item_value_tv;
     //添加到购物车按钮
     private Button medicine_info_add_cart_btn;
+
+    private Integer number;
 
     @Override
     protected void onRestart() {
@@ -89,8 +91,15 @@ public class MedicineInfoActivity extends Activity {
         medicine_location_tv = findViewById(R.id.medicine_location_tv);
         medicine_info_add_cart_btn = findViewById(R.id.medicine_info_add_cart_btn);
         medicine_image = findViewById(R.id.medicine_image);
-
+        cart_item_value_tv = findViewById(R.id.cart_item_value_tv);
+        cart_item_add_btn = findViewById(R.id.cart_item_add_btn);
+        cart_item_sub_btn = findViewById(R.id.cart_item_sub_btn);
+        number = 1;
+        initListener();
         setAdapter();
+    }
+
+    private void initListener() {
         medicine_info_back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -145,6 +154,16 @@ public class MedicineInfoActivity extends Activity {
                     }
                 }.start();
             }
+        });
+
+        cart_item_add_btn.setOnClickListener(e -> {
+            number = number + 1;
+            cart_item_value_tv.setText(number.toString());
+        });
+        cart_item_sub_btn.setOnClickListener(e -> {
+            number = number - 1;
+            if (number <= 0) number = 0;
+            cart_item_value_tv.setText(number.toString());
         });
     }
 

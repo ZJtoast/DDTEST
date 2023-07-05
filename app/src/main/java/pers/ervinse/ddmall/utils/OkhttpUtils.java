@@ -65,6 +65,17 @@ public class OkhttpUtils {
         return resp.body().string();
     }
 
+    public static String doGet(String url, String token) throws IOException {
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        Call call = genericClient(token).newCall(request);
+        Response resp = call.execute();
+
+        return resp.body().string();
+    }
+
     public static void setImage(ImageView view, String pictureName, Context context) throws IOException {
         String TargetPath = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).toString();
         Bitmap bitmap = null;
