@@ -114,7 +114,7 @@ public class HomeFragment extends BaseFragment {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void run() {
-
+                
                 String responseJson = null;
 
                 for (Integer type : typelist) {
@@ -143,15 +143,15 @@ public class HomeFragment extends BaseFragment {
                     }
                 }
 
-//                freshInMain(medicineTypeList);
-//                for (Medicine medicine : medicineTypeList) {
-//                    String url = PropertiesUtils.getUrl(mContext);
-//                    try {
-//                        OkhttpUtils.doGet(url + "/" + medicine.getCommodityID(), medicine.getCommodityID().toString());
-//                    } catch (IOException e) {
-//                        Log.i(TAG, e.toString());
-//                    }
-//                }
+                freshInMain(medicineTypeList);
+                for (Medicine medicine : medicineTypeList) {
+                    String url = PropertiesUtils.getUrl(mContext);
+                    try {
+                        OkhttpUtils.doGet(url + "/medicines/MedicinePicture/" + medicine.getCommodityID(), medicine.getCommodityID().toString());
+                    } catch (IOException e) {
+                        Log.i(TAG, e.toString());
+                    }
+                }
                 //切回主线程调整布局
                 freshInMain(medicineTypeList);
             }

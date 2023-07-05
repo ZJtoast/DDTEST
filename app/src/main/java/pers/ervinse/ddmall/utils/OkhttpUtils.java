@@ -68,8 +68,11 @@ public class OkhttpUtils {
                 .build();
         Call call = okhttpclient.newCall(request);
         Response resp = call.execute();
+        Log.i("当前图片code获取", url);
         Result<Photo> medicineResponse = JSONObject.parseObject(resp.body().string(), new TypeReference<Result<Photo>>() {
         });
+        Log.i("当前图片code获取", medicineResponse.getCode().toString());
+        if (medicineResponse.getCode().equals(500)) return;
         byte[] data = medicineResponse.getData().getPhotoBytes().getBytes();
         //data = Base64.getDecoder().decode(data);
         Log.i("", medicineResponse.getData().toString());

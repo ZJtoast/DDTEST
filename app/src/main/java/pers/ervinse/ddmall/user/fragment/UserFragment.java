@@ -104,6 +104,7 @@ public class UserFragment extends BaseFragment {
                                 dialogInterface.dismiss();
                                 //用户名恢复,简介不可见
                                 isLogin = false;
+                                token = null;
                                 user_name_tv.setText("点击登录");
                                 user_desc_tv.setText("用户信息");
                             }

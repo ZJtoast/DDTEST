@@ -5,21 +5,28 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import pers.ervinse.ddmall.domain.Medicine;
 import pers.ervinse.ddmall.BaseFragment;
 import pers.ervinse.ddmall.R;
 import pers.ervinse.ddmall.domain.Medicine;
+import pers.ervinse.ddmall.domain.Result;
+import pers.ervinse.ddmall.home.adapter.HomeAdapter;
 import pers.ervinse.ddmall.type.adapter.TypeAdapter;
 import pers.ervinse.ddmall.utils.OkhttpUtils;
 import pers.ervinse.ddmall.utils.PropertiesUtils;
@@ -35,6 +42,10 @@ public class TypeFragment extends BaseFragment {
     private Handler handler = new Handler();
     private RecyclerView rv_type;
     private TypeAdapter adapter;
+    private Integer type = 0;
+
+    private RadioGroup typeGroup;
+    private RadioButton medicine_chinese, medicine_antipyretic, medicine_vessel, medicine_respiratory, medicine_anticold, medicine_children, medicine_skin, medicine_stomach, medicine_nutrition, medicine_instrument;
 
     /**
      * 初始化视图
@@ -47,7 +58,62 @@ public class TypeFragment extends BaseFragment {
         //为当前fragment加载布局文件
         View view = View.inflate(mContext, R.layout.fragment_type, null);
         rv_type = view.findViewById(R.id.rv_type);
+        typeGroup = view.findViewById(R.id.type_group);
+        medicine_chinese = view.findViewById(R.id.medicine_chinese);
+        medicine_antipyretic = view.findViewById(R.id.medicine_antipyretic);
+        medicine_vessel = view.findViewById(R.id.medicine_vessel);
+        medicine_respiratory = view.findViewById(R.id.medicine_respiratory);
+        medicine_anticold = view.findViewById(R.id.medicine_anticold);
+        medicine_children = view.findViewById(R.id.medicine_children);
+        medicine_skin = view.findViewById(R.id.medicine_skin);
+        medicine_stomach = view.findViewById(R.id.medicine_stomach);
+        medicine_nutrition = view.findViewById(R.id.medicine_nutrition);
+        medicine_instrument = view.findViewById(R.id.medicine_instrument);
+
+        initListener();
         return view;
+    }
+
+    public void initListener() {
+        typeGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                //判断当前被选中的按钮
+                switch (checkedId) {
+                    case R.id.medicine_chinese:
+                        type = 0;
+                        break;
+                    case R.id.medicine_antipyretic:
+                        type = 1;
+                        break;
+                    case R.id.medicine_vessel:
+                        type = 2;
+                        break;
+                    case R.id.medicine_respiratory:
+                        type = 3;
+                        break;
+                    case R.id.medicine_anticold:
+                        type = 4;
+                        break;
+                    case R.id.medicine_children:
+                        type = 5;
+                        break;
+                    case R.id.medicine_skin:
+                        type = 6;
+                        break;
+                    case R.id.medicine_stomach:
+                        type = 7;
+                        break;
+                    case R.id.medicine_nutrition:
+                        type = 8;
+                        break;
+                    case R.id.medicine_instrument:
+                        type = 9;
+                        break;
+                }
+                getDate();
+            }
+        });
     }
 
     /**
@@ -61,17 +127,16 @@ public class TypeFragment extends BaseFragment {
             @Override
             public void run() {
                 Log.i(TAG, "进入获取商品线程");
-
-                Gson gson = new Gson();
                 String responseJson = null;
                 try {
                     //发送获取商品请求
                     String url = PropertiesUtils.getUrl(mContext);
-                    responseJson = OkhttpUtils.doGet(url + "/medicine");
-                    Log.i(TAG, "获取商品响应json:" + responseJson);
-                    medicineList = gson.fromJson(responseJson, new TypeToken<List<Medicine>>() {
-                    }.getType());
-                    Log.i(TAG, "获取商品响应解析对象:" + medicineList);
+                    //提交查找请求
+                    responseJson = OkhttpUtils.doGet(url + "/medicines/type/" + type.toString());
+                    Result<List<Medicine>> medicineResponse = JSONObject.parseObject(responseJson, new TypeReference<Result<List<Medicine>>>() {
+                    });
+                    medicineList = medicineResponse.getData();
+                    Log.i(TAG, "获取商品响应解析对象:");
 
                     //获取商品商品成功
                     if (medicineList != null) {
@@ -101,39 +166,31 @@ public class TypeFragment extends BaseFragment {
         }.start();
     }
 
-    /**
-     * 刷新数据
-     */
-    @Override
-    public void refreshData() {
+    public void getDate() {
         Log.i(TAG, "联网刷新数据");
         new Thread() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void run() {
-                Log.i(TAG, "进入获取商品线程");
 
-                Gson gson = new Gson();
                 String responseJson = null;
 
                 try {
+                    Log.i(TAG, "进入获取商品类型线程,商品类型为" + type.toString());
                     //发送获取商品请求
                     String url = PropertiesUtils.getUrl(mContext);
-                    responseJson = OkhttpUtils.doGet(url + "/medicine");
-                    Log.i(TAG, "获取商品响应json:" + responseJson);
-                    medicineList = gson.fromJson(responseJson, new TypeToken<List<Medicine>>() {
-                    }.getType());
-                    Log.i(TAG, "获取商品响应解析对象:" + medicineList);
 
-                    //切回主线程更新视图
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            //更新数据
-                            adapter.setmedicineList(medicineList);
-                            //刷新视图
-                            adapter.flushView();
-                        }
+
+                    //提交查找请求
+                    responseJson = OkhttpUtils.doGet(url + "/medicines/type/" + type.toString());
+                    Result<List<Medicine>> medicineResponse = JSONObject.parseObject(responseJson, new TypeReference<Result<List<Medicine>>>() {
                     });
+                    Log.i(TAG, "获取热点响应解析对象:" + medicineResponse);
+                    //获取商品成功
+                    //接下来接收药品图片
+                    medicineList.addAll(medicineResponse.getData());
+                    Log.i(TAG, "获取商品响应json:" + responseJson);
+
                 } catch (IOException e) {
                     e.printStackTrace();
                     Looper.prepare();
@@ -141,13 +198,48 @@ public class TypeFragment extends BaseFragment {
                     Looper.loop();
 
                 }
+
+
+                freshInMain(medicineList);
+                for (Medicine medicine : medicineList) {
+                    String url = PropertiesUtils.getUrl(mContext);
+                    try {
+                        OkhttpUtils.doGet(url + "/medicines/MedicinePicture/" + medicine.getCommodityID(), medicine.getCommodityID().toString());
+                    } catch (IOException e) {
+                        Log.i(TAG, e.toString());
+                    }
+                }
+                //切回主线程调整布局
+                freshInMain(medicineList);
             }
         }.start();
     }
 
+    public void freshInMain(List<Medicine> list) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                //防止因为初始化未加载布局
+                if (adapter != null) {
+                    //更新数据适配器中商品数据
+                    adapter.setmedicineList(list);
+                    //刷新视图
+                    adapter.flushView();
+                }
+            }
+        });
+    }
+
+    /**
+     * 刷新数据
+     */
+    @Override
+    public void refreshData() {
+        getDate();
+    }
+
     @Override
     public void saveData() {
-
     }
 
 }
