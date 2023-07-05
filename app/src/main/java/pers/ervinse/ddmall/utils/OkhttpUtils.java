@@ -70,13 +70,13 @@ public class OkhttpUtils {
         Bitmap bitmap = null;
         FileInputStream fis = null;
         try {
-            fis = new FileInputStream(TargetPath + File.pathSeparator + pictureName + ".png");
+            fis = new FileInputStream(TargetPath + "/" + pictureName + ".png");
             bitmap = BitmapFactory.decodeStream(fis);
             view.setImageBitmap(bitmap);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            fis.close();
+            if (fis != null) fis.close();
         }
 
     }
@@ -104,18 +104,20 @@ public class OkhttpUtils {
 
         //获取目标目录
         String TargetPath = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).toString();
-        FileOutputStream fops = null;
+        FileOutputStream fos = null;
         try {
             // 本地目录
-            fops = new FileOutputStream(TargetPath + File.pathSeparator + pictureName + ".png");
+            fos = new FileOutputStream(TargetPath + "/" + pictureName + ".png");
 
-            bitmap.compress(Bitmap.CompressFormat.PNG, 80, fops);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 80, fos);
 
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            fops.flush();
-            fops.close();
+            if (fos != null) {
+                fos.flush();
+                fos.close();
+            }
         }
     }
 

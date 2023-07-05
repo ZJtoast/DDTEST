@@ -76,8 +76,11 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeAdapter.TypeViewHolder
         holder.item_description_tv.setText(medicineList.get(position).getCommodityDesc());
         holder.item_price_tv.setText("￥" + medicineList.get(position).getCommodityPrice());
         //通过图片名字获取图片资源的id
-        int id = mContext.getResources().getIdentifier(medicineList.get(position).getCommodityID().toString(), "drawable", mContext.getPackageName());
-        holder.item_image.setImageResource(id);
+        try {
+            OkhttpUtils.setImage(holder.item_image, medicineList.get(position).getCommodityID().toString(), mContext);
+        } catch (IOException e) {
+            Log.i("TAG", "图片传输错误");
+        }
     }
 
     @Override

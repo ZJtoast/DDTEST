@@ -139,7 +139,7 @@ public class HomeFragment extends BaseFragment {
 
                 }
             }
-            if (current.equals(this)) {
+            if (current.getName().equals(Thread.currentThread().getName())) {
                 freshInMain(medicines);
                 for (Medicine medicine : medicines) {
                     String url = PropertiesUtils.getUrl(mContext);
@@ -151,8 +151,8 @@ public class HomeFragment extends BaseFragment {
                 }
                 //切回主线程调整布局
                 freshInMain(medicines);
+                medicineList = medicines;
             }
-            medicineList = medicines;
         });
         current = dataThread;
         dataThread.start();
@@ -213,8 +213,7 @@ public class HomeFragment extends BaseFragment {
 
                 //接下来接收药品图片
                 Log.i(TAG, "获取商品图片解析对象:" + medicines.getClass());
-
-                if (medicines != null && current.equals(this)) {
+                if (current.getName().equals(Thread.currentThread().getName())) {
                     firstFresh(medicines);
 
                     for (Medicine medicine : medicines) {
@@ -246,8 +245,8 @@ public class HomeFragment extends BaseFragment {
     public void refreshData() {
         if (typelist == null) {
             typelist = new ArrayList<>();
-            typelist.add(2);
             typelist.add(1);
+            typelist.add(2);
             typelist.add(3);
             typelist.add(4);
         }

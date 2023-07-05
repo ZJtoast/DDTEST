@@ -136,7 +136,7 @@ public class TypeFragment extends BaseFragment {
                 medicines = medicineResponse.getData();
                 Log.i(TAG, "获取商品响应解析对象:");
 
-                if (medicines != null && current.equals(this)) {
+                if (current.getName().equals(Thread.currentThread().getName())) {
                     firstFresh(medicines);
 
                     for (Medicine medicine : medicines) {
@@ -190,7 +190,7 @@ public class TypeFragment extends BaseFragment {
                 Looper.loop();
 
             }
-            if (current.equals(this)) {
+            if (current.getName().equals(Thread.currentThread().getName())) {
                 freshInMain(medicines);
                 for (Medicine medicine : medicines) {
                     String url = PropertiesUtils.getUrl(mContext);
