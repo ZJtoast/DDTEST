@@ -50,6 +50,18 @@ public class OkhttpUtils {
         return httpClient;
     }
 
+    public static String doGetByToken(String url,String token) throws IOException {
+
+        Request request = new Request.Builder()
+                .url(url)
+                .header("token",token)
+                .build();
+        Call call = okhttpclient.newCall(request);
+        Response resp = call.execute();
+
+        return resp.body().string();
+    }
+
     public static String doGet(String url) throws IOException {
 
         Request request = new Request.Builder()

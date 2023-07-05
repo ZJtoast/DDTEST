@@ -23,12 +23,14 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.List;
 
+import okhttp3.OkHttpClient;
 import pers.ervinse.ddmall.BaseFragment;
 import pers.ervinse.ddmall.R;
 import pers.ervinse.ddmall.domain.Medicine;
 import pers.ervinse.ddmall.shoppingcart.adapter.ShoppingCartAdapter;
 import pers.ervinse.ddmall.utils.OkhttpUtils;
 import pers.ervinse.ddmall.utils.PropertiesUtils;
+import pers.ervinse.ddmall.utils.TokenContextUtils;
 
 /**
  * 购物车碎片
@@ -130,7 +132,9 @@ public class ShoppingCartFragment extends BaseFragment {
                 try {
                     //发送登录请求
                     String url = PropertiesUtils.getUrl(mContext);
-                    responseJson = OkhttpUtils.doGet(url + "/cart");
+
+                    responseJson= OkhttpUtils.doGetByToken(url + "/shoppingCart/list", TokenContextUtils.getToken());
+
                     Log.i(TAG, "获取购物车商品响应json:" + responseJson);
                     medicineList = gson.fromJson(responseJson, new TypeToken<List<Medicine>>() {
                     }.getType());
