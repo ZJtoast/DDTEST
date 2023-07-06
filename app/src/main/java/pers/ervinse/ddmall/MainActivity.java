@@ -50,7 +50,18 @@ public class MainActivity extends FragmentActivity {
 
         transaction.add(R.id.frameLayout, homeFragment).commit();
         tempFragemnt = homeFragment;
+
+
+        String type = getIntent().getStringExtra("type");
+        if (type != null) {
+            if (type.equals("cart")) {
+                Log.i(TAG, "试图打开购物车");
+                bottom_btn_group.check(R.id.cart_bottom_btn);
+            }
+        }
+
         Log.i(TAG, "onCreate: 初始化完成");
+
 
         //获取服务器地址
         String url = PropertiesUtils.getUrl(this);
@@ -60,6 +71,11 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onStart() {
         super.onStart();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
     }
 
     /**
@@ -99,6 +115,7 @@ public class MainActivity extends FragmentActivity {
                 }
                 //根据按钮索引,获取按钮对象
                 BaseFragment baseFragment = getFragment(fragmentIndex);
+
                 //切换碎片
                 switchFragment(tempFragemnt, baseFragment);
             }
