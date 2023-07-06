@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ActionActivity extends AppCompatActivity {
 
-    private final int SPLASH_DISPLAY_LENGHT = 2000; // 两秒后进入系统
+    private final int SPLASH_DISPLAY_LENGHT = 1000; // 两秒后进入系统
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

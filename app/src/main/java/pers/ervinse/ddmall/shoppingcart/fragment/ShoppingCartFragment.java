@@ -82,9 +82,9 @@ public class ShoppingCartFragment extends BaseFragment {
                     // 检查totalPrice是否不等于".00"，即判断是否有有效的商品总价
                     AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
                             // 创建一个AlertDialog.Builder对象，并传入当前的上下文（mContext）
-                            .setTitle("完成结算")
+                            .setTitle("提交订单")
                             // 设置对话框的标题为"完成结算"
-                            .setMessage("商品总计:" + totalPrice + "元,是否完成结算?")
+                            .setMessage("商品总计:" + totalPrice + "元,是否提交订单?")
                             // 设置对话框的消息内容，包括商品总计价格（totalPrice）
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override

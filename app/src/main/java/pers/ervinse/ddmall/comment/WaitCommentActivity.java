@@ -34,7 +34,7 @@ import pers.ervinse.ddmall.utils.PropertiesUtils;
 import pers.ervinse.ddmall.utils.TokenContextUtils;
 
 public class WaitCommentActivity extends Activity {
-    private static final String TAG = TypeFragment.class.getSimpleName();
+    private static final String TAG = WaitCommentActivity.class.getSimpleName();
     private Context mContext;
     private List<Order> orderList;
     private Handler handler = new Handler();

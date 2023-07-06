@@ -376,8 +376,8 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
                     Log.i(TAG, "删除购物车商品数量按钮监听方法");
                     //设置删除按钮点击之后的弹出对话框
                     AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
-                            .setTitle("删除商品")
-                            .setMessage("是否删除该商品?")
+                            .setTitle("删除药品")
+                            .setMessage("是否删除该药品?")
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -407,7 +407,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
                                                                 //全局刷新
                                                                 medicineList.remove(getLayoutPosition());
                                                                 notifyDataSetChanged();
-                                                                Toast.makeText(mContext, "商品已删除", Toast.LENGTH_SHORT).show();
+                                                                Toast.makeText(mContext, "药品已删除", Toast.LENGTH_SHORT).show();
                                                             }
                                                         });
                                                     }
