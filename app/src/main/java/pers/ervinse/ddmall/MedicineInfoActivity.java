@@ -1,6 +1,7 @@
 package pers.ervinse.ddmall;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -25,8 +28,11 @@ import java.util.List;
 import java.util.Map;
 
 import pers.ervinse.ddmall.domain.Medicine;
+import pers.ervinse.ddmall.domain.Result;
+import pers.ervinse.ddmall.domain.User;
 import pers.ervinse.ddmall.utils.OkhttpUtils;
 import pers.ervinse.ddmall.utils.PropertiesUtils;
+import pers.ervinse.ddmall.utils.TokenContextUtils;
 
 /**
  * 商品详情页面
@@ -38,7 +44,7 @@ public class MedicineInfoActivity extends Activity {
     private Context mContext;
     //返回按钮,商品图片
     private ImageView medicine_info_back_btn, medicine_image, cart_item_add_btn, cart_item_sub_btn;
-    private TextView medicine_name_tv, medicine_price_tv, medicine_description_tv, medicine_location_tv, cart_item_value_tv;
+    private TextView medicine_cart_tv, medicine_name_tv, medicine_price_tv, medicine_description_tv, medicine_location_tv, cart_item_value_tv;
     //添加到购物车按钮
     private Button medicine_info_add_cart_btn;
 
@@ -52,15 +58,13 @@ public class MedicineInfoActivity extends Activity {
 
     public List<? extends Map<String, ?>> getlist() {
         ArrayList<HashMap<String, Object>> comments = new ArrayList<>();
-        //   String responseJson = null;
-        //  try {
-        //      responseJson = OkhttpUtils.doGet(url + "/暂定");
-        //  } catch (IOException e) {
-        //      Log.i(TAG, "请求药品评论错误");
-        //  }
-        // Log.i(TAG, "登录请求响应json:" + responseJson);
-        //  UserResponse<Boolean> response = gson.fromJson(responseJson, UserResponse.class);
-        //  Log.i(TAG, "登录请求响应解析数据:" + responseJson);
+        Thread dataThread = new Thread(() -> {
+            @SuppressLint("NotifyDataSetChanged")
+            List<Medicine> medicines = new ArrayList<>();
+            String responseJson = null;
+
+        });
+        dataThread.start();
         return comments;
     }
 
@@ -94,12 +98,17 @@ public class MedicineInfoActivity extends Activity {
         cart_item_value_tv = findViewById(R.id.cart_item_value_tv);
         cart_item_add_btn = findViewById(R.id.cart_item_add_btn);
         cart_item_sub_btn = findViewById(R.id.cart_item_sub_btn);
+        medicine_cart_tv = findViewById(R.id.medicine_cart_tv);
         number = 1;
         initListener();
-        setAdapter();
     }
 
     private void initListener() {
+        medicine_cart_tv.setOnClickListener(v -> {
+            Intent intent = new Intent(mContext, MainActivity.class);
+            intent.putExtra("type", "cart");
+            startActivity(intent);
+        });
         medicine_info_back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,23 +129,29 @@ public class MedicineInfoActivity extends Activity {
 
                         //获取当前商品信息
                         Medicine medicineForAdd = new Medicine();
-                        medicineForAdd.setCommodityName(medicine.getCommodityName());
-                        String medicineJson = gson.toJson(medicineForAdd);
+                        medicineForAdd.setCommodityID(medicine.getCommodityID());
+                        medicineForAdd.setCommodityNum(medicine.getCommodityNum());
+                        String medicineJson = JSONObject.toJSONString(medicineForAdd);
                         try {
                             //发送添加到购物车请求
                             String url = PropertiesUtils.getUrl(mContext);
-                            responseJson = OkhttpUtils.doPost(url + "/cart/addmedicineToCart", medicineJson);
+                            responseJson = OkhttpUtils.doPostByToken(url + "/shoppingCart", medicineJson, TokenContextUtils.getToken());
                             Log.i(TAG, "添加购物车商品响应json:" + responseJson);
-                            responseJson = gson.fromJson(responseJson, String.class);
+                            Result<Boolean> result = JSONObject.parseObject(responseJson, new TypeReference<Result<Boolean>>() {
+                            });
                             Log.i(TAG, "添加购物车商品响应解析对象:" + responseJson);
 
-                            if (responseJson != null) {
+                            if (result.getCode() != null) {
                                 //添加购物车成功
-                                if (responseJson.equals("true")) {
+                                if (result.getCode().equals(200)) {
                                     Looper.prepare();
                                     Toast.makeText(mContext, "商品已添加到购物车", Toast.LENGTH_SHORT).show();
                                     Looper.loop();
                                     //添加购物车失败,商品已经在购物车
+                                } else if (result.getCode().equals(403)) {
+                                    Looper.prepare();
+                                    Toast.makeText(mContext, "未登录无法添加购物车", Toast.LENGTH_SHORT).show();
+                                    Looper.loop();
                                 } else {
                                     Looper.prepare();
                                     Toast.makeText(mContext, "商品已经在购物车啦", Toast.LENGTH_SHORT).show();
@@ -146,7 +161,6 @@ public class MedicineInfoActivity extends Activity {
 
                         } catch (IOException e) {
                             e.printStackTrace();
-                            Looper.prepare();
                             Toast.makeText(mContext, "获取数据失败,服务器错误", Toast.LENGTH_SHORT).show();
                             Looper.loop();
                         }
@@ -189,6 +203,6 @@ public class MedicineInfoActivity extends Activity {
         } catch (IOException e) {
             Log.i("TAG", "图片传输错误");
         }
-
+        setAdapter();
     }
 }

@@ -104,6 +104,7 @@ public class OkhttpUtils {
         try {
             fis = new FileInputStream(TargetPath + "/" + pictureName + ".png");
             bitmap = BitmapFactory.decodeStream(fis);
+            
             view.setImageBitmap(bitmap);
         } catch (Exception e) {
             e.printStackTrace();
