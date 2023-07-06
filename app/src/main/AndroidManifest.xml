@@ -25,16 +25,16 @@
             android:name=".search.SearchResultActivity"
             android:exported="false" />
         <activity
-            android:name=".WaitDeliverActivity"
+            android:name=".deliver.WaitDeliverActivity"
             android:exported="false" />
         <activity
-            android:name=".WaitPayActivity"
+            android:name=".pay.WaitPayActivity"
             android:exported="false" />
         <activity
             android:name=".comment.WaitCommentActivity"
             android:exported="false" />
         <activity
-            android:name=".WaitReceiveActivity"
+            android:name=".receive.WaitReceiveActivity"
             android:exported="false" />
         <activity
             android:name=".RegisterActivity"

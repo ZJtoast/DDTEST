@@ -21,9 +21,9 @@ import pers.ervinse.ddmall.BaseFragment;
 import pers.ervinse.ddmall.LoginActivity;
 import pers.ervinse.ddmall.R;
 import pers.ervinse.ddmall.comment.WaitCommentActivity;
-import pers.ervinse.ddmall.WaitDeliverActivity;
-import pers.ervinse.ddmall.WaitPayActivity;
-import pers.ervinse.ddmall.WaitReceiveActivity;
+import pers.ervinse.ddmall.deliver.WaitDeliverActivity;
+import pers.ervinse.ddmall.pay.WaitPayActivity;
+import pers.ervinse.ddmall.receive.WaitReceiveActivity;
 import pers.ervinse.ddmall.domain.User;
 import pers.ervinse.ddmall.utils.TokenContextUtils;
 
