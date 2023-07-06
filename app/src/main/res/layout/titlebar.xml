@@ -16,16 +16,17 @@
         android:drawableLeft="@drawable/home_search_icon"
         android:drawablePadding="10dp"
         android:gravity="center_vertical"
-        android:padding="5dp"
         android:hint="输入搜索信息"
+        android:padding="5dp"
         android:textSize="13sp" />
 
     <TextView
-        android:id="@+id/tv_message_home"
+        android:id="@+id/tv_put_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:drawableTop="@drawable/new_message_icon"
-        android:text="消息"
-        android:textColor="#fff" />
+        android:layout_margin="16dp"
+        android:text="搜索"
+        android:textColor="#fff"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 </LinearLayout>

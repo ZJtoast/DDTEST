@@ -26,7 +26,7 @@ public class AddAddressActivity extends Activity {
     private static final String TAG = AddAddressActivity.class.getSimpleName();
     private Address_ address;//存储页面中输入的数据
     private Context mContext;
-//    private String countryforAddress, provinceforAddress, townforAddress, districtforAddress, streetforAddress, detailAddress, receiveName, receiveTel;
+    //    private String countryforAddress, provinceforAddress, townforAddress, districtforAddress, streetforAddress, detailAddress, receiveName, receiveTel;
     private EditText nation, province, city, district, street, consignee_name, detailed_address, phone_number;
     private Button comment_commit_btn;
 
@@ -38,6 +38,7 @@ public class AddAddressActivity extends Activity {
         city = findViewById(R.id.city);
         district = findViewById(R.id.district);
         street = findViewById(R.id.street);
+        mContext = this;
         consignee_name = findViewById(R.id.consignee_name);
         detailed_address = findViewById(R.id.detailed_address);
         phone_number = findViewById(R.id.phone_number);
@@ -46,7 +47,7 @@ public class AddAddressActivity extends Activity {
         comment_commit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                address = new Address_(getString(nation),getString(province),getString(city),getString(district),getString(street),getString(consignee_name),getString(detailed_address),getString(phone_number));
+                address = new Address_(getString(nation), getString(province), getString(city), getString(district), getString(street), getString(consignee_name), getString(detailed_address), getString(phone_number));
                 AddData();
                 Intent intent = new Intent(mContext, AddressManageActivity.class);
                 startActivity(intent);
@@ -56,7 +57,7 @@ public class AddAddressActivity extends Activity {
     }
 
 
-    public String getString(EditText view){
+    public String getString(EditText view) {
         return view.getText().toString();
     }
 

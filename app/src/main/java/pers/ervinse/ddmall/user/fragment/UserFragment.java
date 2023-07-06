@@ -64,7 +64,7 @@ public class UserFragment extends BaseFragment {
         wait_comment = view.findViewById(R.id.wait_comment);
         wait_deliver = view.findViewById(R.id.wait_deliver);
         wait_receive = view.findViewById(R.id.wait_receive);
-        TokenContextUtils.setToken(null);
+        TokenContextUtils.setToken("null");
         return view;
     }
 
@@ -152,7 +152,7 @@ public class UserFragment extends BaseFragment {
                                 dialogInterface.dismiss();
                                 //用户名恢复,简介不可见
                                 isLogin = false;
-                                TokenContextUtils.setToken(null);
+                                TokenContextUtils.setToken("null");
                                 user_name_tv.setText("点击登录");
                                 user_desc_tv.setText("用户信息");
                             }

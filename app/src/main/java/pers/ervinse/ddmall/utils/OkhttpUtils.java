@@ -53,6 +53,17 @@ public class OkhttpUtils {
         return httpClient;
     }
 
+    public static String doGet(String url, String que) throws IOException {
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        Call call = okhttpclient.newCall(request);
+        Response resp = call.execute();
+
+        return resp.body().string();
+    }
+
 
     public static String doGet(String url) throws IOException {
 
@@ -72,7 +83,17 @@ public class OkhttpUtils {
                 .build();
         Call call = genericClient(token).newCall(request);
         Response resp = call.execute();
+        return resp.body().string();
+    }
 
+    public static String doDeleteByToken(String url, String token) throws IOException {
+
+        Request request = new Request.Builder()
+                .delete()
+                .url(url)
+                .build();
+        Call call = genericClient(token).newCall(request);
+        Response resp = call.execute();
         return resp.body().string();
     }
 
@@ -140,9 +161,17 @@ public class OkhttpUtils {
         return response.body().string();
     }
 
-    public static String doPost(String url, String json, String token) throws IOException {
+    public static String doPostByToken(String url, String json, String token) throws IOException {
         RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, json);
         Request request = new Request.Builder().post(requestBody).url(url).build();
+        Call call = genericClient(token).newCall(request);
+        Response response = call.execute();
+        return response.body().string();
+    }
+
+    public static String doPutByToken(String url, String json, String token) throws IOException {
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, json);
+        Request request = new Request.Builder().put(requestBody).url(url).build();
         Call call = genericClient(token).newCall(request);
         Response response = call.execute();
         return response.body().string();

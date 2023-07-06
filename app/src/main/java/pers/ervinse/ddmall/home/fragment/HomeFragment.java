@@ -1,6 +1,7 @@
 package pers.ervinse.ddmall.home.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -28,6 +29,7 @@ import pers.ervinse.ddmall.R;
 import pers.ervinse.ddmall.domain.Result;
 import pers.ervinse.ddmall.home.adapter.HomeAdapter;
 import pers.ervinse.ddmall.domain.Medicine;
+import pers.ervinse.ddmall.search.SearchResultActivity;
 import pers.ervinse.ddmall.utils.OkhttpUtils;
 import pers.ervinse.ddmall.utils.PropertiesUtils;
 
@@ -36,17 +38,16 @@ import pers.ervinse.ddmall.utils.PropertiesUtils;
  */
 public class HomeFragment extends BaseFragment {
 
+    public final static int SEARCH = 11;
     private static final String TAG = HomeFragment.class.getSimpleName();
     private List<Medicine> medicineList;
     private Handler handler = new Handler();
     private RecyclerView rvHome;
-
     private ImageView ib_top;
     private TextView tv_search_home;
-    private TextView tv_message_home;
+    private TextView tv_put_search;
     private HomeAdapter adapter;
     private RadioGroup fourType;
-
     private Thread current;
     private List<Integer> typelist;
     private RadioButton householdEssentials, specializedMedication, nutritionalSupplements, medicalEquipment;
@@ -64,7 +65,7 @@ public class HomeFragment extends BaseFragment {
         View view = View.inflate(mContext, R.layout.fragment_home, null);
         rvHome = view.findViewById(R.id.rv_home);
         tv_search_home = view.findViewById(R.id.tv_search_home);
-        tv_message_home = view.findViewById(R.id.tv_message_home);
+        tv_put_search = view.findViewById(R.id.tv_put_search);
 
         //首页分类框
         fourType = view.findViewById(R.id.category_btn_group);
@@ -80,6 +81,14 @@ public class HomeFragment extends BaseFragment {
      * 初始化监听器
      */
     public void initListener() {
+        tv_put_search.setOnClickListener(v -> {
+            String que = tv_search_home.getText().toString();
+            if (!que.equals("")) {
+                Intent intent = new Intent(mContext, SearchResultActivity.class);
+                intent.putExtra("quest", que);
+                startActivityForResult(intent, SEARCH);
+            }
+        });
         fourType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -149,6 +158,8 @@ public class HomeFragment extends BaseFragment {
                         Log.i(TAG, e.toString());
                     }
                 }
+            }
+            if (current.getName().equals(Thread.currentThread().getName())) {
                 //切回主线程调整布局
                 freshInMain(medicines);
                 medicineList = medicines;
@@ -215,7 +226,6 @@ public class HomeFragment extends BaseFragment {
                 Log.i(TAG, "获取商品图片解析对象:" + medicines.getClass());
                 if (current.getName().equals(Thread.currentThread().getName())) {
                     firstFresh(medicines);
-
                     for (Medicine medicine : medicines) {
                         try {
                             OkhttpUtils.saveImage(url + "/medicines/MedicinePicture/" + medicine.getCommodityID(), medicine.getCommodityID().toString(), mContext);
@@ -223,9 +233,12 @@ public class HomeFragment extends BaseFragment {
                             Log.i(TAG, e.toString());
                         }
                     }
+                }
+                if (current.getName().equals(Thread.currentThread().getName())) {
                     freshInMain(medicines);
                     medicineList = medicines;
                 }
+
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -245,10 +258,6 @@ public class HomeFragment extends BaseFragment {
     public void refreshData() {
         if (typelist == null) {
             typelist = new ArrayList<>();
-            typelist.add(1);
-            typelist.add(2);
-            typelist.add(3);
-            typelist.add(4);
         }
         getDate();
     }

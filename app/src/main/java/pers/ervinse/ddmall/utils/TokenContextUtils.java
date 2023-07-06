@@ -4,7 +4,7 @@ public class TokenContextUtils {
     private static String token;
 
     static {
-        token = null;
+        token = "null";
     }
 
     public static String getToken() {

@@ -8,9 +8,9 @@
     <!--TYPE标题栏-->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="#fff">
+        android:layout_height="40dp"
+        android:layout_marginBottom="5dp"
+        android:background="#FFC107">
 
         <TextView
             android:layout_width="wrap_content"
@@ -27,12 +27,12 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="5dp"
-        android:background="#eeee" />
+        android:background="#F3DFC2" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#E8E6E6">
+        android:background="#FBEDC2">
 
         <RadioGroup
             android:id="@+id/type_group"
@@ -41,7 +41,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="14dp"
-            android:background="#FFFFFF">
+            android:background="#F3DFC2">
 
             <RadioButton
                 android:id="@+id/medicine_chinese"
@@ -96,13 +96,13 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_type"
-            android:layout_width="288dp"
+            android:layout_width="320dp"
             android:layout_height="750dp"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="16dp"
+            android:layout_marginLeft="1dp"
             android:layout_marginTop="15dp"
             android:layout_toEndOf="@+id/type_group"
-            android:background="#FFFFFF" />
+            android:background="#F3DFC2" />
     </RelativeLayout>
 
 

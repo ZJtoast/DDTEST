@@ -6,7 +6,7 @@
         android:id="@+id/medicine_info_title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#F4F4F4"
+        android:background="#FFC107"
         android:padding="10dp">
 
         <ImageButton
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="添加地址"
+            android:text="地址管理"
             android:textColor="#564c4c"
             android:textSize="20sp" />
 
@@ -37,9 +37,9 @@
         android:id="@+id/currentUserTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="当前用户：12345"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="60dp"
+        android:text="当前用户：12345"
         android:textSize="25dp" />
 
     <!-- 地址列表 -->

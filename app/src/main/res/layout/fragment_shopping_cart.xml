@@ -8,9 +8,9 @@
     <!--购物车标题栏-->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="#fff">
+        android:layout_height="40dp"
+        android:layout_marginBottom="5dp"
+        android:background="#FFC107">
 
         <TextView
             android:layout_width="wrap_content"
@@ -28,6 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
             android:text="编辑"
             android:textColor="#303235" />
     </RelativeLayout>
@@ -36,7 +37,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="5dp"
-        android:background="#eeee" />
+        android:background="#F3DFC2" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -53,7 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:background="#eee" />
+                android:background="#FBEDC2" />
 
             <!--结算的线性布局-->
 
@@ -61,7 +62,7 @@
                 android:id="@+id/cart_settle_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#fff"
+                android:background="#FFFFFF"
                 android:orientation="horizontal"
                 android:visibility="visible">
 
@@ -154,8 +155,8 @@
 
         </LinearLayout>
 
-<!--        &lt;!&ndash;当数据为空的时候显示的布局&ndash;&gt;-->
-<!--        <include layout="@layout/empty_cart"></include>-->
+        <!--        &lt;!&ndash;当数据为空的时候显示的布局&ndash;&gt;-->
+        <!--        <include layout="@layout/empty_cart"></include>-->
     </FrameLayout>
 
 </LinearLayout>
