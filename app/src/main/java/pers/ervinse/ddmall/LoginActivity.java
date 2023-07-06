@@ -117,40 +117,38 @@ public class LoginActivity extends Activity {
 
                     Result<Token> response = JSONObject.parseObject(responseJson, new TypeReference<Result<Token>>() {
                     });
-                    Token tok = response.getData();
-                    TokenContextUtils.setToken(tok.getToken());
-                    Log.i(TAG, "登录请求响应解析数据:" + responseJson);
                     Integer code = response.getCode();
-                    if (response != null) {
+                    Log.i(TAG, "登录请求响应解析数据:" + responseJson);
+                    if (code.equals(200)) {
+                        Token tok = response.getData();
+                        TokenContextUtils.setToken(tok.getToken());
                         //登录成功
-                        if (code == 200) {
-                            //发送请求获取当前用户名对应的简介
-                            responseJson = OkhttpUtils.doGetByToken(url + "/users/getDescription/" + userName, TokenContextUtils.getToken());
-                            Log.i(TAG, "获取描述请求响应json:" + responseJson);
-                            Result<User> responseS = JSONObject.parseObject(responseJson, new TypeReference<Result<User>>() {
-                            });
-                            User userRes = responseS.getData();
+                        //发送请求获取当前用户名对应的简介
+                        responseJson = OkhttpUtils.doGetByToken(url + "/users/getDescription/" + userName, TokenContextUtils.getToken());
+                        Log.i(TAG, "获取描述请求响应json:" + responseJson);
+                        Result<User> responseS = JSONObject.parseObject(responseJson, new TypeReference<Result<User>>() {
+                        });
+                        User userRes = responseS.getData();
 
-                            Log.i(TAG, "获取描述请求响应解析数据:" + userRes);
-                            //回传用户名和简介
+                        Log.i(TAG, "获取描述请求响应解析数据:" + userRes);
+                        //回传用户名和简介
 
 
-                            Intent intent = new Intent();
-                            intent.putExtra("user", userRes);
+                        Intent intent = new Intent();
+                        intent.putExtra("user", userRes);
 
-                            //intent.putExtra("userId", userId);
-                            //设置数据状态
-                            setResult(RESULT_OK, intent);
-                            //销毁当前方法
+                        //intent.putExtra("userId", userId);
+                        //设置数据状态
+                        setResult(RESULT_OK, intent);
+                        //销毁当前方法
 
-                            finish();
-                        } else {
-                            //登录失败
-                            //子线程中准备Toast
-                            Looper.prepare();
-                            Toast.makeText(mContext, "登录失败,用户名或密码错误", Toast.LENGTH_SHORT).show();
-                            Looper.loop();
-                        }
+                        finish();
+                    } else {
+                        //登录失败
+                        //子线程中准备Toast
+                        Looper.prepare();
+                        Toast.makeText(mContext, "登录失败,用户名或密码错误", Toast.LENGTH_SHORT).show();
+                        Looper.loop();
                     }
                     //抛出异常
                 } catch (IOException e) {
@@ -180,7 +178,7 @@ public class LoginActivity extends Activity {
                 if (resultCode == RESULT_OK) {
                     //获取数据并打印
                     User user = (User) data.getSerializableExtra("user");
-                    userName = user.getUserName();
+                    userName = user.getUserAccount().toString();
                     userPassword = user.getUserPassword();
                     userExtendInfo = user.getUserExtendInfo();
                     Log.i(TAG, "用户注册数据回传: " +
