@@ -160,7 +160,7 @@ public class ShoppingCartFragment extends BaseFragment {
                 } catch (IOException e) {
                     e.printStackTrace();
                     Looper.prepare();
-                    Toast.makeText(mContext, "获取数据失败,服务器错误", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "未登录", Toast.LENGTH_SHORT).show();
                     Looper.loop();
                 }
 

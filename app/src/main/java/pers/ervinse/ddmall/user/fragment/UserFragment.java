@@ -164,6 +164,7 @@ public class UserFragment extends BaseFragment {
                                 isLogin = false;
                                 TokenContextUtils.setToken("null");
                                 user_name_tv.setText("点击登录");
+                                user_id_tv.setText("");
                                 user_desc_tv.setText("用户信息");
                             }
                         })

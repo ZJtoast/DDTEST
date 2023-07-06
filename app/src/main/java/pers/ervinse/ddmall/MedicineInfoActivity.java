@@ -47,7 +47,7 @@ public class MedicineInfoActivity extends Activity {
     private ImageView medicine_info_back_btn, medicine_image, cart_item_add_btn, cart_item_sub_btn;
     private TextView medicine_cart_tv, medicine_name_tv, medicine_price_tv, medicine_description_tv, medicine_location_tv, cart_item_value_tv;
     //添加到购物车按钮
-    private Button medicine_info_add_cart_btn;
+    private Button medicine_info_add_cart_btn, medicine_info_purchase_btn;
 
     private Integer number;
 
@@ -70,12 +70,13 @@ public class MedicineInfoActivity extends Activity {
                 });
                 if (result.getCode().equals(200)) {
                     commentList = result.getData();
-                    for (Comment comment : commentList) {
-                        HashMap<String, String> com = new HashMap<>();
-                        com.put("userName", "用户:" + comment.getUserID());
-                        com.put("Comment", comment.getReviewText());
-                        comments.add(com);
-                    }
+                    if (commentList != null)
+                        for (Comment comment : commentList) {
+                            HashMap<String, String> com = new HashMap<>();
+                            com.put("userName", "用户:" + comment.getUserID());
+                            com.put("Comment", comment.getReviewText());
+                            comments.add(com);
+                        }
                 } else {
                     Log.i(TAG, "获取商品详细信息--评价出现传输码异常");
                 }
@@ -119,6 +120,7 @@ public class MedicineInfoActivity extends Activity {
         cart_item_add_btn = findViewById(R.id.cart_item_add_btn);
         cart_item_sub_btn = findViewById(R.id.cart_item_sub_btn);
         medicine_cart_tv = findViewById(R.id.medicine_cart_tv);
+        medicine_info_purchase_btn = findViewById(R.id.medicine_info_purchase_btn);
         number = 1;
         initListener();
     }
