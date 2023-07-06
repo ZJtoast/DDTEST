@@ -48,7 +48,7 @@ public class DeliverAdapter extends RecyclerView.Adapter<DeliverAdapter.DeliverA
     @NonNull
     @Override
     public DeliverAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = View.inflate(mContext, R.layout.item_medicine, null);
+        View itemView = View.inflate(mContext, R.layout.item_deliver, null);
         return new DeliverAdapter.DeliverAdapterViewHolder(itemView);
     }
 
@@ -79,7 +79,7 @@ public class DeliverAdapter extends RecyclerView.Adapter<DeliverAdapter.DeliverA
             }
         });
         getMedicine.start();
-
+        holder.drug_desc.setText(orderList.get(position).getOrderTime());
         holder.merchant.setText("东东快药自营店");
         //通过图片名字获取图片资源的id
         try {
@@ -95,23 +95,16 @@ public class DeliverAdapter extends RecyclerView.Adapter<DeliverAdapter.DeliverA
     }
 
     public class DeliverAdapterViewHolder extends RecyclerView.ViewHolder {
-        private TextView merchant, drug_name;
-        private Button deliver_drug_button;
+        private TextView merchant, drug_name, drug_desc;
         private ImageView medicine_image_deliver;
 
         public DeliverAdapterViewHolder(@NonNull View itemView) {
             super(itemView);
             merchant = itemView.findViewById(R.id.merchant);
             drug_name = itemView.findViewById(R.id.drug_name);
+            drug_desc = itemView.findViewById(R.id.drug_desc);
             medicine_image_deliver = itemView.findViewById(R.id.medicine_image_deliver);
             //给评价按键绑定跳转事件，跳转到评价页面
-            deliver_drug_button.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View view) {
-
-                }
-            });
         }
     }
 }
