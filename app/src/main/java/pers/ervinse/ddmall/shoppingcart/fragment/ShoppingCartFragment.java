@@ -92,42 +92,7 @@ public class ShoppingCartFragment extends BaseFragment {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     // 设置对话框的确定按钮，当用户点击确定时触发此处的代码   这里是结算的代码
-                                    String url = PropertiesUtils.getUrl(mContext);
-                                    if (medicineList != null)
-                                        for (int index = 0; index < medicineList.size(); index++) {
-                                            Medicine medicine = medicineList.get(index);
-                                            if (medicine.isSelected) {
-                                                new Thread(() -> {
-                                                    String responseJson = null;
-                                                    String ID = medicine.getCommodityID().toString();
-                                                    String Num = medicine.getCommodityNum().toString();
-                                                    try {
-                                                        responseJson = OkhttpUtils.doPostByToken(url + "/order/add?CommodityID=" + ID + "&CommodityNum=" + Num, "", TokenContextUtils.getToken());
-                                                    } catch (IOException e) {
-                                                        Log.i("IO异常", "结算失败");
-                                                    }
-                                                    Result<String> result = JSONObject.parseObject(responseJson, new TypeReference<Result<String>>() {
-                                                    });
-                                                    if (result.getCode().equals(200)) {
-                                                        handler.post(new Runnable() {
-                                                            @Override
-                                                            public void run() {
-                                                                //全局刷新
-                                                                medicineList.remove(medicine);
-                                                                adapter.flushView();
-                                                            }
-                                                        });
-                                                        Looper.prepare();
-                                                        Toast.makeText(mContext, "完成药品购买,总计价格为:" + totalPrice + "元", Toast.LENGTH_SHORT).show();
-                                                        Looper.loop();
-                                                    } else {
-                                                        Looper.prepare();
-                                                        Toast.makeText(mContext, "药品购买失败，地址未填写", Toast.LENGTH_SHORT).show();
-                                                        Looper.loop();
-                                                    }
-                                                }).start();
-                                            }
-                                        }
+                                    Toast.makeText(mContext, "完成商品购买,总计价格为:" + totalPrice + "元", Toast.LENGTH_SHORT).show();
                                     // 显示一个短暂的Toast提示，显示完成商品购买的信息和总计价格
                                 }
                             })
@@ -212,16 +177,7 @@ public class ShoppingCartFragment extends BaseFragment {
     public void refreshData() {
 
         Log.i(TAG, "联网刷新数据");
-        if (TokenContextUtils.getToken().equals("null")) {
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    if (medicineList != null)
-                        medicineList.clear();
-                    adapter.flushView();
-                }
-            });
-        }
+
         new Thread() {
             @Override
             public void run() {
@@ -276,38 +232,37 @@ public class ShoppingCartFragment extends BaseFragment {
     @Override
     public void saveData() {
         Log.i(TAG, "保存数据");
-        if (!TokenContextUtils.getToken().equals("null")) {
-            new Thread() {
-                @Override
-                public void run() {
-                    Log.i(TAG, "进入保存购物车数据线程");
-                    String responseJson = null;
-                    try {
-                        //发送获取购物车商品请求
-                        String url = PropertiesUtils.getUrl(mContext);
-                        if (medicineList != null)
-                            for (Medicine medicine : medicineList) {
-                                String medicineJson = JSONObject.toJSONString(medicine);
-                                responseJson = OkhttpUtils.doPutByToken(url + "/shoppingCart", medicineJson, TokenContextUtils.getToken());
 
-                                Log.i(TAG, "获取保存购物车商品响应json:" + responseJson);
-                                Result<List<Medicine>> result = JSONObject.parseObject(responseJson, new TypeReference<Result<List<Medicine>>>() {
-                                });
-                                Log.i(TAG, "获取购物车商品响应解析对象:" + medicineList);
-                                if (!result.getCode().equals(200)) {
-                                    Log.i(TAG, "保存数据成功");
-                                }
+        new Thread() {
+            @Override
+            public void run() {
+                Log.i(TAG, "进入保存购物车数据线程");
+                String responseJson = null;
+                try {
+                    //发送获取购物车商品请求
+                    String url = PropertiesUtils.getUrl(mContext);
+                    if (medicineList != null)
+                        for (Medicine medicine : medicineList) {
+                            String medicineJson = JSONObject.toJSONString(medicine);
+                            responseJson = OkhttpUtils.doPutByToken(url + "/shoppingCart", medicineJson, TokenContextUtils.getToken());
+
+                            Log.i(TAG, "获取保存购物车商品响应json:" + responseJson);
+                            Result<List<Medicine>> result = JSONObject.parseObject(responseJson, new TypeReference<Result<List<Medicine>>>() {
+                            });
+                            Log.i(TAG, "获取购物车商品响应解析对象:" + medicineList);
+                            if (!result.getCode().equals(200)) {
+                                Log.i(TAG, "保存数据成功");
                             }
+                        }
 
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Looper.prepare();
-                        Toast.makeText(mContext, "获取数据失败,服务器错误", Toast.LENGTH_SHORT).show();
-                        Looper.loop();
-                    }
-
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Looper.prepare();
+                    Toast.makeText(mContext, "获取数据失败,服务器错误", Toast.LENGTH_SHORT).show();
+                    Looper.loop();
                 }
-            }.start();
-        }
+
+            }
+        }.start();
     }
 }

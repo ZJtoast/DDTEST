@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class Address_ implements Serializable {
+    private Integer addressID;
     private String CountryforAddress;
     private String ProvinceforAddress;
     private String TownforAddress;
