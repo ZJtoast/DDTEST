@@ -144,10 +144,16 @@ public class MedicineInfoActivity extends Activity {
                             if (result.getCode() != null) {
                                 //添加购物车成功
                                 if (result.getCode().equals(200)) {
+                                    Looper.prepare();
                                     Toast.makeText(mContext, "商品已添加到购物车", Toast.LENGTH_SHORT).show();
                                     Looper.loop();
                                     //添加购物车失败,商品已经在购物车
+                                } else if (result.getCode().equals(403)) {
+                                    Looper.prepare();
+                                    Toast.makeText(mContext, "未登录无法添加购物车", Toast.LENGTH_SHORT).show();
+                                    Looper.loop();
                                 } else {
+                                    Looper.prepare();
                                     Toast.makeText(mContext, "商品已经在购物车啦", Toast.LENGTH_SHORT).show();
                                     Looper.loop();
                                 }
