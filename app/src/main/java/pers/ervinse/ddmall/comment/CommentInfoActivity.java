@@ -1,4 +1,4 @@
-package pers.ervinse.ddmall;
+package pers.ervinse.ddmall.comment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import pers.ervinse.ddmall.R;
 
 public class CommentInfoActivity extends AppCompatActivity {
 

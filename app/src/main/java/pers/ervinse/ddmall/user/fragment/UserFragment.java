@@ -18,14 +18,11 @@ import androidx.appcompat.app.AlertDialog;
 
 import pers.ervinse.ddmall.BaseFragment;
 import pers.ervinse.ddmall.LoginActivity;
-import pers.ervinse.ddmall.MedicineInfoActivity;
 import pers.ervinse.ddmall.R;
-import pers.ervinse.ddmall.WaitCommentActivity;
+import pers.ervinse.ddmall.comment.WaitCommentActivity;
 import pers.ervinse.ddmall.WaitDeliverActivity;
 import pers.ervinse.ddmall.WaitPayActivity;
 import pers.ervinse.ddmall.WaitReceiveActivity;
-import pers.ervinse.ddmall.domain.Medicine;
-import pers.ervinse.ddmall.domain.Token;
 import pers.ervinse.ddmall.domain.User;
 import pers.ervinse.ddmall.utils.TokenContextUtils;
 

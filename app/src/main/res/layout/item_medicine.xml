@@ -12,6 +12,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/merchant"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="商家:三九感冒灵"
@@ -34,7 +35,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/drug_image"
+                    android:id="@+id/drug_name"
                     android:layout_width="600px"
                     android:layout_height="50dp"
                     android:layout_marginLeft="20dp"

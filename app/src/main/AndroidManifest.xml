@@ -16,6 +16,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DDMALL">
         <activity
+            android:name=".order.activity_wait_pay"
+            android:exported="false" />
+        <activity
+            android:name=".order.activity_wait_deliver"
+            android:exported="false" />
+        <activity
+            android:name=".order.activity_wait_receive"
+            android:exported="false" />
+        <activity
+            android:name=".order.activity_wait_comment"
+            android:exported="false" />
+        <activity
             android:name=".MedicineInfoActivity"
             android:exported="false" />
         <activity
@@ -25,7 +37,7 @@
             android:name=".WaitPayActivity"
             android:exported="false" />
         <activity
-            android:name=".WaitCommentActivity"
+            android:name=".comment.WaitCommentActivity"
             android:exported="false" />
         <activity
             android:name=".WaitReceiveActivity"

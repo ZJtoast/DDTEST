@@ -14,8 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,9 +22,7 @@ import java.util.List;
 import pers.ervinse.ddmall.domain.Medicine;
 import pers.ervinse.ddmall.BaseFragment;
 import pers.ervinse.ddmall.R;
-import pers.ervinse.ddmall.domain.Medicine;
 import pers.ervinse.ddmall.domain.Result;
-import pers.ervinse.ddmall.home.adapter.HomeAdapter;
 import pers.ervinse.ddmall.type.adapter.TypeAdapter;
 import pers.ervinse.ddmall.utils.OkhttpUtils;
 import pers.ervinse.ddmall.utils.PropertiesUtils;
@@ -111,7 +107,7 @@ public class TypeFragment extends BaseFragment {
                         type = 9;
                         break;
                 }
-                getDate();
+                getData();
             }
         });
     }
@@ -161,7 +157,7 @@ public class TypeFragment extends BaseFragment {
         initThread.start();
     }
 
-    public void getDate() {
+    public void getData() {
         Log.i(TAG, "联网刷新数据");
         Thread dataThread = new Thread(() -> {
             @SuppressLint("NotifyDataSetChanged")
@@ -175,8 +171,7 @@ public class TypeFragment extends BaseFragment {
 
                 //提交查找请求
                 responseJson = OkhttpUtils.doGet(url + "/medicines/type/" + type.toString());
-                Result<List<Medicine>> medicineResponse = JSONObject.parseObject(responseJson, new TypeReference<Result<List<Medicine>>>() {
-                });
+                Result<List<Medicine>> medicineResponse = JSONObject.parseObject(responseJson, new TypeReference<Result<List<Medicine>>>() {});
                 Log.i(TAG, "获取热点响应解析对象:" + medicineResponse);
                 //获取商品成功
                 //接下来接收药品图片
@@ -245,7 +240,7 @@ public class TypeFragment extends BaseFragment {
      */
     @Override
     public void refreshData() {
-        getDate();
+        getData();
     }
 
     @Override

@@ -34,6 +34,7 @@ public class AddAddressActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address);
+        mContext=this;
         province = findViewById(R.id.province);
         city = findViewById(R.id.city);
         district = findViewById(R.id.district);
