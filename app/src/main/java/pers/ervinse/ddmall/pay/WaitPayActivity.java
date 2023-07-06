@@ -88,10 +88,10 @@ public class WaitPayActivity extends Activity {
      * 初始化数据
      */
     public void initData() {
-        Log.i(TAG, "待评论数据初始化");
+        Log.i(TAG, "待支付数据初始化");
         Thread initThread = new Thread(() -> {
             List<Order> orders = new ArrayList<>();
-            Log.i(TAG, "进入获取待评论商品信息线程");
+            Log.i(TAG, "进入获取待支付商品信息线程");
             String responseJson = null;
             try {
                 //发送获取商品请求
@@ -106,7 +106,7 @@ public class WaitPayActivity extends Activity {
                         orders.add(order);
                     }
                 }
-                Log.i(TAG, "获取评论响应解析对象:");
+                Log.i(TAG, "获取支付响应解析对象:");
 
                 if (current.getName().equals(Thread.currentThread().getName())) {
                     firstFresh(orders);

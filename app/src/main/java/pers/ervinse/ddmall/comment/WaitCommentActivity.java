@@ -104,11 +104,12 @@ public class WaitCommentActivity extends Activity {
                 Result<List<Order>> result = JSONObject.parseObject(responseJson, new TypeReference<Result<List<Order>>>() {
                 });
                 List<Order> orderTemp = result.getData();
-                for (Order order : orderTemp) {
-                    if (order.getOrderPayState().equals(4)) {
-                        orders.add(order);
+                if (orderTemp != null)
+                    for (Order order : orderTemp) {
+                        if (order.getOrderPayState().equals(4)) {
+                            orders.add(order);
+                        }
                     }
-                }
                 Log.i(TAG, "获取评论响应解析对象:");
 
                 if (current.getName().equals(Thread.currentThread().getName())) {

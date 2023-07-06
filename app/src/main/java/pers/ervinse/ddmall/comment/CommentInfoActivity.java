@@ -30,6 +30,7 @@ import java.util.Map;
 import pers.ervinse.ddmall.R;
 import pers.ervinse.ddmall.RegisterActivity;
 import pers.ervinse.ddmall.domain.Comment;
+import pers.ervinse.ddmall.domain.CommentInfo;
 import pers.ervinse.ddmall.domain.Order;
 import pers.ervinse.ddmall.domain.Result;
 import pers.ervinse.ddmall.utils.OkhttpUtils;
@@ -62,29 +63,39 @@ public class CommentInfoActivity extends AppCompatActivity {
         et_comment = findViewById(R.id.et_comment);
         rb_score = findViewById(R.id.rb_score);
         btn_commit = findViewById(R.id.btn_commit);
+
+        tv_hint.setText("请填写对东东快药自营店的评价：");
+
         btn_commit.setOnClickListener(v -> {
-            String url = PropertiesUtils.getUrl(mContext);
-            String responseJson = null;
-            Comment comment = new Comment();
-            comment.setCommodityID(order.getCommodityID());
-            comment.setReviewText(et_comment.getText().toString());
-            responseJson = JSONObject.toJSONString(comment);
-            try {
-                responseJson = OkhttpUtils.doPostByToken(url + "/order/review", responseJson, TokenContextUtils.getToken());
-                Result<String> result = JSONObject.parseObject(responseJson, new TypeReference<Result<String>>() {
-                });
-                if (result.getCode().equals(200)) {
-                    Looper.prepare();
-                    Toast.makeText(mContext, "评价提交成功！", Toast.LENGTH_SHORT).show();
-                    Looper.loop();
-                } else {
-                    Looper.prepare();
-                    Toast.makeText(mContext, "评价提交失败！", Toast.LENGTH_SHORT).show();
-                    Looper.loop();
+            new Thread(() -> {
+                String url = PropertiesUtils.getUrl(mContext);
+                String responseJson = null;
+                CommentInfo comment = new CommentInfo();
+                comment.setCommodityID(order.getCommodityID());
+                comment.setCommentLevel(rb_score.getNumStars());
+                comment.setOrderID(order.getOrderID());
+                comment.setReviewText(et_comment.getText().toString());
+                responseJson = JSONObject.toJSONString(comment);
+                try {
+                    responseJson = OkhttpUtils.doPostByToken(url + "/order/review", responseJson, TokenContextUtils.getToken());
+                    Result<String> result = JSONObject.parseObject(responseJson, new TypeReference<Result<String>>() {
+                    });
+                    if (result.getCode().equals(200)) {
+                        Looper.prepare();
+                        Toast.makeText(mContext, "评价提交成功！", Toast.LENGTH_SHORT).show();
+                        finish();
+                        Looper.loop();
+                    } else {
+                        Looper.prepare();
+                        Toast.makeText(mContext, "评价提交失败！", Toast.LENGTH_SHORT).show();
+                        Looper.loop();
+                    }
+
+                } catch (IOException e) {
+                    Log.i("发送评论错误", "评价商品异常");
                 }
-            } catch (IOException e) {
-                Log.i("发送评论错误", "评价商品异常");
-            }
+            }).start();
+
         });
 
 

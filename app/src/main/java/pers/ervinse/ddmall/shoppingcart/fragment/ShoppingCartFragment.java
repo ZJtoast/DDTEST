@@ -48,7 +48,7 @@ public class ShoppingCartFragment extends BaseFragment {
     //线程处理器
     private Handler handler = new Handler();
     //总价
-    private TextView cart_total_tv;
+    private TextView cart_total_tv, cart_edit_tv;
     //全选,全删
     private CheckBox cart_check_all_checkbox, cart_delete_all_checkbox;
     private Button cart_settle_btn;
@@ -68,9 +68,11 @@ public class ShoppingCartFragment extends BaseFragment {
         cart_delete_all_checkbox = view.findViewById(R.id.cart_delete_all_checkbox);//全不选
         View viewById = view.findViewById(R.id.cart_item_price_tv);//商品价格
         cart_item_rv = view.findViewById(R.id.cart_item_rv);//待添入商品的列表
-
+        cart_edit_tv = view.findViewById(R.id.cart_edit_tv);
         cart_settle_btn = view.findViewById(R.id.cart_settle_btn);//结算按钮
-
+        cart_edit_tv.setOnClickListener(v -> {
+            saveData();
+        });
         //给结算按钮绑定事件
         cart_settle_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,8 +92,6 @@ public class ShoppingCartFragment extends BaseFragment {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     // 设置对话框的确定按钮，当用户点击确定时触发此处的代码   这里是结算的代码
-
-
                                     Toast.makeText(mContext, "完成商品购买,总计价格为:" + totalPrice + "元", Toast.LENGTH_SHORT).show();
                                     // 显示一个短暂的Toast提示，显示完成商品购买的信息和总计价格
                                 }
@@ -200,6 +200,15 @@ public class ShoppingCartFragment extends BaseFragment {
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
+                                if (adapter == null) {
+                                    adapter = new ShoppingCartAdapter(mContext, medicineList, cart_total_tv, cart_check_all_checkbox, cart_delete_all_checkbox);
+                                    //循环视图加载适配器
+                                    cart_item_rv.setAdapter(adapter);
+                                    //创建网格布局
+                                    GridLayoutManager manager = new GridLayoutManager(mContext, 1);
+                                    //循环视图加载网格布局
+                                    cart_item_rv.setLayoutManager(manager);
+                                }
                                 adapter.setmedicineList(medicineList);
                                 adapter.flushView();
                             }
@@ -242,12 +251,13 @@ public class ShoppingCartFragment extends BaseFragment {
                         });
                         Log.i(TAG, "获取购物车商品响应解析对象:" + medicineList);
                         if (!result.getCode().equals(200)) {
-                            Log.i(TAG, "保存数据失败");
+                            Log.i(TAG, "保存数据成功");
                         }
                     }
 
                 } catch (Exception e) {
                     e.printStackTrace();
+                    Looper.prepare();
                     Toast.makeText(mContext, "获取数据失败,服务器错误", Toast.LENGTH_SHORT).show();
                     Looper.loop();
                 }

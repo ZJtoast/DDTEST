@@ -193,9 +193,8 @@ public class PayAdapter extends RecyclerView.Adapter<PayAdapter.PayAdapterViewHo
                                             try {
                                                 //发送删除请求
                                                 String url = PropertiesUtils.getUrl(mContext);
-                                                String ID = orderList.get(getLayoutPosition()).getCommodityID().toString();
-                                                String NUM = orderList.get(getLayoutPosition()).getCommodityNum().toString();
-                                                responseJson = OkhttpUtils.doDeleteByToken(url + "/order/add?CommodityID=" + ID + "&CommodityNum=" + NUM, TokenContextUtils.getToken());
+                                                String ID = orderList.get(getLayoutPosition()).getOrderID().toString();
+                                                responseJson = OkhttpUtils.doPutByToken(url + "/order/pay/" + ID, "", TokenContextUtils.getToken());
                                                 Log.i(TAG, "响应json:" + responseJson);
                                                 Result<String> result = JSONObject.parseObject(responseJson, new TypeReference<Result<String>>() {
                                                 });
@@ -211,7 +210,7 @@ public class PayAdapter extends RecyclerView.Adapter<PayAdapter.PayAdapterViewHo
                                                                 //全局刷新
                                                                 orderList.remove(getLayoutPosition());
                                                                 notifyDataSetChanged();
-                                                                Toast.makeText(mContext, "订单已删除", Toast.LENGTH_SHORT).show();
+                                                                Toast.makeText(mContext, "成功支付", Toast.LENGTH_SHORT).show();
                                                             }
                                                         });
                                                     }
