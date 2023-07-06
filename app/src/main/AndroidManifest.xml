@@ -16,16 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DDMALL">
         <activity
-            android:name=".order.activity_wait_pay"
-            android:exported="false" />
-        <activity
-            android:name=".order.activity_wait_deliver"
-            android:exported="false" />
-        <activity
-            android:name=".order.activity_wait_receive"
-            android:exported="false" />
-        <activity
-            android:name=".order.activity_wait_comment"
+            android:name=".comment.CommentInfoActivity"
             android:exported="false" />
         <activity
             android:name=".MedicineInfoActivity"

@@ -1,9 +1,11 @@
 package pers.ervinse.ddmall.domain;
 
+import java.io.Serializable;
+
 import lombok.Data;
 
 @Data
-public class Address_ {
+public class Address_ implements Serializable {
     private String CountryforAddress;
     private String ProvinceforAddress;
     private String TownforAddress;

@@ -1,6 +1,5 @@
 package pers.ervinse.ddmall.comment;
 
-import static com.google.android.material.snackbar.BaseTransientBottomBar.handler;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -10,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -25,31 +25,38 @@ import java.util.List;
 
 import pers.ervinse.ddmall.R;
 import pers.ervinse.ddmall.domain.Comment;
-import pers.ervinse.ddmall.domain.Medicine;
+import pers.ervinse.ddmall.domain.Order;
 import pers.ervinse.ddmall.domain.Result;
 import pers.ervinse.ddmall.type.adapter.TypeAdapter;
 import pers.ervinse.ddmall.type.fragment.TypeFragment;
 import pers.ervinse.ddmall.utils.OkhttpUtils;
 import pers.ervinse.ddmall.utils.PropertiesUtils;
+import pers.ervinse.ddmall.utils.TokenContextUtils;
 
 public class WaitCommentActivity extends Activity {
     private static final String TAG = TypeFragment.class.getSimpleName();
     private Context mContext;
-    private Thread current;
+    private List<Order> orderList;
     private Handler handler = new Handler();
     private RecyclerView rv_type;
     private CommentAdapter adapter;
-    private RadioGroup commentGroup;
+    private Thread current;
+    private ImageButton good_info_back_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wait_comment);
+        rv_type = findViewById(R.id.drug_lv);
+        good_info_back_btn = findViewById(R.id.good_info_back_btn);
+        good_info_back_btn.setOnClickListener(v -> {
+            finish();
+        });
         mContext = this;
         initData();
     }
 
-    public void firstFresh(List<Comment> list) {
+    public void firstFresh(List<Order> list) {
         handler.post(new Runnable() {
             @Override
             public void run() {
@@ -65,7 +72,7 @@ public class WaitCommentActivity extends Activity {
         });
     }
 
-    public void freshInMain(List<Comment> list) {
+    public void freshInMain(List<Order> list) {
         handler.post(new Runnable() {
             @Override
             public void run() {
@@ -79,38 +86,46 @@ public class WaitCommentActivity extends Activity {
             }
         });
     }
+
     /**
      * 初始化数据
      */
     public void initData() {
         Log.i(TAG, "待评论数据初始化");
         Thread initThread = new Thread(() -> {
-            List<Comment> comments = new ArrayList<>();
+            List<Order> orders = new ArrayList<>();
             Log.i(TAG, "进入获取待评论商品信息线程");
             String responseJson = null;
             try {
                 //发送获取商品请求
                 String url = PropertiesUtils.getUrl(mContext);
                 //提交查找请求
-                responseJson = OkhttpUtils.doGet(url + "/order/all");
-                Result<List<Comment>> CommentResponse = JSONObject.parseObject(responseJson, new TypeReference<Result<List<Comment>>>() {
+                responseJson = OkhttpUtils.doGetByToken(url + "/order/all", TokenContextUtils.getToken());
+                Result<List<Order>> result = JSONObject.parseObject(responseJson, new TypeReference<Result<List<Order>>>() {
                 });
-                comments = CommentResponse.getData();
+                List<Order> orderTemp = result.getData();
+                for (Order order : orderTemp) {
+                    if (order.getOrderPayState().equals(4)) {
+                        orders.add(order);
+                    }
+                }
                 Log.i(TAG, "获取评论响应解析对象:");
 
                 if (current.getName().equals(Thread.currentThread().getName())) {
-                    firstFresh(medicines);
-
-                    for (Medicine medicine : medicines) {
+                    firstFresh(orders);
+                    for (Order order : orders) {
                         try {
-                            OkhttpUtils.saveImage(url + "/medicines/MedicinePicture/" + medicine.getCommodityID(), medicine.getCommodityID().toString(), mContext);
+                            OkhttpUtils.saveImage(url + "/medicines/MedicinePicture/" + order.getCommodityID(), order.getCommodityID().toString(), mContext);
                         } catch (IOException e) {
                             Log.i(TAG, e.toString());
                         }
                     }
-                    freshInMain(medicines);
-                    medicineList = medicines;
                 }
+                if (current.getName().equals(Thread.currentThread().getName())) {
+                    freshInMain(orders);
+                    orderList = orders;
+                }
+
             } catch (IOException e) {
                 e.printStackTrace();
                 Looper.prepare();
@@ -121,56 +136,5 @@ public class WaitCommentActivity extends Activity {
         });
         current = initThread;
         initThread.start();
-    }
-
-    public void getData() {
-        Log.i(TAG, "联网刷新数据");
-        Thread dataThread = new Thread(() -> {
-            @SuppressLint("NotifyDataSetChanged")
-            List<Medicine> medicines = new ArrayList<>();
-            String responseJson = null;
-            try {
-                Log.i(TAG, "进入获取商品类型线程,商品类型为" + type.toString());
-                //发送获取商品请求
-                String url = PropertiesUtils.getUrl(mContext);
-
-
-                //提交查找请求
-                responseJson = OkhttpUtils.doGet(url + "/medicines/type/" + type.toString());
-                Result<List<Medicine>> medicineResponse = JSONObject.parseObject(responseJson, new TypeReference<Result<List<Medicine>>>() {});
-                Log.i(TAG, "获取热点响应解析对象:" + medicineResponse);
-                //获取商品成功
-                //接下来接收药品图片
-                medicines = medicineResponse.getData();
-                Log.i(TAG, "获取商品响应json:" + responseJson);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-                Looper.prepare();
-                Toast.makeText(mContext, "获取数据失败,服务器错误", Toast.LENGTH_SHORT).show();
-                Looper.loop();
-
-            }
-            if (current.getName().equals(Thread.currentThread().getName())) {
-                freshInMain(medicines);
-                for (Medicine medicine : medicines) {
-                    String url = PropertiesUtils.getUrl(mContext);
-                    try {
-                        OkhttpUtils.saveImage(url + "/medicines/MedicinePicture/" + medicine.getCommodityID(), medicine.getCommodityID().toString(), mContext);
-                    } catch (IOException e) {
-                        Log.i(TAG, e.toString());
-                    }
-                }
-                //切回主线程调整布局
-                freshInMain(medicines);
-                medicineList = medicines;
-            }
-        });
-        current = dataThread;
-        dataThread.start();
-    }
-
-    public void refreshData() {
-        getData();
     }
 }
