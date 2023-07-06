@@ -148,6 +148,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
                             Medicine medicineByClick = medicineList.get(getLayoutPosition());
                             Intent intent = new Intent(mContext, MedicineInfoActivity.class);
+                            Log.i("进入药品详情界面", "");
                             intent.putExtra("medicine", medicineByClick);
                             mContext.startActivity(intent);
 //                            Log.i(TAG, "进入添加购物车线程");

@@ -64,9 +64,11 @@
         android:layout_height="20dp"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="10dp"
+        android:layout_marginRight="140dp"
         android:layout_marginBottom="0dp"
         android:text="我的订单"
         android:textStyle="bold" />
+
 
     <GridLayout
         android:layout_width="match_parent"
@@ -163,12 +165,12 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/user_desc"
+            android:id="@+id/user_all_order"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingVertical="10dp"
             android:paddingLeft="30dp"
-            android:text="用户信息"
+            android:text="全部订单"
             android:textColor="#555"
             android:textSize="16dp" />
 

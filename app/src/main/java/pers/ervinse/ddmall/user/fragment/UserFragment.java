@@ -20,6 +20,7 @@ import pers.ervinse.ddmall.AddressManageActivity;
 import pers.ervinse.ddmall.BaseFragment;
 import pers.ervinse.ddmall.LoginActivity;
 import pers.ervinse.ddmall.R;
+import pers.ervinse.ddmall.allorders.AllOrdersActivity;
 import pers.ervinse.ddmall.comment.WaitCommentActivity;
 import pers.ervinse.ddmall.deliver.WaitDeliverActivity;
 import pers.ervinse.ddmall.pay.WaitPayActivity;
@@ -36,8 +37,7 @@ public class UserFragment extends BaseFragment {
 
     private ImageView user_photo_image;
 
-    private Integer user_id;
-    private TextView user_desc_tv;
+    private TextView user_all_order;
     private TextView user_id_tv, user_name_tv, user_location;
     private Button user_logout_btn;
 
@@ -56,7 +56,7 @@ public class UserFragment extends BaseFragment {
         View view = View.inflate(mContext, R.layout.fragment_user, null);
         user_logout_btn = view.findViewById(R.id.user_logout_btn);
         user_bar = view.findViewById(R.id.user_bar);
-        user_desc_tv = view.findViewById(R.id.user_desc);
+        user_all_order = view.findViewById(R.id.user_all_order);
         user_id_tv = view.findViewById(R.id.user_id_tv);
         user_name_tv = view.findViewById(R.id.user_name_tv);
         wait_pay = view.findViewById(R.id.wait_pay);
@@ -64,7 +64,6 @@ public class UserFragment extends BaseFragment {
         wait_deliver = view.findViewById(R.id.wait_deliver);
         wait_receive = view.findViewById(R.id.wait_receive);
         user_location = view.findViewById(R.id.user_location);
-        TokenContextUtils.setToken("null");
         return view;
     }
 
@@ -81,6 +80,16 @@ public class UserFragment extends BaseFragment {
      * 初始化监听器
      */
     private void initListener() {
+        user_all_order.setOnClickListener(v -> {
+            if (isLogin) {
+                Log.i(TAG, "用户打开全部订单界面");
+                Intent intent = new Intent(mContext, AllOrdersActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(mContext, "用户未登录", Toast.LENGTH_SHORT).show();
+                Looper.loop();
+            }
+        });
         user_location.setOnClickListener(v -> {
             if (isLogin) {
                 Log.i(TAG, "用户打开地址管理界面");
@@ -151,35 +160,35 @@ public class UserFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
                 Log.i(TAG, "用户登出事件");
+                if (isLogin) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
+                            .setTitle("退出登录")
+                            .setMessage("您是否要退出登录?")
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    //关闭对话框
+                                    dialogInterface.dismiss();
+                                    //用户名恢复,简介不可见
+                                    isLogin = false;
+                                    TokenContextUtils.setToken("null");
+                                    user_name_tv.setText("点击登录");
+                                    user_id_tv.setText("");
+                                }
+                            })
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
-                        .setTitle("退出登录")
-                        .setMessage("您是否要退出登录?")
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                //关闭对话框
-                                dialogInterface.dismiss();
-                                //用户名恢复,简介不可见
-                                isLogin = false;
-                                TokenContextUtils.setToken("null");
-                                user_name_tv.setText("点击登录");
-                                user_id_tv.setText("");
-                                user_desc_tv.setText("用户信息");
-                            }
-                        })
+                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    //关闭对话框
+                                    dialogInterface.dismiss();
+                                }
+                            });
 
-                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                //关闭对话框
-                                dialogInterface.dismiss();
-                            }
-                        });
-
-                //创建对话框,并显示
-                AlertDialog logoutDialog = builder.create();
-                logoutDialog.show();
+                    //创建对话框,并显示
+                    AlertDialog logoutDialog = builder.create();
+                    logoutDialog.show();
+                }
 
 
             }
@@ -209,8 +218,7 @@ public class UserFragment extends BaseFragment {
                     try {
                         String userDesc = userInfo.getUserSex() + "   " + userInfo.getUserAge().toString() + "岁";
                         Log.i(TAG, "用户登录数据回传: userName ");
-                        user_desc_tv.setVisibility(View.VISIBLE);
-                        user_desc_tv.setText("用户信息:" + userDesc);
+
                     } catch (NullPointerException ne) {
                         Log.i(TAG, "缺少了某些信息");
                     }
@@ -218,7 +226,6 @@ public class UserFragment extends BaseFragment {
                     String userAccount = userInfo.getUserAccount();
                     user_name_tv.setText(userName);
                     user_id_tv.setText(userAccount);
-                    user_id = userInfo.getUserID();
 
                 }
                 break;

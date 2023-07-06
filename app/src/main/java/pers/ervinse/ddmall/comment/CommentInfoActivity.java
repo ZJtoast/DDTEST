@@ -1,5 +1,6 @@
 package pers.ervinse.ddmall.comment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -44,6 +45,7 @@ public class CommentInfoActivity extends AppCompatActivity {
     private EditText et_comment;
     private RatingBar rb_score;
     private Button btn_commit;
+
     private Order order;
     private ImageButton comment_info_back_btn;
 
@@ -68,6 +70,7 @@ public class CommentInfoActivity extends AppCompatActivity {
 
         btn_commit.setOnClickListener(v -> {
             new Thread(() -> {
+                @SuppressLint("NotifyDataSetChanged")
                 String url = PropertiesUtils.getUrl(mContext);
                 String responseJson = null;
                 CommentInfo comment = new CommentInfo();

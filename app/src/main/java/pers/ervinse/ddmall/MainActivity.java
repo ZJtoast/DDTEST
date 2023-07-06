@@ -16,6 +16,7 @@ import pers.ervinse.ddmall.shoppingcart.fragment.ShoppingCartFragment;
 import pers.ervinse.ddmall.type.fragment.TypeFragment;
 import pers.ervinse.ddmall.user.fragment.UserFragment;
 import pers.ervinse.ddmall.utils.PropertiesUtils;
+import pers.ervinse.ddmall.utils.TokenContextUtils;
 
 public class MainActivity extends FragmentActivity {
 
@@ -33,7 +34,7 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        TokenContextUtils.setToken("null");
         //加载底部按钮组
         bottom_btn_group = findViewById(R.id.bottom_btn_group);
         //设置底部按钮中的'首页'在打开应用时被选中

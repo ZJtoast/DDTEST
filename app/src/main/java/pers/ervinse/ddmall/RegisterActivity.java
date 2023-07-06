@@ -95,8 +95,7 @@ public class RegisterActivity extends Activity {
                 } catch (NumberFormatException nfe) {
                     Log.i(TAG, "用户输入不合法的年龄信息");
                     register_login_age_et.setText("请输入年龄");
-                    Looper.prepare();
-                    Toast.makeText(mContext, "登录失败,用户名或密码错误", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "请输入合法的年龄", Toast.LENGTH_SHORT).show();
                     Looper.loop();
                 }
 
