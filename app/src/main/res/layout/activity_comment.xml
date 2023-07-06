@@ -4,14 +4,14 @@
     android:orientation="vertical">
     <!--标题栏-->
     <LinearLayout
-        android:id="@+id/medicine_info_title_bar"
+        android:id="@+id/commentinfo_title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#F4F4F4"
+        android:background="#FFC107"
         android:padding="10dp">
 
         <ImageButton
-            android:id="@+id/medicine_info_back_btn"
+            android:id="@+id/comment_info_back_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/top_bar_left_back" />

@@ -18,6 +18,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -27,8 +29,10 @@ import java.util.List;
 import pers.ervinse.ddmall.R;
 import pers.ervinse.ddmall.domain.Medicine;
 import pers.ervinse.ddmall.domain.Medicine;
+import pers.ervinse.ddmall.domain.Result;
 import pers.ervinse.ddmall.utils.OkhttpUtils;
 import pers.ervinse.ddmall.utils.PropertiesUtils;
+import pers.ervinse.ddmall.utils.TokenContextUtils;
 
 public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapter.ViewHolder> {
 
@@ -225,7 +229,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
                 Medicine medicine = medicineList.get(i);
                 if (medicine.isSelected) {
 
-                    totalPrice = totalPrice + Double.valueOf(medicine.getCommodityName()) * Double.valueOf(medicine.getCommodityPrice());
+                    totalPrice = totalPrice + Double.valueOf(medicine.getCommodityNum()) * Double.valueOf(medicine.getCommodityPrice());
                 }
             }
         }
@@ -259,10 +263,13 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
         holder.cart_item_description_tv.setText(medicine.getCommodityName() + "  " + medicine.getCommodityDesc());
         holder.cart_item_price_tv.setText("￥" + String.valueOf(medicineList.get(position).getCommodityPrice()));
         holder.cart_item_check_checkbox.setChecked(medicineList.get(position).getIsSelected());
-        holder.cart_item_value_tv.setText("" + medicineList.get(position).getCommodityPurchaseNumber().toString());
+        holder.cart_item_value_tv.setText("" + medicineList.get(position).getCommodityNum().toString());
         //通过图片名字获取图片资源的id
-        int id = mContext.getResources().getIdentifier(medicineList.get(position).getCommodityID().toString(), "drawable", mContext.getPackageName());
-        holder.cart_item_image.setImageResource(id);
+        try {
+            OkhttpUtils.setImage(holder.cart_item_image, medicineList.get(position).getCommodityID().toString(), mContext);
+        } catch (IOException e) {
+            Log.i("TAG", "图片传输错误");
+        }
     }
 
     /**
@@ -289,7 +296,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
         private Button cart_item_delete_btn;
 
         //商品最大数量和最小数量
-        private int MIN_NUM = 1, MAX_NUM = 99;
+        private int MIN_NUM = 1, MAX_NUM = 199;
 
         /**
          * 加载item布局文件
@@ -316,11 +323,11 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
                     //从数据集合中获取对应的商品
                     Medicine medicine = medicineList.get(getLayoutPosition());
                     //获取该商品减少之前的数量
-                    Integer number = medicine.getCommodityPurchaseNumber();
+                    Integer number = medicine.getCommodityNum();
                     //调用submedicineNum()方法,根据规则修改数据,返回修改之后的数据
                     int numberBySub = submedicineNum(number);
                     //将修改之后的数据记录该商品中
-                    medicine.setCommodityPurchaseNumber(numberBySub);
+                    medicine.setCommodityNum(numberBySub);
                     //页面上显示修改后的数量
                     cart_item_value_tv.setText(numberBySub + "");
                     //根据数量重新计算总价,并刷新总价页面
@@ -336,11 +343,11 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
                     //从数据集合中获取对应的商品
                     Medicine medicine = medicineList.get(getLayoutPosition());
                     //获取该商品增加之前的数量
-                    Integer number = medicine.getCommodityPurchaseNumber();
+                    Integer number = medicine.getCommodityNum();
                     //调用addmedicineNum()方法,根据规则修改数据,返回修改之后的数据
                     Integer numberByAdd = addmedicineNum(number);
                     //将修改之后的数据记录该商品中
-                    medicine.setCommodityPurchaseNumber(numberByAdd);
+                    medicine.setCommodityNum(numberByAdd);
                     //页面上显示修改后的数量
                     cart_item_value_tv.setText(numberByAdd + "");
                     //根据数量重新计算总价,并刷新总价页面
@@ -374,25 +381,21 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
                                         @Override
                                         public void run() {
                                             Log.i(TAG, "进入删除购物车商品数量线程");
-
-
-                                            Gson gson = new Gson();
                                             String responseJson = null;
-                                            //获取要删除的商品名
-                                            Medicine medicineForAdd = new Medicine();
-                                            medicineForAdd.setCommodityName(medicineList.get(getLayoutPosition()).getCommodityName());
-                                            String medicineJson = gson.toJson(medicineForAdd);
+                                            //获取要删除的商品ID
+                                            String medicineID = medicineList.get(getLayoutPosition()).getCommodityID().toString();
                                             try {
                                                 //发送删除请求
                                                 String url = PropertiesUtils.getUrl(mContext);
-                                                responseJson = OkhttpUtils.doPost(url + "/cart/deleteByName", medicineJson);
+                                                responseJson = OkhttpUtils.doDeleteByToken(url + "/shoppingCart/" + medicineID, TokenContextUtils.getToken());
                                                 Log.i(TAG, "删除购物车商品响应json:" + responseJson);
-                                                responseJson = gson.fromJson(responseJson, String.class);
+                                                Result<Boolean> result = JSONObject.parseObject(responseJson, new TypeReference<Result<Boolean>>() {
+                                                });
                                                 Log.i(TAG, "删除购物车商品响应解析对象:" + responseJson);
-
+                                                Integer code = result.getCode();
                                                 //删除成功
                                                 if (responseJson != null) {
-                                                    if (responseJson.equals("true")) {
+                                                    if (code.equals(200)) {
                                                         //切回主线程刷新视图
                                                         handler.post(new Runnable() {
                                                             @Override

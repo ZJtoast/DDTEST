@@ -18,8 +18,9 @@ public class Medicine implements Serializable {
     private String commodityName, commodityDesc, merchantLocation, merchantID;
     private Integer commodityID;
 
-    private Integer commodityPurchaseNumber;//commodityID也作为图片索引
+    private Integer commodityNum;//commodityID也作为图片索引
     private Integer commditySales;
+    private Integer commdityType;
     private Integer commodityPrice;
 
     @Override

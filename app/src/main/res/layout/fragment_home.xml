@@ -71,7 +71,7 @@
         android:layout_below="@+id/rv_home"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:background="#57FAF9EF"
+        android:background="#fff"
         android:orientation="vertical">
 
         <TextView

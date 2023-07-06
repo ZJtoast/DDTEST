@@ -16,6 +16,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -27,6 +29,7 @@ import okhttp3.OkHttpClient;
 import pers.ervinse.ddmall.BaseFragment;
 import pers.ervinse.ddmall.R;
 import pers.ervinse.ddmall.domain.Medicine;
+import pers.ervinse.ddmall.domain.Result;
 import pers.ervinse.ddmall.shoppingcart.adapter.ShoppingCartAdapter;
 import pers.ervinse.ddmall.utils.OkhttpUtils;
 import pers.ervinse.ddmall.utils.PropertiesUtils;
@@ -88,8 +91,6 @@ public class ShoppingCartFragment extends BaseFragment {
                                     // 设置对话框的确定按钮，当用户点击确定时触发此处的代码   这里是结算的代码
 
 
-
-
                                     Toast.makeText(mContext, "完成商品购买,总计价格为:" + totalPrice + "元", Toast.LENGTH_SHORT).show();
                                     // 显示一个短暂的Toast提示，显示完成商品购买的信息和总计价格
                                 }
@@ -100,7 +101,7 @@ public class ShoppingCartFragment extends BaseFragment {
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     // 设置对话框的取消按钮，当用户点击取消时触发此处的代码
                                     // 在这里可以添加取消操作的逻辑代码
-                                    Toast.makeText(mContext, "取消成功",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mContext, "取消成功", Toast.LENGTH_SHORT).show();
                                 }
                             });
 
@@ -110,10 +111,10 @@ public class ShoppingCartFragment extends BaseFragment {
                     alertDialog.show();
                 }
             }
-    });
+        });
 
         return view;
-}
+    }
 
     /**
      * 初始化数据
@@ -126,20 +127,18 @@ public class ShoppingCartFragment extends BaseFragment {
             @Override
             public void run() {
                 Log.i(TAG, "进入获取购物车商品线程");
-
-                Gson gson = new Gson();
                 String responseJson = null;
                 try {
                     //发送登录请求
                     String url = PropertiesUtils.getUrl(mContext);
 
-                    responseJson= OkhttpUtils.doGetByToken(url + "/shoppingCart/list", TokenContextUtils.getToken());
+                    responseJson = OkhttpUtils.doGetByToken(url + "/shoppingCart/list", TokenContextUtils.getToken());
 
                     Log.i(TAG, "获取购物车商品响应json:" + responseJson);
-                    medicineList = gson.fromJson(responseJson, new TypeToken<List<Medicine>>() {
-                    }.getType());
+                    Result<List<Medicine>> result = JSONObject.parseObject(responseJson, new TypeReference<Result<List<Medicine>>>() {
+                    });
                     Log.i(TAG, "获取购物车商品响应解析对象:" + medicineList);
-
+                    medicineList = result.getData();
                     //获取数据成功,加创建商品布局
                     if (medicineList != null) {
                         //切回主线程加载视图
@@ -182,17 +181,17 @@ public class ShoppingCartFragment extends BaseFragment {
             @Override
             public void run() {
                 Log.i(TAG, "进入获取购物车商品线程");
-                Gson gson = new Gson();
                 String responseJson = null;
                 try {
                     //发送登录请求
                     String url = PropertiesUtils.getUrl(mContext);
-                    responseJson = OkhttpUtils.doGet(url + "/cart");//发送一个HTTP GET请求，并将返回的响应结果赋值给responseJson变量。
+
+                    responseJson = OkhttpUtils.doGetByToken(url + "/shoppingCart/list", TokenContextUtils.getToken());
+
                     Log.i(TAG, "获取购物车商品响应json:" + responseJson);
-                    //将responseJson字符串解析为一个List<Medicine>对象，并将其赋值给名为medicineList的变量。
-                    // gson.fromJson()方法使用泛型和TypeToken类来指定解析结果的类型。
-                    medicineList = gson.fromJson(responseJson, new TypeToken<List<Medicine>>() {
-                    }.getType());
+                    Result<List<Medicine>> result = JSONObject.parseObject(responseJson, new TypeReference<Result<List<Medicine>>>() {
+                    });
+                    medicineList = result.getData();
                     Log.i(TAG, "获取购物车商品响应解析对象:" + medicineList);
 
                     //数据获取成功,加创建商品布局
@@ -228,22 +227,14 @@ public class ShoppingCartFragment extends BaseFragment {
             @Override
             public void run() {
                 Log.i(TAG, "进入保存购物车数据线程");
-
-                Gson gson = new Gson();
-                String medicineListJson = gson.toJson(medicineList);
-                Log.i(TAG, "保存购物车数据响应json:" + medicineListJson);
                 String responseJson = null;
                 try {
                     //发送获取购物车商品请求
                     String url = PropertiesUtils.getUrl(mContext);
-                    responseJson = OkhttpUtils.doPost(url + "/cart/updatemedicineInfo", medicineListJson);
-                    Log.i(TAG, "保存购物车数据响应json:" + responseJson);
-                    responseJson = gson.fromJson(responseJson, String.class);
-                    Log.i(TAG, "保存购物车数据响应解析对象:" + responseJson);
 
-                } catch (IOException e) {
+
+                } catch (Exception e) {
                     e.printStackTrace();
-                    Looper.prepare();
                     Toast.makeText(mContext, "获取数据失败,服务器错误", Toast.LENGTH_SHORT).show();
                     Looper.loop();
                 }

@@ -142,6 +142,8 @@ public class TypeFragment extends BaseFragment {
                             Log.i(TAG, e.toString());
                         }
                     }
+                }
+                if (current.getName().equals(Thread.currentThread().getName())) {
                     freshInMain(medicines);
                     medicineList = medicines;
                 }
@@ -195,6 +197,8 @@ public class TypeFragment extends BaseFragment {
                         Log.i(TAG, e.toString());
                     }
                 }
+            }
+            if (current.getName().equals(Thread.currentThread().getName())) {
                 //切回主线程调整布局
                 freshInMain(medicines);
                 medicineList = medicines;

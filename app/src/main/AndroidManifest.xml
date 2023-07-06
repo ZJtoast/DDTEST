@@ -31,6 +31,9 @@
             android:name=".MedicineInfoActivity"
             android:exported="false" />
         <activity
+            android:name=".search.SearchResultActivity"
+            android:exported="false" />
+        <activity
             android:name=".WaitDeliverActivity"
             android:exported="false" />
         <activity

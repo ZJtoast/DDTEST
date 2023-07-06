@@ -9,13 +9,13 @@
 
     <ImageView
         android:id="@+id/item_image"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginRight="20dp"
+        android:layout_width="65dp"
+        android:layout_height="85dp"
+        android:layout_marginLeft="40dp"
         android:src="@drawable/medicine_image_1" />
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="135dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="-8dp">
 
@@ -59,12 +59,13 @@
 
     <Button
         android:id="@+id/item_desc_btn"
-        android:layout_width="60dp"
+        android:layout_width="40dp"
         android:layout_height="25dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="12dp"
-        android:layout_marginRight="0dp"
+        android:layout_marginRight="60dp"
         android:background="@drawable/add_type_item_shape"
         android:text="详情"
         android:textColor="#FF8F03"
-        android:textSize="12sp" />
+        android:textSize="10sp" />
 </LinearLayout>

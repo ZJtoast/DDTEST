@@ -137,10 +137,6 @@ public class LoginActivity extends Activity {
 
                             Intent intent = new Intent();
                             intent.putExtra("user", userRes);
-                            intent.putExtra("token", response.getData());
-
-                            Token token = response.getData();
-                            TokenContextUtils.setToken(token.getToken());
 
                             //intent.putExtra("userId", userId);
                             //设置数据状态
