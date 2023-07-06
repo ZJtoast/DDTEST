@@ -35,6 +35,7 @@ public class AddAddressActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address);
         mContext=this;
+
         province = findViewById(R.id.province);
         city = findViewById(R.id.city);
         district = findViewById(R.id.district);
@@ -54,7 +55,6 @@ public class AddAddressActivity extends Activity {
                 startActivity(intent);
             }
         });
-
     }
 
 
@@ -88,9 +88,7 @@ public class AddAddressActivity extends Activity {
                     Toast.makeText(mContext, "获取数据失败,服务器错误", Toast.LENGTH_SHORT).show();
                     Looper.loop();
                 }
-
             }
         }.start();
     }
 }
-
