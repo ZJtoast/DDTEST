@@ -15,7 +15,7 @@
             android:id="@+id/merchant"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="商家:三九感冒灵"
+            android:text=""
             android:textSize="20dp" />
 
         <LinearLayout

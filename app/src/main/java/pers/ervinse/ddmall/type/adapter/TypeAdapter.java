@@ -128,50 +128,6 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeAdapter.TypeViewHolder
                     Intent intent = new Intent(mContext, MedicineInfoActivity.class);
                     intent.putExtra("medicine", medicineByClick);
                     mContext.startActivity(intent);
-
-//                    new Thread() {
-//                        @Override
-//                        public void run() {
-//                            Log.i(TAG, "进入添加购物车商品线程");
-//
-//                            Gson gson = new Gson();
-//                            String responseJson = null;
-//
-//                            //获取当前商品名
-//                            Medicine medicineByClick = medicineList.get(getLayoutPosition());
-//                            Medicine medicineForAdd = new Medicine();
-//                            medicineForAdd.setCommodityName(medicineByClick.getCommodityName());
-//                            String medicineJson = gson.toJson(medicineForAdd);
-//                            try {
-//                                //发送添加购购物车请求
-//                                String url = PropertiesUtils.getUrl(mContext);
-//                                responseJson = OkhttpUtils.doPost(url + "/cart/addmedicineToCart", medicineJson);
-//                                Log.i(TAG, "添加购物车商品响应json:" + responseJson);
-//                                responseJson = gson.fromJson(responseJson, String.class);
-//                                Log.i(TAG, "添加购物车商品响应解析对象:" + responseJson);
-//
-//                                if (responseJson != null) {
-//                                    //添加成功
-//                                    if (responseJson.equals("true")) {
-//                                        Looper.prepare();
-//                                        Toast.makeText(mContext, "商品已添加到购物车", Toast.LENGTH_SHORT).show();
-//                                        Looper.loop();
-//                                        //添加失败,商品已经在购物车中
-//                                    } else {
-//                                        Looper.prepare();
-//                                        Toast.makeText(mContext, "商品已经在购物车啦", Toast.LENGTH_SHORT).show();
-//                                        Looper.loop();
-//                                    }
-//                                }
-//
-//                            } catch (IOException e) {
-//                                e.printStackTrace();
-//                                Looper.prepare();
-//                                Toast.makeText(mContext, "获取数据失败,服务器错误", Toast.LENGTH_SHORT).show();
-//                                Looper.loop();
-//                            }
-//                        }
-//                    }.start();
                 }
             });
         }

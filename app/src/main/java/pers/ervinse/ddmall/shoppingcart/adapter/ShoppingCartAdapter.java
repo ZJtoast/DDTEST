@@ -72,6 +72,10 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
         checkAll();
     }
 
+    public List<Medicine> getMedicineList() {
+        return medicineList;
+    }
+
     /**
      * 供外部使用,更新medicineList数据
      *

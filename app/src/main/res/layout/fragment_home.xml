@@ -84,8 +84,9 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/text_knowledge"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="140dp"
             android:drawable="@drawable/text_bottom"
             android:text="  HELLO" />
     </LinearLayout>

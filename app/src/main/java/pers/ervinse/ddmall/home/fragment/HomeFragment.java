@@ -27,11 +27,13 @@ import java.util.List;
 import pers.ervinse.ddmall.BaseFragment;
 import pers.ervinse.ddmall.R;
 import pers.ervinse.ddmall.domain.Result;
+import pers.ervinse.ddmall.domain.Tip;
 import pers.ervinse.ddmall.home.adapter.HomeAdapter;
 import pers.ervinse.ddmall.domain.Medicine;
 import pers.ervinse.ddmall.search.SearchResultActivity;
 import pers.ervinse.ddmall.utils.OkhttpUtils;
 import pers.ervinse.ddmall.utils.PropertiesUtils;
+import pers.ervinse.ddmall.utils.TokenContextUtils;
 
 /**
  * 首页碎片
@@ -45,7 +47,7 @@ public class HomeFragment extends BaseFragment {
     private RecyclerView rvHome;
     private ImageView ib_top;
     private TextView tv_search_home;
-    private TextView tv_put_search;
+    private TextView tv_put_search, text_knowledge;
     private HomeAdapter adapter;
     private RadioGroup fourType;
     private Thread current;
@@ -66,6 +68,7 @@ public class HomeFragment extends BaseFragment {
         rvHome = view.findViewById(R.id.rv_home);
         tv_search_home = view.findViewById(R.id.tv_search_home);
         tv_put_search = view.findViewById(R.id.tv_put_search);
+        text_knowledge = view.findViewById(R.id.text_knowledge);
 
         //首页分类框
         fourType = view.findViewById(R.id.category_btn_group);
@@ -122,6 +125,7 @@ public class HomeFragment extends BaseFragment {
         Thread dataThread = new Thread(() -> {
             @SuppressLint("NotifyDataSetChanged")
             List<Medicine> medicines = new ArrayList<>();
+            getTextKnowLedge();
             String responseJson = null;
             for (Integer type : typelist) {
                 try {
@@ -211,6 +215,7 @@ public class HomeFragment extends BaseFragment {
             List<Medicine> medicines = new ArrayList<>();
             Log.i(TAG, "进入获取商品线程");
             String responseJson = null;
+            getTextKnowLedge();
             try {
                 //发送获取商品请求
                 String url = PropertiesUtils.getUrl(mContext);
@@ -257,9 +262,34 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void refreshData() {
         if (typelist == null) {
-            typelist = new ArrayList<>();
+            fourType.check(R.id.category_house_btn);
         }
         getDate();
+    }
+
+    public void getTextKnowLedge() {
+        String responseJson = null;
+        try {
+            Log.i(TAG, "获取健康小知识");
+            //发送获取商品请求
+            String url = PropertiesUtils.getUrl(mContext);
+
+
+            //提交查找请求
+            responseJson = OkhttpUtils.doGetByToken(url + "/tip/random", TokenContextUtils.getToken());
+            Result<Tip> result = JSONObject.parseObject(responseJson, new TypeReference<Result<Tip>>() {
+            });
+            //接下来接收药品图片
+            Log.i(TAG, "成功获取健康小知识:" + responseJson);
+
+            text_knowledge.setText(result.getData().getTipText());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(mContext, "获取数据失败,服务器错误", Toast.LENGTH_SHORT).show();
+            Looper.loop();
+
+        }
     }
 
     @Override

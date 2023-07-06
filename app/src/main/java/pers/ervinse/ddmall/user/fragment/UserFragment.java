@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
+import pers.ervinse.ddmall.AddressManageActivity;
 import pers.ervinse.ddmall.BaseFragment;
 import pers.ervinse.ddmall.LoginActivity;
 import pers.ervinse.ddmall.R;
@@ -37,11 +38,12 @@ public class UserFragment extends BaseFragment {
 
     private Integer user_id;
     private TextView user_desc_tv;
-    private TextView user_id_tv, user_name_tv;
+    private TextView user_id_tv, user_name_tv, user_location;
     private Button user_logout_btn;
 
     private ImageButton wait_pay, wait_comment, wait_deliver, wait_receive;
     private View user_bar;
+    private User userInfo;
 
     /**
      * 初始化视图
@@ -61,6 +63,7 @@ public class UserFragment extends BaseFragment {
         wait_comment = view.findViewById(R.id.wait_comment);
         wait_deliver = view.findViewById(R.id.wait_deliver);
         wait_receive = view.findViewById(R.id.wait_receive);
+        user_location = view.findViewById(R.id.user_location);
         TokenContextUtils.setToken("null");
         return view;
     }
@@ -78,6 +81,16 @@ public class UserFragment extends BaseFragment {
      * 初始化监听器
      */
     private void initListener() {
+        user_location.setOnClickListener(v -> {
+            if (isLogin) {
+                Log.i(TAG, "用户打开地址管理界面");
+                Intent intent = new Intent(mContext, AddressManageActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(mContext, "用户未登录", Toast.LENGTH_SHORT).show();
+                Looper.loop();
+            }
+        });
         wait_pay.setOnClickListener(v -> {
             if (isLogin) {
                 Log.i(TAG, "用户打开待支付界面");
@@ -191,7 +204,7 @@ public class UserFragment extends BaseFragment {
                 if (resultCode == RESULT_OK) {
                     isLogin = true;
                     //获取数据并打印
-                    User userInfo = (User) data.getSerializableExtra("user");
+                    userInfo = (User) data.getSerializableExtra("user");
                     try {
                         String userDesc = userInfo.getUserSex() + "   " + userInfo.getUserAge().toString() + "岁";
                         Log.i(TAG, "用户登录数据回传: userName ");

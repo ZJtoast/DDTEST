@@ -16,5 +16,9 @@ public class Comment implements Serializable {
     private String merchantName;
     private String imageNumber;
     private String drugName;
+    private Integer reviewID;
+    private Integer userID;
+    private String reviewText;
+    private String ReviewText;
 
 }

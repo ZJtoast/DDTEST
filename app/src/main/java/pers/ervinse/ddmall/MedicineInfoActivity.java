@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import pers.ervinse.ddmall.domain.Comment;
 import pers.ervinse.ddmall.domain.Medicine;
 import pers.ervinse.ddmall.domain.Result;
 import pers.ervinse.ddmall.domain.User;
@@ -57,11 +58,30 @@ public class MedicineInfoActivity extends Activity {
     }
 
     public List<? extends Map<String, ?>> getlist() {
-        ArrayList<HashMap<String, Object>> comments = new ArrayList<>();
+        ArrayList<HashMap<String, String>> comments = new ArrayList<>();
         Thread dataThread = new Thread(() -> {
             @SuppressLint("NotifyDataSetChanged")
-            List<Medicine> medicines = new ArrayList<>();
+            List<Comment> commentList = null;
             String responseJson = null;
+            String url = PropertiesUtils.getUrl(mContext);
+            try {
+                responseJson = OkhttpUtils.doGet(url + "/" + medicine.getCommodityID());
+                Result<List<Comment>> result = JSONObject.parseObject(responseJson, new TypeReference<Result<List<Comment>>>() {
+                });
+                if (result.getCode().equals(200)) {
+                    commentList = result.getData();
+                    for (Comment comment : commentList) {
+                        HashMap<String, String> com = new HashMap<>();
+                        com.put("userName", "用户:" + comment.getUserID());
+                        com.put("Comment", comment.getReviewText());
+                        comments.add(com);
+                    }
+                } else {
+                    Log.i(TAG, "获取商品详细信息--评价出现传输码异常");
+                }
+            } catch (IOException e) {
+                Log.i(TAG, "获取商品详细信息--评价出现IO异常");
+            }
 
         });
         dataThread.start();
@@ -123,14 +143,12 @@ public class MedicineInfoActivity extends Activity {
                     @Override
                     public void run() {
                         Log.i(TAG, "进入获取商品线程");
-
-                        Gson gson = new Gson();
                         String responseJson = null;
 
                         //获取当前商品信息
                         Medicine medicineForAdd = new Medicine();
                         medicineForAdd.setCommodityID(medicine.getCommodityID());
-                        medicineForAdd.setCommodityNum(medicine.getCommodityNum());
+                        medicineForAdd.setCommodityNum(number);
                         String medicineJson = JSONObject.toJSONString(medicineForAdd);
                         try {
                             //发送添加到购物车请求

@@ -75,7 +75,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentA
             } catch (NullPointerException e) {
                 Log.i("TAG", "未获取到商品");
             }
-            holder.drug_name.setText(medicine.getCommodityName());
+            if (medicine != null) {
+                holder.drug_name.setText(medicine.getCommodityName());
+            }
         });
         getMedicine.start();
 

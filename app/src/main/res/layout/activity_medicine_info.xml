@@ -48,7 +48,7 @@
     <ImageView
         android:id="@+id/medicine_image"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="180dp"
         android:src="@drawable/item_example" />
 
     <!--商品名称和价格-->
@@ -215,7 +215,7 @@
         <ListView
             android:id="@+id/comment_lv"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="180dp"
             android:layout_marginTop="5dp"
             android:paddingLeft="35dp" />
     </LinearLayout>

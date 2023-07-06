@@ -14,6 +14,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -103,9 +105,8 @@ public class RegisterActivity extends Activity {
                     public void run() {
                         Log.d(TAG, "进入注册请求线程");
 
-                        Gson gson = new Gson();
                         User user = new User(userId, userName, userPassword, userExtendInfo, userSex, userAge);
-                        String userJson = gson.toJson(user);
+                        String userJson = JSONObject.toJSONString(user);
                         Log.i(TAG, "注册请求请求json:" + userJson);
                         String responseJson = null;
                         try {
@@ -113,11 +114,12 @@ public class RegisterActivity extends Activity {
                             String url = PropertiesUtils.getUrl(mContext);
                             responseJson = OkhttpUtils.doPost(url + "/users/register", userJson);
                             Log.i(TAG, "注册请求响应json:" + responseJson);
-                            Result<Double> response = gson.fromJson(responseJson, Result.class);
+                            Result<Integer> response = JSONObject.parseObject(responseJson, new TypeReference<Result<Integer>>() {
+                            });
                             Log.i(TAG, "注册请求响应解析对象:" + response);
                             if (response != null) {
                                 //注册成功
-                                if (response.getCode() == 200 && response.getData() == 1.0) {
+                                if (response.getCode().equals(200) && response.getData().equals(1)) {
                                     Log.d(TAG, "注册请求成功");
                                     //将新注册的用户数据回传到登录页面
                                     Intent intent = new Intent();
@@ -127,17 +129,17 @@ public class RegisterActivity extends Activity {
                                     //销毁当前方法
                                     finish();
 
-                                } else if (response.getCode() == 201) {
+                                } else if (response.getCode().equals(201)) {
                                     //注册失败
                                     //子线程中准备Toast
                                     Looper.prepare();
-                                    Toast.makeText(RegisterActivity.this, "注册失败！", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RegisterActivity.this, "注册失败！注册信息不全", Toast.LENGTH_SHORT).show();
                                     Looper.loop();
                                 } else {
                                     //注册失败
                                     //子线程中准备Toast
                                     Looper.prepare();
-                                    Toast.makeText(RegisterActivity.this, "注册失败！", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RegisterActivity.this, "注册失败！账号已存在", Toast.LENGTH_SHORT).show();
                                     Looper.loop();
                                 }
                             }
