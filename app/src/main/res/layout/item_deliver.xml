@@ -27,7 +27,7 @@
                 android:id="@+id/medicine_image_deliver"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/category_fruit" />
+                android:src="@drawable/icon2" />
 
             <LinearLayout
                 android:layout_width="match_parent"

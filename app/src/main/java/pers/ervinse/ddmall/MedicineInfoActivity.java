@@ -82,7 +82,7 @@ public class MedicineInfoActivity extends Activity {
                     if (commentList != null)
                         for (Comment comment : commentList) {
                             Map<String, String> com = new HashMap<>();
-                            com.put("userName", "东东用户说:" + comment.getUserID().toString());
+                            com.put("userName", "东东用户:" + comment.getUserID().toString() + "说");
                             com.put("Comment", comment.getReviewText());
                             comments.add(com);
                             Log.i(TAG, "获取用户评价" + com.get("Comment"));

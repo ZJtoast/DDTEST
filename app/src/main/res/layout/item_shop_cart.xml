@@ -23,7 +23,7 @@
             android:id="@+id/cart_item_image"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:background="@drawable/item_example"
+            android:background="@drawable/icon5"
             android:scaleType="fitXY" />
 
         <LinearLayout

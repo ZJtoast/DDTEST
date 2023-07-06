@@ -16,6 +16,11 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
+
+import java.io.IOException;
+
 import pers.ervinse.ddmall.AddressManageActivity;
 import pers.ervinse.ddmall.BaseFragment;
 import pers.ervinse.ddmall.LoginActivity;
@@ -23,9 +28,12 @@ import pers.ervinse.ddmall.R;
 import pers.ervinse.ddmall.allorders.AllOrdersActivity;
 import pers.ervinse.ddmall.comment.WaitCommentActivity;
 import pers.ervinse.ddmall.deliver.WaitDeliverActivity;
+import pers.ervinse.ddmall.domain.Result;
 import pers.ervinse.ddmall.pay.WaitPayActivity;
 import pers.ervinse.ddmall.receive.WaitReceiveActivity;
 import pers.ervinse.ddmall.domain.User;
+import pers.ervinse.ddmall.utils.OkhttpUtils;
+import pers.ervinse.ddmall.utils.PropertiesUtils;
 import pers.ervinse.ddmall.utils.TokenContextUtils;
 
 public class UserFragment extends BaseFragment {
@@ -36,6 +44,7 @@ public class UserFragment extends BaseFragment {
     private boolean isLogin = false;
 
     private ImageView user_photo_image;
+    private TextView user_cancel;
 
     private TextView user_all_order;
     private TextView user_id_tv, user_name_tv, user_location;
@@ -64,6 +73,7 @@ public class UserFragment extends BaseFragment {
         wait_deliver = view.findViewById(R.id.wait_deliver);
         wait_receive = view.findViewById(R.id.wait_receive);
         user_location = view.findViewById(R.id.user_location);
+        user_cancel = view.findViewById(R.id.user_cancel);
         return view;
     }
 
@@ -80,6 +90,75 @@ public class UserFragment extends BaseFragment {
      * 初始化监听器
      */
     private void initListener() {
+
+        user_cancel.setOnClickListener(v -> {
+            if (isLogin) {
+                Log.i(TAG, "用户准备注销账号");
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
+                        .setTitle("注销账号")
+                        .setMessage("您是否要注销账号?请慎重决定")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                new Thread() {
+                                    @Override
+                                    public void run() {
+                                        Log.i(TAG, "进入注销账户数量线程");
+                                        String responseJson = null;
+                                        //获取要删除的商品ID
+                                        try {
+                                            //发送删除请求
+                                            String url = PropertiesUtils.getUrl(mContext);
+                                            responseJson = OkhttpUtils.doDeleteByToken(url + "/ousers/unsubscribe", TokenContextUtils.getToken());
+                                            Log.i(TAG, "注销账户响应json:" + responseJson);
+                                            Result<Boolean> result = JSONObject.parseObject(responseJson, new TypeReference<Result<Boolean>>() {
+                                            });
+                                            Log.i(TAG, "注销账户响应解析对象:" + responseJson);
+                                            Integer code = result.getCode();
+                                            //删除成功
+                                            if (code != null) {
+                                                if (code.equals(200)) {
+                                                    //切回主线程刷新视图
+                                                    isLogin = false;
+                                                    TokenContextUtils.setToken("null");
+                                                    user_name_tv.setText("点击登录");
+                                                    user_id_tv.setText("");
+                                                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
+                                                            .setTitle("注销账号")
+                                                            .setMessage("您的账户已被注销！");
+                                                    //创建删除对话框并显示
+                                                    AlertDialog alertDialog = builder.create();
+                                                    alertDialog.show();
+                                                }
+                                            }
+
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                            Looper.prepare();
+                                            Toast.makeText(mContext, "获取数据失败,服务器错误", Toast.LENGTH_SHORT).show();
+                                            Looper.loop();
+                                        }
+
+                                    }
+                                }.start();
+                            }
+                        })
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        });
+                //创建删除对话框并显示
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
+            } else {
+                Toast.makeText(mContext, "用户未登录", Toast.LENGTH_SHORT).show();
+                Looper.loop();
+            }
+        });
         user_all_order.setOnClickListener(v -> {
             if (isLogin) {
                 Log.i(TAG, "用户打开全部订单界面");

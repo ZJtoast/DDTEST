@@ -12,7 +12,7 @@
         android:layout_width="65dp"
         android:layout_height="85dp"
         android:layout_marginLeft="40dp"
-        android:src="@drawable/medicine_image_1" />
+        android:src="@drawable/icon5" />
 
     <RelativeLayout
         android:layout_width="135dp"
