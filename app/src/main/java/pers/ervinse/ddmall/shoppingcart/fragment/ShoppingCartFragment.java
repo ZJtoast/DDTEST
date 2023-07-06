@@ -160,7 +160,7 @@ public class ShoppingCartFragment extends BaseFragment {
                 } catch (IOException e) {
                     e.printStackTrace();
                     Looper.prepare();
-                    Toast.makeText(mContext, "获取数据失败,服务器错误", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "未登录", Toast.LENGTH_SHORT).show();
                     Looper.loop();
                 }
 
@@ -241,19 +241,19 @@ public class ShoppingCartFragment extends BaseFragment {
                 try {
                     //发送获取购物车商品请求
                     String url = PropertiesUtils.getUrl(mContext);
+                    if (medicineList != null)
+                        for (Medicine medicine : medicineList) {
+                            String medicineJson = JSONObject.toJSONString(medicine);
+                            responseJson = OkhttpUtils.doPutByToken(url + "/shoppingCart", medicineJson, TokenContextUtils.getToken());
 
-                    for (Medicine medicine : medicineList) {
-                        String medicineJson = JSONObject.toJSONString(medicine);
-                        responseJson = OkhttpUtils.doPutByToken(url + "/shoppingCart", medicineJson, TokenContextUtils.getToken());
-
-                        Log.i(TAG, "获取保存购物车商品响应json:" + responseJson);
-                        Result<List<Medicine>> result = JSONObject.parseObject(responseJson, new TypeReference<Result<List<Medicine>>>() {
-                        });
-                        Log.i(TAG, "获取购物车商品响应解析对象:" + medicineList);
-                        if (!result.getCode().equals(200)) {
-                            Log.i(TAG, "保存数据成功");
+                            Log.i(TAG, "获取保存购物车商品响应json:" + responseJson);
+                            Result<List<Medicine>> result = JSONObject.parseObject(responseJson, new TypeReference<Result<List<Medicine>>>() {
+                            });
+                            Log.i(TAG, "获取购物车商品响应解析对象:" + medicineList);
+                            if (!result.getCode().equals(200)) {
+                                Log.i(TAG, "保存数据成功");
+                            }
                         }
-                    }
 
                 } catch (Exception e) {
                     e.printStackTrace();
