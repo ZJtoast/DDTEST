@@ -12,6 +12,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pers.ervinse.ddmall.BaseFragment;
+import pers.ervinse.ddmall.MainActivity;
 import pers.ervinse.ddmall.R;
 import pers.ervinse.ddmall.domain.Result;
 import pers.ervinse.ddmall.domain.Tip;
@@ -295,4 +297,5 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void saveData() {
     }
+    
 }

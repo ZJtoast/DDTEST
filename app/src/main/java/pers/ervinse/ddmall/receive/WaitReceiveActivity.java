@@ -30,7 +30,7 @@ import pers.ervinse.ddmall.utils.TokenContextUtils;
 public class WaitReceiveActivity extends Activity {
     private static final String TAG = WaitReceiveActivity.class.getSimpleName();
     private Context mContext;
-    private List<Order> orderList;
+    private volatile List<Order> orderList;
     private Handler handler = new Handler();
     private RecyclerView rv_type;
     private ReceiveAdapter adapter;

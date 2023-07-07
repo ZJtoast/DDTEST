@@ -34,7 +34,7 @@ import pers.ervinse.ddmall.utils.TokenContextUtils;
 public class PayAdapter extends RecyclerView.Adapter<PayAdapter.PayAdapterViewHolder> {
 
     private static final String TAG = PayAdapter.class.getSimpleName();
-    private List<Order> orderList;
+    private volatile List<Order> orderList;
     private Handler handler = new Handler();
     private Context mContext;
 

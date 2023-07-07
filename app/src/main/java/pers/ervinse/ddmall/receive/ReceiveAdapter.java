@@ -34,7 +34,7 @@ import pers.ervinse.ddmall.utils.TokenContextUtils;
 public class ReceiveAdapter extends RecyclerView.Adapter<ReceiveAdapter.ReceiveAdapterViewHolder> {
 
     private static final String TAG = ReceiveAdapter.class.getSimpleName();
-    private List<Order> orderList;
+    private volatile List<Order> orderList;
     private Handler handler = new Handler();
     private Context mContext;
 

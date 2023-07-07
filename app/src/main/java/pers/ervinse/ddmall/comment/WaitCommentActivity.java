@@ -36,7 +36,7 @@ import pers.ervinse.ddmall.utils.TokenContextUtils;
 public class WaitCommentActivity extends Activity {
     private static final String TAG = WaitCommentActivity.class.getSimpleName();
     private Context mContext;
-    private List<Order> orderList;
+    private volatile List<Order> orderList;
     private Handler handler = new Handler();
     private RecyclerView rv_type;
     private CommentAdapter adapter;

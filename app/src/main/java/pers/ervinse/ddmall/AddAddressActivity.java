@@ -99,7 +99,6 @@ public class AddAddressActivity extends Activity {
                         Looper.prepare();
                         Toast.makeText(mContext, "添加地址成功", Toast.LENGTH_SHORT).show();
                         Looper.loop();
-                        finish();
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

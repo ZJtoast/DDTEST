@@ -30,7 +30,7 @@ import pers.ervinse.ddmall.utils.PropertiesUtils;
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentAdapterViewHolder> {
 
     private static final String TAG = CommentAdapter.class.getSimpleName();
-    private List<Order> orderList;
+    private volatile List<Order> orderList;
     private Context mContext;
 
     public CommentAdapter(List<Order> orderList, Context context) {

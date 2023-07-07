@@ -29,7 +29,7 @@ import pers.ervinse.ddmall.utils.PropertiesUtils;
 public class DeliverAdapter extends RecyclerView.Adapter<DeliverAdapter.DeliverAdapterViewHolder> {
 
     private static final String TAG = DeliverAdapter.class.getSimpleName();
-    private List<Order> orderList;
+    private volatile List<Order> orderList;
     private Context mContext;
 
     public DeliverAdapter(List<Order> orderList, Context context) {

@@ -1,5 +1,6 @@
 package pers.ervinse.ddmall;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -11,6 +12,7 @@ import android.widget.RadioGroup;
 import java.util.ArrayList;
 
 import pers.ervinse.ddmall.R;
+import pers.ervinse.ddmall.domain.User;
 import pers.ervinse.ddmall.home.fragment.HomeFragment;
 import pers.ervinse.ddmall.shoppingcart.fragment.ShoppingCartFragment;
 import pers.ervinse.ddmall.type.fragment.TypeFragment;
@@ -22,13 +24,13 @@ public class MainActivity extends FragmentActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     ;
+    //底部按钮组
+    public static RadioGroup bottom_btn_group;
     ArrayList<BaseFragment> fragmentList;
     //碎片索引号
     private int fragmentIndex;
     //切换碎片时保存的临时碎片
     private BaseFragment tempFragemnt;
-    //底部按钮组
-    private RadioGroup bottom_btn_group;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,15 +54,6 @@ public class MainActivity extends FragmentActivity {
         transaction.add(R.id.frameLayout, homeFragment).commit();
         tempFragemnt = homeFragment;
 
-
-        String type = getIntent().getStringExtra("type");
-        if (type != null) {
-            if (type.equals("cart")) {
-                Log.i(TAG, "试图打开购物车");
-                bottom_btn_group.check(R.id.cart_bottom_btn);
-
-            }
-        }
 
         Log.i(TAG, "onCreate: 初始化完成");
 
@@ -122,9 +115,17 @@ public class MainActivity extends FragmentActivity {
                 switchFragment(tempFragemnt, baseFragment);
             }
         });
+        String type = getIntent().getStringExtra("type");
+        if (type != null) {
+            if (type.equals("cart")) {
+                Log.i(TAG, "试图打开购物车");
+                bottom_btn_group.check(R.id.cart_bottom_btn);
 
+            }
+        }
 
     }
+
 
     /**
      * 根据按钮索引,获取按钮对象

@@ -38,6 +38,7 @@ import pers.ervinse.ddmall.domain.Comment;
 import pers.ervinse.ddmall.domain.Medicine;
 import pers.ervinse.ddmall.domain.Result;
 import pers.ervinse.ddmall.domain.User;
+import pers.ervinse.ddmall.shoppingcart.fragment.ShoppingCartFragment;
 import pers.ervinse.ddmall.utils.OkhttpUtils;
 import pers.ervinse.ddmall.utils.PropertiesUtils;
 import pers.ervinse.ddmall.utils.TokenContextUtils;
@@ -53,7 +54,7 @@ public class MedicineInfoActivity extends Activity {
     private Context mContext;
     //返回按钮,商品图片
     private ImageView medicine_info_back_btn, medicine_image, cart_item_add_btn, cart_item_sub_btn;
-    private TextView comment_all_tv, medicine_cart_tv, medicine_name_tv, medicine_price_tv, medicine_description_tv, medicine_location_tv, cart_item_value_tv;
+    private TextView comment_all_tv, medicine_name_tv, medicine_price_tv, medicine_description_tv, medicine_location_tv, cart_item_value_tv;
     //添加到购物车按钮
     private Button medicine_info_add_cart_btn, medicine_info_purchase_btn;
     private Integer number, commentNum;
@@ -133,7 +134,6 @@ public class MedicineInfoActivity extends Activity {
         cart_item_value_tv = findViewById(R.id.cart_item_value_tv);
         cart_item_add_btn = findViewById(R.id.cart_item_add_btn);
         cart_item_sub_btn = findViewById(R.id.cart_item_sub_btn);
-        medicine_cart_tv = findViewById(R.id.medicine_cart_tv);
         medicine_info_purchase_btn = findViewById(R.id.medicine_info_purchase_btn);
         comment_all_tv = findViewById(R.id.comment_all_tv);
         number = 1;
@@ -202,12 +202,6 @@ public class MedicineInfoActivity extends Activity {
                     alertDialog.show();
                 }
             }
-        });
-        medicine_cart_tv.setOnClickListener(v -> {
-            Intent intent = new Intent(mContext, MainActivity.class);
-            intent.putExtra("type", "cart");
-            setResult(RESULT_OK, intent);
-            finish();
         });
         medicine_info_back_btn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -32,7 +32,7 @@ import pers.ervinse.ddmall.utils.TokenContextUtils;
 public class WaitPayActivity extends Activity {
     private static final String TAG = WaitPayActivity.class.getSimpleName();
     private Context mContext;
-    private List<Order> orderList;
+    private volatile List<Order> orderList;
     private Handler handler = new Handler();
     private RecyclerView rv_type;
     private PayAdapter adapter;

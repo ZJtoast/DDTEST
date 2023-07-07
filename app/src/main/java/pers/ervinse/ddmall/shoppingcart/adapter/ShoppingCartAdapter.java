@@ -47,7 +47,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
     //线程处理器
     private Handler handler = new Handler();
     //数据集合
-    private List<Medicine> medicineList;
+    private volatile List<Medicine> medicineList;
     //每一个item的点击监听器
     private AdapterView.OnItemClickListener onItemClickListener;
 
@@ -210,7 +210,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
     /**
      * 根据当前已选的商品单价和数量获取总价,并将总价显示在对应的TextView上
      */
-    private void showTotalPrice() {
+    public void showTotalPrice() {
         DecimalFormat decimalFormat = new DecimalFormat("#.00");
         Double price = getTotalPrice() / 100.0;
         String totalPrice = decimalFormat.format(price);
@@ -402,7 +402,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
                                                 Log.i(TAG, "删除购物车商品响应解析对象:" + responseJson);
                                                 Integer code = result.getCode();
                                                 //删除成功
-                                                if (responseJson != null) {
+                                                if (code != null) {
                                                     if (code.equals(200)) {
                                                         //切回主线程刷新视图
                                                         handler.post(new Runnable() {

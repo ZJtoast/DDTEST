@@ -42,9 +42,9 @@ import pers.ervinse.ddmall.utils.TokenContextUtils;
 public class ShoppingCartFragment extends BaseFragment {
 
     private static final String TAG = ShoppingCartFragment.class.getSimpleName();
-    RecyclerView cart_item_rv;
-    List<Medicine> medicineList;
-    ShoppingCartAdapter adapter;
+    private RecyclerView cart_item_rv;
+    private volatile List<Medicine> medicineList;
+    private ShoppingCartAdapter adapter;
     //线程处理器
     private Handler handler = new Handler();
     //总价
@@ -87,23 +87,55 @@ public class ShoppingCartFragment extends BaseFragment {
                             // 创建一个AlertDialog.Builder对象，并传入当前的上下文（mContext）
                             .setTitle("提交订单")
                             // 设置对话框的标题为"完成结算"
-                            .setMessage("商品总计:" + totalPrice + "元,是否提交订单?")
+                            .setMessage("药品总计:" + totalPrice + "元,是否提交订单?")
                             // 设置对话框的消息内容，包括商品总计价格（totalPrice）
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     // 设置对话框的确定按钮，当用户点击确定时触发此处的代码   这里是结算的代码
-                                    Toast.makeText(mContext, "完成商品购买,总计价格为:" + totalPrice + "元", Toast.LENGTH_SHORT).show();
-                                    // 显示一个短暂的Toast提示，显示完成商品购买的信息和总计价格
+                                    new Thread(() -> {
+                                        if (medicineList != null)
+                                            for (Medicine medicine : medicineList) {
+                                                if (medicine.isSelected) {
+                                                    String url = PropertiesUtils.getUrl(mContext);
+                                                    String responseJson = null;
+
+                                                    String ID = medicine.getCommodityID().toString();
+                                                    String NUM = medicine.getCommodityNum().toString();
+
+                                                    try {
+                                                        responseJson = OkhttpUtils.doPostByToken(url + "/order/add?CommodityID=" + ID + "&CommodityNum=" + NUM, "", TokenContextUtils.getToken());
+                                                    } catch (IOException e) {
+                                                        Log.i(TAG, "提交订单出现IO异常" + e.toString());
+                                                    }
+                                                    Result<Boolean> result = JSONObject.parseObject(responseJson, new TypeReference<Result<Boolean>>() {
+                                                    });
+                                                    Log.i(TAG, "提交商品响应解析对象:" + responseJson);
+                                                    Integer code = result.getCode();
+                                                    if (code != null) {
+                                                        if (code.equals(200)) {
+                                                            //切回主线程刷新视图
+                                                            handler.post(new Runnable() {
+                                                                @Override
+                                                                public void run() {
+                                                                    //全局刷新
+                                                                    medicineList.remove(medicine);
+                                                                    adapter.notifyDataSetChanged();
+                                                                    cart_total_tv.setText("￥:0.00");
+                                                                }
+                                                            });
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                    }).start();
+                                    refreshData();
                                 }
                             })
 
                             .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    // 设置对话框的取消按钮，当用户点击取消时触发此处的代码
-                                    // 在这里可以添加取消操作的逻辑代码
-                                    Toast.makeText(mContext, "取消成功", Toast.LENGTH_SHORT).show();
                                 }
                             });
 

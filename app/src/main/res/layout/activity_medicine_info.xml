@@ -236,7 +236,7 @@
 
         <TextView
             android:id="@+id/medicine_customer_service_tv"
-            android:layout_width="0dp"
+            android:layout_width="194dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableTop="@drawable/icon_callserver_unpressed"
@@ -247,21 +247,9 @@
             android:textColor="#393b3e" />
 
 
-        <TextView
-            android:id="@+id/medicine_cart_tv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/icon_medicine_detail_cart"
-            android:drawablePadding="5dp"
-            android:gravity="center"
-            android:padding="2dp"
-            android:text="购物车"
-            android:textColor="#393b3e" />
-
         <Button
             android:id="@+id/medicine_info_add_cart_btn"
-            android:layout_width="123dp"
+            android:layout_width="172dp"
             android:layout_height="63dp"
             android:layout_gravity="center"
             android:background="@drawable/add_cart_bg_selector"
@@ -272,7 +260,7 @@
 
         <Button
             android:id="@+id/medicine_info_purchase_btn"
-            android:layout_width="123dp"
+            android:layout_width="172dp"
             android:layout_height="63dp"
             android:layout_gravity="center"
             android:background="@drawable/purchase_bg"
