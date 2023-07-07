@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Base64;
+import java.util.concurrent.TimeUnit;
 
 import android.os.Environment;
 import android.util.Log;
@@ -35,7 +36,7 @@ import pers.ervinse.ddmall.domain.Result;
 public class OkhttpUtils {
     private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
     private static final MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json;charset=utf-8");
-    private static final OkHttpClient okhttpclient = new OkHttpClient();
+    private static final OkHttpClient okhttpclient = new OkHttpClient.Builder().connectTimeout(2000, TimeUnit.SECONDS).readTimeout(2000, TimeUnit.SECONDS).build();
 
     public static OkHttpClient genericClient(String value) {
         OkHttpClient httpClient = okhttpclient.newBuilder()
@@ -104,7 +105,7 @@ public class OkhttpUtils {
         try {
             fis = new FileInputStream(TargetPath + "/" + pictureName + ".png");
             bitmap = BitmapFactory.decodeStream(fis);
-            
+
             view.setImageBitmap(bitmap);
         } catch (Exception e) {
             e.printStackTrace();

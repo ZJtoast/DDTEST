@@ -206,7 +206,8 @@ public class MedicineInfoActivity extends Activity {
         medicine_cart_tv.setOnClickListener(v -> {
             Intent intent = new Intent(mContext, MainActivity.class);
             intent.putExtra("type", "cart");
-            startActivity(intent);
+            setResult(RESULT_OK, intent);
+            finish();
         });
         medicine_info_back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
