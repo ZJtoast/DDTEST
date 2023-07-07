@@ -204,6 +204,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/comment_all_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"

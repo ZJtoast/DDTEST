@@ -79,7 +79,8 @@ public class ShoppingCartFragment extends BaseFragment {
             public void onClick(View view) {
                 saveData();
                 DecimalFormat decimalFormat = new DecimalFormat("#.00");
-                String totalPrice = decimalFormat.format(adapter.getTotalPrice());
+                Double price = adapter.getTotalPrice() / 100.0;
+                String totalPrice = decimalFormat.format(price);
                 if (!totalPrice.equals(".00")) {
                     // 检查totalPrice是否不等于".00"，即判断是否有有效的商品总价
                     AlertDialog.Builder builder = new AlertDialog.Builder(mContext)

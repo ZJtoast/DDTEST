@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,7 +42,8 @@ public class LoginActivity extends Activity {
 
     private EditText login_name_et, login_password_et;
 
-    private TextView user_register_btn, login_btn;
+    private TextView user_register_btn;
+    private ImageButton login_btn;
 
     private String userName, userPassword;
     private String userDesc, userExtendInfo;

@@ -11,10 +11,10 @@
         android:layout_width="257dp"
         android:layout_height="65dp"
         android:background="@drawable/rounded_editview"
+        android:gravity="center"
         android:hint="邮箱/手机号"
         android:textColorHint="#606060"
         android:textSize="18sp"
-        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +63,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/login_btn"
         android:layout_width="166dp"
         android:layout_height="65dp"
         android:background="#00000000"
@@ -76,17 +76,17 @@
         app:srcCompat="@drawable/button_shape" />
 
     <TextView
-        android:id="@+id/login_btn"
+        android:id="@+id/image_btn"
         android:layout_width="96dp"
         android:layout_height="43dp"
         android:gravity="center"
         android:text="登录"
         android:textColor="@color/white"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButton"
-        app:layout_constraintEnd_toEndOf="@+id/imageButton"
-        app:layout_constraintStart_toStartOf="@+id/imageButton"
-        app:layout_constraintTop_toTopOf="@+id/imageButton"
+        app:layout_constraintBottom_toBottomOf="@+id/login_btn"
+        app:layout_constraintEnd_toEndOf="@+id/login_btn"
+        app:layout_constraintStart_toStartOf="@+id/login_btn"
+        app:layout_constraintTop_toTopOf="@+id/login_btn"
         app:layout_constraintVertical_bias="0.545" />
 
     <EditText
@@ -94,9 +94,9 @@
         android:layout_width="257dp"
         android:layout_height="65dp"
         android:background="@drawable/rounded_editview"
+        android:gravity="center"
         android:hint="请输入密码"
         android:textSize="18sp"
-        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/login_name_et"
         app:layout_constraintHorizontal_bias="0.0"

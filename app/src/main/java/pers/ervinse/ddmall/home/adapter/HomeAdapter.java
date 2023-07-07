@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import pers.ervinse.ddmall.MedicineInfoActivity;
@@ -85,7 +86,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
     public void onBindViewHolder(@NonNull HomeViewHolder holder, int position) {
         holder.item_name_tv.setText(medicineList.get(position).getCommodityName());
         holder.item_description_tv.setText(medicineList.get(position).getCommodityDesc());
-        holder.item_price_tv.setText("￥" + medicineList.get(position).getCommodityPrice());
+        Double price = medicineList.get(position).getCommodityPrice().doubleValue() / 100.0;
+        DecimalFormat decimalFormat = new DecimalFormat("#.00");
+        String priceString = decimalFormat.format(price);
+        holder.item_price_tv.setText("￥" + priceString);
         //通过图片名字获取图片资源的id
         try {
             OkhttpUtils.setImage(holder.item_image, medicineList.get(position).getCommodityID().toString(), mContext);
@@ -151,46 +155,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                             Log.i("进入药品详情界面", "");
                             intent.putExtra("medicine", medicineByClick);
                             mContext.startActivity(intent);
-//                            Log.i(TAG, "进入添加购物车线程");
-//
-//
-//                            Gson gson = new Gson();
-//                            String responseJson = null;
-//
-//                            //获取当前点击的item位置,并获取对应的商品数据
-//                            Medicine medicineByClick = medicineList.get(getLayoutPosition());
-//                            Medicine medicineForAdd = new Medicine();
-//                            medicineForAdd.setCommodityName(medicineByClick.getCommodityName());
-//                            String medicineJson = gson.toJson(medicineForAdd);
-//                            try {
-//                                //发送添加购物车请求
-//                                String url = PropertiesUtils.getUrl(mContext);
-//                                responseJson = OkhttpUtils.doPost(url + "/cart/addmedicineToCart", medicineJson);
-//
-//                                Log.i(TAG, "添加购物车商品响应json:" + responseJson);
-//                                responseJson = gson.fromJson(responseJson, String.class);
-//                                Log.i(TAG, "添加购物车商品响应解析对象:" + responseJson);
-//
-//                                if (responseJson != null) {
-//                                    //添加成功
-//                                    if (responseJson.equals("true")) {
-//                                        Looper.prepare();
-//                                        Toast.makeText(mContext, "商品已添加到购物车", Toast.LENGTH_SHORT).show();
-//                                        Looper.loop();
-//                                        //添加失败,已经添加到购物车
-//                                    } else {
-//                                        Looper.prepare();
-//                                        Toast.makeText(mContext, "商品已经在购物车啦", Toast.LENGTH_SHORT).show();
-//                                        Looper.loop();
-//                                    }
-//                                }
-//                            } catch (IOException e) {
-//                                e.printStackTrace();
-//                                Looper.prepare();
-//                                Toast.makeText(mContext, "获取数据失败,服务器错误", Toast.LENGTH_SHORT).show();
-//                                Looper.loop();
-//                            }
-
                         }
                     }.start();
                 }

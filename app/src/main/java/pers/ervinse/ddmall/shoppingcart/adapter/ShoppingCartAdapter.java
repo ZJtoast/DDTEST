@@ -123,7 +123,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
                 Medicine medicine = medicineList.get(position);
                 //2.设置取反状态
                 medicine.setIsSelected(!medicine.getIsSelected());
-                System.out.println(medicine);
                 //3.刷新状态
                 notifyItemChanged(position);
                 //4.校验是否全选
@@ -213,7 +212,9 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
      */
     private void showTotalPrice() {
         DecimalFormat decimalFormat = new DecimalFormat("#.00");
-        String totalPrice = decimalFormat.format(getTotalPrice());
+        Double price = getTotalPrice() / 100.0;
+        String totalPrice = decimalFormat.format(price);
+
         if (totalPrice.equals(".00")) {
             totalPrice = "0.00";
         }
@@ -265,7 +266,10 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
     public void onBindViewHolder(@NonNull ShoppingCartAdapter.ViewHolder holder, int position) {
         Medicine medicine = medicineList.get(position);
         holder.cart_item_description_tv.setText(medicine.getCommodityName() + "  " + medicine.getCommodityDesc());
-        holder.cart_item_price_tv.setText("￥" + String.valueOf(medicineList.get(position).getCommodityPrice()));
+        Double price = medicineList.get(position).getCommodityPrice().doubleValue() / 100.0;
+        DecimalFormat decimalFormat = new DecimalFormat("#.00");
+        String priceString = decimalFormat.format(price);
+        holder.cart_item_price_tv.setText("￥" + priceString);
         holder.cart_item_check_checkbox.setChecked(medicineList.get(position).getIsSelected());
         holder.cart_item_value_tv.setText("" + medicineList.get(position).getCommodityNum().toString());
         //通过图片名字获取图片资源的id
