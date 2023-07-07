@@ -53,10 +53,11 @@ public class MedicineInfoActivity extends Activity {
     private Context mContext;
     //返回按钮,商品图片
     private ImageView medicine_info_back_btn, medicine_image, cart_item_add_btn, cart_item_sub_btn;
-    private TextView medicine_cart_tv, medicine_name_tv, medicine_price_tv, medicine_description_tv, medicine_location_tv, cart_item_value_tv;
+    private TextView comment_all_tv, medicine_cart_tv, medicine_name_tv, medicine_price_tv, medicine_description_tv, medicine_location_tv, cart_item_value_tv;
     //添加到购物车按钮
     private Button medicine_info_add_cart_btn, medicine_info_purchase_btn;
-    private Integer number;
+    private Integer number, commentNum;
+
     private Handler handler = new Handler();
     private ListView sv;
 
@@ -91,8 +92,10 @@ public class MedicineInfoActivity extends Activity {
                     Log.i(TAG, "获取商品详细信息--评价出现传输码异常");
                 }
             } catch (IOException e) {
-                Log.i(TAG, "获取商品详细信息--评价出现IO异常");
+                Log.i(TAG, "获取商品详细信息--评价出现IO异常" + e.toString());
             }
+            commentNum = comments.size();
+            comment_all_tv.setText("药品评价" + "(" + commentNum.toString() + ")");
             SimpleAdapter comment = new SimpleAdapter(
                     MedicineInfoActivity.this, comments, R.layout.item_comment,
                     new String[]{"userName", "Comment"},
@@ -132,6 +135,7 @@ public class MedicineInfoActivity extends Activity {
         cart_item_sub_btn = findViewById(R.id.cart_item_sub_btn);
         medicine_cart_tv = findViewById(R.id.medicine_cart_tv);
         medicine_info_purchase_btn = findViewById(R.id.medicine_info_purchase_btn);
+        comment_all_tv = findViewById(R.id.comment_all_tv);
         number = 1;
         initListener();
     }
@@ -238,7 +242,7 @@ public class MedicineInfoActivity extends Activity {
                                 //添加购物车成功
                                 if (result.getCode().equals(200)) {
                                     Looper.prepare();
-                                    Toast.makeText(mContext, "商品已添加到购物车", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mContext, "添加购物车成功", Toast.LENGTH_SHORT).show();
                                     Looper.loop();
                                     //添加购物车失败,商品已经在购物车
                                 } else if (result.getCode().equals(403)) {
@@ -287,7 +291,10 @@ public class MedicineInfoActivity extends Activity {
         medicine = (Medicine) intent.getSerializableExtra("medicine");
         medicine.setCommodityNum(1);
         medicine_name_tv.setText(medicine.getCommodityName());
-        medicine_price_tv.setText(String.valueOf(medicine.getCommodityPrice()));
+        Double price = medicine.getCommodityPrice().doubleValue() / 100.0;
+        DecimalFormat decimalFormat = new DecimalFormat("#.00");
+        String priceString = decimalFormat.format(price);
+        medicine_price_tv.setText(String.valueOf(priceString));
         medicine_description_tv.setText(medicine.getCommodityDesc());
         medicine_location_tv.setText("东东快药自营店铺");
         try {

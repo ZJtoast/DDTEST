@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import pers.ervinse.ddmall.domain.Medicine;
@@ -74,7 +75,10 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeAdapter.TypeViewHolder
 
         holder.item_name_tv.setText(medicineList.get(position).getCommodityName());
         holder.item_description_tv.setText(medicineList.get(position).getCommodityDesc());
-        holder.item_price_tv.setText("￥" + medicineList.get(position).getCommodityPrice());
+        Double price = medicineList.get(position).getCommodityPrice().doubleValue() / 100.0;
+        DecimalFormat decimalFormat = new DecimalFormat("#.00");
+        String priceString = decimalFormat.format(price);
+        holder.item_price_tv.setText("￥" + priceString);
         //通过图片名字获取图片资源的id
         try {
             OkhttpUtils.setImage(holder.item_image, medicineList.get(position).getCommodityID().toString(), mContext);

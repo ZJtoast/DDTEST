@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import pers.ervinse.ddmall.MedicineInfoActivity;
@@ -80,7 +81,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     public void onBindViewHolder(@NonNull SearchViewHolder holder, int position) {
         holder.item_name_tv.setText(medicineList.get(position).getCommodityName());
         holder.item_description_tv.setText(medicineList.get(position).getCommodityDesc());
-        holder.item_price_tv.setText("￥" + medicineList.get(position).getCommodityPrice());
+        Double price = medicineList.get(position).getCommodityPrice().doubleValue() / 100.0;
+        DecimalFormat decimalFormat = new DecimalFormat("#.00");
+        String priceString = decimalFormat.format(price);
+        holder.item_price_tv.setText("￥" + priceString);
         //通过图片名字获取图片资源的id
         try {
             OkhttpUtils.setImage(holder.item_image, medicineList.get(position).getCommodityID().toString(), mContext);

@@ -21,6 +21,7 @@ import com.alibaba.fastjson.TypeReference;
 
 import java.io.IOException;
 
+import pers.ervinse.ddmall.AddAddressActivity;
 import pers.ervinse.ddmall.AddressManageActivity;
 import pers.ervinse.ddmall.BaseFragment;
 import pers.ervinse.ddmall.LoginActivity;
@@ -173,7 +174,7 @@ public class UserFragment extends BaseFragment {
         user_location.setOnClickListener(v -> {
             if (isLogin) {
                 Log.i(TAG, "用户打开地址管理界面");
-                Intent intent = new Intent(mContext, AddressManageActivity.class);
+                Intent intent = new Intent(mContext, AddAddressActivity.class);
                 startActivity(intent);
             } else {
                 Toast.makeText(mContext, "用户未登录", Toast.LENGTH_SHORT).show();

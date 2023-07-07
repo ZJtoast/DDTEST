@@ -58,6 +58,7 @@ public class MainActivity extends FragmentActivity {
             if (type.equals("cart")) {
                 Log.i(TAG, "试图打开购物车");
                 bottom_btn_group.check(R.id.cart_bottom_btn);
+
             }
         }
 
