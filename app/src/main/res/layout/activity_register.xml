@@ -199,7 +199,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:background="@drawable/test"
+                android:background="@drawable/title"
                 android:text="确定"
                 android:textSize="18sp" />
 <!--            <Button-->
@@ -219,7 +219,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="取消"
-                android:background="@drawable/test"
+                android:background="@drawable/title"
                 android:textSize="18sp" />
         </LinearLayout>
     </LinearLayout>

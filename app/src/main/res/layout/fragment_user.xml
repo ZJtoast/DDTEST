@@ -225,7 +225,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="112dp"
         android:layout_marginTop="300dp"
-        android:background="@drawable/test"
+        android:background="@drawable/title"
         android:gravity="center"
         android:text="退出登录"
         android:textSize="19sp" />
