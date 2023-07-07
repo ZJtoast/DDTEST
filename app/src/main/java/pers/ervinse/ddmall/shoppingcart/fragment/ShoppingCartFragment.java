@@ -123,7 +123,27 @@ public class ShoppingCartFragment extends BaseFragment {
     public void initData() {
         super.initData();
         Log.i(TAG, "购物车数据被初始化了");
-
+        if (TokenContextUtils.getToken().equals("null")) {
+            Log.i(TAG, "查看用户是否登录,Token=" + TokenContextUtils.getToken());
+            medicineList = new ArrayList<>();
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    //创建首页循环视图适配器,加载数据
+                    if (adapter == null) {
+                        adapter = new ShoppingCartAdapter(mContext, medicineList, cart_total_tv, cart_check_all_checkbox, cart_delete_all_checkbox);
+                        //循环视图加载适配器
+                        cart_item_rv.setAdapter(adapter);
+                        //创建网格布局
+                        GridLayoutManager manager = new GridLayoutManager(mContext, 1);
+                        //循环视图加载网格布局
+                        cart_item_rv.setLayoutManager(manager);
+                    }
+                    adapter.setmedicineList(medicineList);
+                    adapter.flushView();
+                }
+            });
+        }
         new Thread() {
             @Override
             public void run() {
@@ -177,7 +197,27 @@ public class ShoppingCartFragment extends BaseFragment {
     public void refreshData() {
 
         Log.i(TAG, "联网刷新数据");
-
+        if (TokenContextUtils.getToken().equals("null")) {
+            Log.i(TAG, "查看用户是否登录,Token=" + TokenContextUtils.getToken());
+            medicineList = new ArrayList<>();
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    //创建首页循环视图适配器,加载数据
+                    if (adapter == null) {
+                        adapter = new ShoppingCartAdapter(mContext, medicineList, cart_total_tv, cart_check_all_checkbox, cart_delete_all_checkbox);
+                        //循环视图加载适配器
+                        cart_item_rv.setAdapter(adapter);
+                        //创建网格布局
+                        GridLayoutManager manager = new GridLayoutManager(mContext, 1);
+                        //循环视图加载网格布局
+                        cart_item_rv.setLayoutManager(manager);
+                    }
+                    adapter.setmedicineList(medicineList);
+                    adapter.flushView();
+                }
+            });
+        }
         new Thread() {
             @Override
             public void run() {
@@ -232,7 +272,10 @@ public class ShoppingCartFragment extends BaseFragment {
     @Override
     public void saveData() {
         Log.i(TAG, "保存数据");
-
+        if (TokenContextUtils.getToken().equals("null")) {
+            Log.i(TAG, "查看用户是否登录,Token=" + TokenContextUtils.getToken());
+            medicineList = new ArrayList<>();
+        }
         new Thread() {
             @Override
             public void run() {

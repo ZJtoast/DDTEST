@@ -110,7 +110,7 @@ public class UserFragment extends BaseFragment {
                                         try {
                                             //发送删除请求
                                             String url = PropertiesUtils.getUrl(mContext);
-                                            responseJson = OkhttpUtils.doDeleteByToken(url + "/ousers/unsubscribe", TokenContextUtils.getToken());
+                                            responseJson = OkhttpUtils.doDeleteByToken(url + "/users/unsubscribe", TokenContextUtils.getToken());
                                             Log.i(TAG, "注销账户响应json:" + responseJson);
                                             Result<Boolean> result = JSONObject.parseObject(responseJson, new TypeReference<Result<Boolean>>() {
                                             });
@@ -128,6 +128,7 @@ public class UserFragment extends BaseFragment {
                                                             .setTitle("注销账号")
                                                             .setMessage("您的账户已被注销！");
                                                     //创建删除对话框并显示
+                                                    Looper.prepare();
                                                     AlertDialog alertDialog = builder.create();
                                                     alertDialog.show();
                                                 }
